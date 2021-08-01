@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <sql-query name="app.vehicle.get.all">
+    <![CDATA[
+      select
+        "ID" AS "vehicleId",
+        "TYPE" AS "vehicleType",
+        "NAME" AS "vehicleName"
+      from "M_VEHICLE_TYPE"
+      where
+        "DEL_FLG" = 0
+    ]]>
+  </sql-query>
+  <sql-query name="app.vehicle.save">
+      <![CDATA[
+        INSERT INTO "T_USER_VEHICLE"
+        (
+          "ID",
+          "VEHICLE_ID",
+          "VEHICLE_NO",
+          "USER_ID",
+          "DEL_FLG",
+          "INS_DT",
+          "INS_BY"
+        )
+         VALUES(
+           :id,
+           :vehicleId,
+           :vehicleNo,
+           :userId,
+           0,
+           CURRENT_TIMESTAMP,
+           :serviceCode
+         )
+      ]]>
+  </sql-query>
+  <sql-query name="app.vehicle.get.uservehicle">
+    <![CDATA[
+      select
+        "ID" AS "userVehicleId",
+        "VEHICLE_ID" AS "vehicleId",
+        "VEHICLE_NO" AS "vehicleNo"
+      from "T_USER_VEHICLE"
+      where
+        "DEL_FLG" = 0
+        AND "USER_ID" = :userId
+    ]]>
+  </sql-query>
+</hibernate-mapping>

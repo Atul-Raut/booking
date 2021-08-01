@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <sql-query name="app.post.search">
+    <![CDATA[
+      select
+        "ID" AS "postId",
+        "SERVICE_ID" AS "serviceId",
+        "VEHICLE_ID" AS "vehicleId",
+        "ACTIVITY_DATE_TIME_FROM" AS "activityFromDate",
+        "ACTIVITY_DATE_TIME_TO" AS "activityToDate",
+        "SOURCE" AS "source",
+        "DESTINATION" AS "destination",
+        "OTHER" AS "otherInfo",
+        "STATUS" AS "status",
+        COALESCE(p2."requestCount",0) AS "requestCount"
+      from "T_POST"
+      LEFT JOIN (
+    		  	SELECT
+    		  		count(*) AS "requestCount",
+    		  		"POST_ID" as "postId"
+    			FROM "T_POST_REQUEST"
+    			WHERE
+    			"DEL_FLG" = 0
+    			GROUP BY "POST_ID"
+    	  ) p2
+    	  ON(
+    		  "ID" = p2."postId"
+    	  )
+      where
+        "DEL_FLG" = 0
+        AND "USER_ID" = CASE WHEN (1 = :acType) THEN :userId ELSE "USER_ID" END
+        AND "SERVICE_ID" = COALESCE(CAST(:serviceId AS TEXT),"SERVICE_ID")
+        AND "VEHICLE_ID" = COALESCE(CAST(:vehicleId AS TEXT),"VEHICLE_ID")
+        AND ("SOURCE" ilike CONCAT('%',COALESCE(CAST(:source AS TEXT),"SOURCE"),'%')
+            OR "DESTINATION" ilike CONCAT('%',COALESCE(CAST(:destination AS TEXT),"DESTINATION"),'%')
+        )
+    ]]>
+  </sql-query>
+  <sql-query name="app.post.create">
+    <![CDATA[
+    INSERT INTO "T_POST"(
+        "ID",
+        "USER_ID",
+        "SERVICE_ID",
+        "VEHICLE_ID",
+        "ACTIVITY_DATE_TIME_FROM",
+        "ACTIVITY_DATE_TIME_TO",
+        "SOURCE",
+        "DESTINATION",
+        "OTHER",
+        "STATUS",
+        "DEL_FLG",
+        "INS_DT",
+        "INS_BY"
+      )
+      VALUES (
+        :id,
+        :userId,
+        :serviceId,
+        :vehicleId,
+        :activityFromDate,
+        :activityToDate,
+        :source,
+        :destination,
+        :otherInfo,
+        :status,
+        0,
+        CURRENT_TIMESTAMP,
+        :serviceCode
+      )
+    ]]>
+  </sql-query>
+  <sql-query name="app.post.update">
+    <![CDATA[
+      UPDATE "T_POST"
+      SET "SERVICE_ID" = :serviceId,
+        "VEHICLE_ID" = :vehicleId,
+        "ACTIVITY_DATE_TIME_FROM" = :activityFromDate,
+        "ACTIVITY_DATE_TIME_TO" = :activityToDate,
+        "SOURCE" = :source,
+        "DESTINATION" = :destination,
+        "OTHER" = :otherInfo,
+        "UPD_DT" = CURRENT_TIMESTAMP,
+        "UPD_BY" = :serviceCode
+      WHERE
+        "ID" = :postId
+        AND "USER_ID" = :userId
+    ]]>
+  </sql-query>
+  <sql-query name="app.post.update.status">
+    <![CDATA[
+      UPDATE "T_POST"
+      SET "STATUS" = :status,
+        "UPD_DT" = CURRENT_TIMESTAMP,
+        "UPD_BY" = :serviceCode
+      WHERE
+        "ID" = :postId
+        AND "USER_ID" = :userId
+    ]]>
+  </sql-query>
+  <sql-query name="app.post.delete">
+    <![CDATA[
+      UPDATE "T_POST"
+      SET "DEL_FLG" = 1,
+          "STATUS" = 'DELETED',
+          "UPD_DT" = CURRENT_TIMESTAMP,
+          "UPD_BY" = :serviceCode
+      WHERE
+        "ID" = :postId
+        AND "USER_ID" = :userId
+    ]]>
+  </sql-query>
+  <sql-query name="app.post.create.request">
+    <![CDATA[
+      INSERT INTO "T_POST_REQUEST"(
+      	"ID",
+      	"POST_ID",
+      	"REQUEST_USER_ID",
+        "STATUS",
+      	"DEL_FLG",
+      	"INS_DT",
+      	"INS_BY"
+      )
+      VALUES (
+      	:id,
+      	:postId,
+      	:userId,
+        :status,
+      	0,
+      	CURRENT_TIMESTAMP,
+      	:serviceCode
+      )
+    ]]>
+  </sql-query>
+  <sql-query name="app.post.delete.request">
+    <![CDATA[
+      UPDATE "T_POST_REQUEST"
+      SET "DEL_FLG" = 1,
+          "STATUS" = 'DELETED',
+          "UPD_DT" = CURRENT_TIMESTAMP,
+          "UPD_BY" = :serviceCode
+      WHERE
+        "POST_ID" = :postId
+        AND "REQUEST_USER_ID" = :userId
+    ]]>
+  </sql-query>
+  <sql-query name="app.post.get.request.count">
+    <![CDATA[
+      SELECT COUNT(*) AS "requestCount"
+      FROM
+        "T_POST_REQUEST"
+      WHERE
+        "POST_ID" = :postId
+        AND "DEL_FLG" = 0
+    ]]>
+  </sql-query>
+  <sql-query name="app.post.get.request">
+    <![CDATA[
+      SELECT *
+      FROM
+        "T_POST_REQUEST"
+      WHERE
+        "POST_ID" = :postId
+        AND "DEL_FLG" = 0
+    ]]>
+  </sql-query>
+</hibernate-mapping>

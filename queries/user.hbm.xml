@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <sql-query name="app.user.get">
+    <![CDATA[
+      select
+         "USER_ID" AS "userId",
+         "AC_TYP" AS "acType",
+         "EMAIL" AS "email",
+         "MOBILE" AS "mobile",
+         "FIRST_NAME" AS "firstName",
+         "LAST_NAME" AS "lastName"
+      from "M_USER"
+      where
+        "USER_ID" = :userId
+        AND "PASSWORD" = :password
+        AND "AC_TYP" = CAST (:acType AS INTEGER)
+        AND "DEL_FLG" = 0
+    ]]>
+  </sql-query>
+  <sql-query name="app.user.login">
+      <![CDATA[
+        INSERT INTO "T_LOGIN_HIST"
+        (
+          "USER_ID",
+          "AC_TYP",
+          "TYPE",
+          "OTHER",
+          "MAC_ADDRESS",
+          "INS_DT",
+          "INS_BY"
+        )
+         VALUES(
+           :userId,
+           CAST (:acType AS INTEGER),
+           'LOGIN',
+           :otherInfo,
+           :macAddress,
+           CURRENT_TIMESTAMP,
+           :serviceCode
+         )
+      ]]>
+  </sql-query>
+  <sql-query name="app.user.logout">
+      <![CDATA[
+        INSERT INTO "T_LOGIN_HIST"
+        (
+          "USER_ID",
+          "AC_TYP",
+          "TYPE",
+          "OTHER",
+          "MAC_ADDRESS",
+          "INS_DT",
+          "INS_BY"
+        )
+         VALUES(
+           :userId,
+           CAST (:acType AS INTEGER),
+           'LOGOUT',
+           :otherInfo,
+           :macAddress,
+           CURRENT_TIMESTAMP,
+           :serviceCode
+         )
+      ]]>
+  </sql-query>
+  <sql-query name="app.user.get.all">
+    <![CDATA[
+      select
+        "USER_ID" AS "userId",
+        "AC_TYP" AS "acType",
+        "EMAIL" AS "email",
+        "MOBILE" AS "mobile",
+        "FIRST_NAME" AS "firstName",
+        "LAST_NAME" AS "lastName"
+      from
+        "M_USER" 
+      WHERE
+        "DEL_FLG" = 0
+    ]]>
+  </sql-query>
+  <sql-query name="app.user.save">
+    <![CDATA[
+    INSERT INTO "M_USER"(
+      "USER_ID",
+      "AC_TYP",
+      "EMAIL",
+      "MOBILE",
+      "FIRST_NAME",
+      "LAST_NAME",
+      "PASSWORD",
+      "INS_DT",
+      "INS_BY"
+      , "DEL_FLG"
+      , "ID")
+      VALUES (
+        :userId,
+        :acType,
+        :email,
+        :mobile,
+        :firstName,
+        :lastName,
+        :password,
+        CURRENT_TIMESTAMP,
+        :serviceCode,
+        0,
+        :id
+      );
+    ]]>
+  </sql-query>
+  <sql-query name="app.user.policy.save">
+    <![CDATA[
+    INSERT INTO "T_POLICY_STATUS"(
+      "USER_ID",
+      "TYPE",
+      "POLICY_ID",
+      "INS_DT",
+      "INS_BY"
+    )
+      VALUES (
+        :userId,
+        :privacyPolicy,
+        (SELECT "ID" FROM "M_POLICY" WHERE "DEL_FLG" = 0 ORDER BY "INS_DT" DESC LIMIT 1),
+        CURRENT_TIMESTAMP,
+        :serviceCode
+      );
+    ]]>
+  </sql-query>
+</hibernate-mapping>

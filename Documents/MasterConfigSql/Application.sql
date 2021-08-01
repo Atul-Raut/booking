@@ -1,0 +1,2 @@
+INSERT INTO "M_CTL_CONFIG" VALUES('WS-AP-01','CONNON_CONFIG', 0, 'Reload Cache Service', '{}', 0, 0, CURRENT_TIMESTAMP, 'ATUL', null, null);
+INSERT INTO "M_CTL_CONFIG" VALUES('WS-AP-02','CONNON_CONFIG', 0, 'Reload Sql', '{}', 0, 0, CURRENT_TIMESTAMP, 'ATUL', null, null);

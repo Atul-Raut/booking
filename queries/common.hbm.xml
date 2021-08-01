@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <sql-query name="common.get.configuration">
+      <![CDATA[
+        select config.* from "M_CTL_CONFIG" config
+        WHERE
+        config."ON_LOAD" = 1
+        AND config."DEL_FLG" = 0
+      ]]>
+  </sql-query>
+  <sql-query name="common.get.configurationbyserviceid">
+      <![CDATA[
+        select config.* from "M_CTL_CONFIG" config
+        WHERE
+        config."CTL_CD" = :serviceCode
+        AND config."DEL_FLG" = 0
+      ]]>
+  </sql-query>
+  <sql-query name="common.log.activity">
+      <![CDATA[
+        INSERT INTO "T_ACTIVITY_HIST"
+        (
+          "USER_ID",
+          "AC_TYP",
+          "TYPE",
+          "OTHER",
+          "MAC_ADDRESS",
+          "INS_DT",
+          "INS_BY",
+          "STATUS"
+        )
+         VALUES(
+           :userId,
+           CAST (:acType AS INTEGER),
+           :serviceName,
+           :otherInfo,
+           :macAddress,
+           CURRENT_TIMESTAMP,
+           :serviceCode,
+           :activityStatus
+         )
+      ]]>
+  </sql-query>
+</hibernate-mapping>
