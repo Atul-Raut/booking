@@ -15,7 +15,7 @@
 Open and modify LOG_PATH property in to config/logback-spring.xml file.
 
 
-**Step 3: Import projact into eclipse**
+**Step 3: Import project into eclipse**
 
 Open BookingApplication.java and modify "app-config-path".
 
