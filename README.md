@@ -1,4 +1,4 @@
-# booking
+# Booking Web service
 
 **Steps to run application**
 
@@ -24,3 +24,15 @@ Open BookingApplication.java and modify "app-config-path".
 Restore dbbackup.backup into postgres database.
 
 **Step 5: Run BookingApplication.java**
+
+# Booking web application
+
+**Step 1: npm install**
+Go to **bookingui** project dir from command prompt and execute below command
+npm install
+
+**Step 2: Start Web Application**
+npm start
+
+**Step 3: Access Web Application**
+http://127.0.0.1/3000/
