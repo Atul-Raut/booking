@@ -1,0 +1,700 @@
+{
+	"info": {
+		"_postman_id": "c53a8344-d1a4-4364-9fc8-1d790259925c",
+		"name": "BookingApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Application",
+			"item": [
+				{
+					"name": "Refresh Cache",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"macAddress\":\"mac\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/application/refreshcache",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"application",
+								"refreshcache"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh SQL",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"macAddress\":\"mac\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/application/refreshsql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"application",
+								"refreshsql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get User Information",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut1\",\"password\":\"asdasddddada\",\"acType\":1,\"macAddress\":\"abc\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All User Information",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut1\",\"acType\":1,\"macAddress\":\"abc\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Registration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut12\", \"acType\":1,\"firstName\":\"Test\",\"lastName\":\"last_name\",\"email\":\"email\",\"mobile\":\"mobile\",\"password\":\"asdasddddada\",\"privacyPolicy\":\"ACCEPTED\",\"macAddress\":\"abc\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/registor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"registor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut1\",\"password\":\"asdasddddada\",\"acType\":1,\"macAddress\":\"abc\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LogOut",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut1\",\"acType\":1,\"macAddress\":\"abc\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vehicle",
+			"item": [
+				{
+					"name": "Get All Vehicle From Master",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut9\",\"acType\":1,\"macAddress\":\"abc\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/vehicle/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vehicle",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Vehicle Registration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut11\", \"acType\":1,\"vehicleId\":\"11\",\"vehicleNo\":\"MH 17 80922\",\"macAddress\":\"abc\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/vehicle/registor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vehicle",
+								"registor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Vehicles",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut11\",\"acType\":1,\"macAddress\":\"abc\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/vehicle/uservehicle",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vehicle",
+								"uservehicle"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Service",
+			"item": [
+				{
+					"name": "Get All Active Services Types",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut1\",\"acType\":1,\"macAddress\":\"abc\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/service/type/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"service",
+								"type",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PostServices",
+			"item": [
+				{
+					"name": "Search post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut1\",\"acType\":2,\"macAddress\":\"abc\",\"serviceId\":\"1\",\"vehicleId\": \"1\",\"source\": \"Tokyo\",\"destination\": \"Osaka\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/post/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut1\", \"acType\":1,\"serviceId\":\"1\",\"vehicleId\":\"1\",\"activityFromDate\":\"20210101101000\",\"activityToDate\":\"20210101101000\",\"source\":\"Osaka\",\"destination\":\"Tokyo\",\"otherInfo\":\"Other information.\",\"macAddress\":\"abc\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/post/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Post",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut1\", \"acType\":1,\"serviceId\":\"1\",\"vehicleId\":\"1\",\"activityFromDate\":\"20210101101000\",\"activityToDate\":\"20210101101000\",\"source\":\"Tokyo Machida\",\"destination\":\"Osaka Morinomiya\",\"otherInfo\":\"hhhhh\",\"postId\": \"9fc615e0-ef2f-48f4-8e9a-5e34cd28a6a9\",\"macAddress\":\"abc\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/post/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Post Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut9\", \"acType\":1,\"serviceId\":\"1\",\"postId\": \"bc1f7b9c-08f5-40e6-952c-b4029614a9c4\",\"status\":\"CLOSE\",\"macAddress\":\"abc\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/post/updatestatus",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								"updatestatus"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Post",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut9\", \"acType\":1,\"serviceId\":\"1\",\"postId\": \"bc1f7b9c-08f5-40e6-952c-b4029614a9c4\",\"macAddress\":\"abc\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/post/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Post Request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut1\", \"acType\":2,\"postId\":\"9fc615e0-ef2f-48f4-8e9a-5e34cd28a6a9\",\"macAddress\":\"abc\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/post/createrequest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								"createrequest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Post Request",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut9\", \"acType\":1,\"postId\":\"9fc615e0-ef2f-48f4-8e9a-5e34cd28a6a9\",\"macAddress\":\"abc\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/post/deleterequest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								"deleterequest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Post Request Count",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut1\",\"acType\":1,\"macAddress\":\"abc\",\"postId\":\"9fc615e0-ef2f-48f4-8e9a-5e34cd28a6a9\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/post/getrequestcount",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								"getrequestcount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Post Request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut\",\"acType\":1,\"macAddress\":\"abc\",\"postId\":\"9fc615e0-ef2f-48f4-8e9a-5e34cd28a6a9\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/post/getrequest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								"getrequest"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mongo",
+			"item": [
+				{
+					"name": "SaveMasterConfig",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"saveData\":{\n\"CTL_CD\":\"WS-PS-02\",\n\"CTL_DESC\":\"Create Post\", \n\"CTL_TYP\":\"SERVICE_TYPE_VAL\", \n\"CTL_NO\":0, \n\"CTL_VALUE\":[{\"description\":\"Validate mandatory for service type Transport.\",\"serviceType\":\"1\",\"fieldName\":\"serviceId\",\"fieldsToValidate\":[\"vehicleId\", \"activityFromDate\", \"activityToDate\", \"source\", \"destination\"]}], \n\"ON_LOAD\":0, \n\"DEL_FLG\":0, \n\"INS_DT\":\"2021-07-26 21:08:36.719085\", \n\"INS_BY\":\"ATUL\"\n}}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/registor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"registor"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
