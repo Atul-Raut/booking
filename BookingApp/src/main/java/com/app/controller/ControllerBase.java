@@ -8,17 +8,16 @@ import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.app.common.ApplicationContext;
-import com.app.common.ApplicationService;
-import com.app.common.CommonConstants;
-import com.app.dto.RequestInfo;
+import com.app.core.common.ApplicationContext;
+import com.app.core.common.ApplicationDBServiceIF;
+import com.app.core.common.CommonConstants;
+import com.app.core.dto.RequestInfo;
+import com.app.core.exceptions.ValidationError;
+import com.app.core.util.CoreUtils;
+import com.app.core.validator.ValidatorIF;
+import com.app.core.validator.ValidatorInfo;
 import com.app.dto.ResponseDTO;
-import com.app.exceptions.ValidationError;
 import com.app.utils.AppUtils;
-import com.app.validator.ValidatorIF;
-import com.app.validator.ValidatorInfo;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 public class ControllerBase {
 
@@ -26,7 +25,7 @@ public class ControllerBase {
 	private RequestInfo requestInfo;
 	
 	@Autowired
-	ApplicationService service;
+	ApplicationDBServiceIF service;
 	
 	
 	public ControllerBase() {
@@ -76,7 +75,7 @@ public class ControllerBase {
 		List<Map<String, String>> errors = validate(requestInfo, requestInfo);
 		if(null != errors && errors.size() > 0) {
 			ResponseDTO result = AppUtils.createErrorResponse(requestInfo, null
-					, new ValidationError(CommonConstants.ERROR_VAL_FAILED, AppUtils.getJsonStringFromObject(errors), null), service);
+					, new ValidationError(CommonConstants.ERROR_VAL_FAILED, CoreUtils.getJsonStringFromObject(errors), null), service);
 			
 			return result;
 		}
@@ -134,7 +133,7 @@ public class ControllerBase {
 		String type = validatorInfo.getType();
 		
 		String className = ApplicationContext.getProperty(type);
-		return (ValidatorIF)AppUtils.getClassByName(className);
+		return (ValidatorIF)CoreUtils.getClassByName(className);
 	}
 
 	/**
@@ -165,10 +164,9 @@ public class ControllerBase {
 	 * load common config and Validator info
 	 * @param serviceCode
 	 * @return info
-	 * @throws JsonMappingException
-	 * @throws JsonProcessingException
+	 * @throws Exception 
 	 */
-	public Map<String, Object> loadCommonConfigAndValidators(String serviceCode) throws JsonMappingException, JsonProcessingException {
+	public Map<String, Object> loadCommonConfigAndValidators(String serviceCode) throws Exception {
 		RequestInfo input = new RequestInfo();
 		input.put(CommonConstants.KEY_QUERY_ID, "common.get.configurationbyserviceid");
 		input.put(CommonConstants.KEY_SERVICE_ID, serviceCode);
@@ -181,10 +179,10 @@ public class ControllerBase {
 			String type = Objects.toString(map.get("CTL_TYP"));
 			
 			if("CONNON_CONFIG".equals(type)) {
-					Map<String, Object> value = AppUtils.getMapFromJson(Objects.toString(map.get("CTL_VALUE")));
+					Map<String, Object> value = CoreUtils.getMapFromJson(Objects.toString(map.get("CTL_VALUE")));
 					info.put(type, value);
 			} else if(type.endsWith("_VAL")) {
-				List<Map<String, Object>> value = AppUtils.getListFromJson(Objects.toString(map.get("CTL_VALUE")));
+				List<Map<String, Object>> value = CoreUtils.getListFromJson(Objects.toString(map.get("CTL_VALUE")));
 				validators.add(new ValidatorInfo(type, value));
 			}
 		}

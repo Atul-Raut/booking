@@ -6,11 +6,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import com.app.common.ApplicationContext;
-import com.app.common.ApplicationService;
-import com.app.common.CommonConstants;
-import com.app.dto.RequestInfo;
-import com.app.exceptions.ConfigurationException;
+import com.app.core.common.ApplicationContext;
+import com.app.core.common.ApplicationDBServiceIF;
+import com.app.core.common.CommonConstants;
+import com.app.core.dto.RequestInfo;
+import com.app.core.exceptions.ConfigurationException;
 
 @SpringBootApplication
 public class BookingApplication {
@@ -19,7 +19,7 @@ public class BookingApplication {
 
 	public static void main(String[] args) {
 
-		System.setProperty("app-config-path", "/Users/rautatul/Documents/Atul/Study/Projects/config");
+		System.setProperty("app-config-path", "/Users/rautatul/Documents/Atul/Study/Projects/booking/booking/config");
 		
 		try {
 			setConfigFolderAndEnableLogging();
@@ -30,7 +30,7 @@ public class BookingApplication {
 			ConfigurableApplicationContext context = SpringApplication.run(BookingApplication.class, args);
 			
 			ApplicationContext.init();
-			context.getBean(ApplicationService.class).loadDBConfiguration(new RequestInfo());
+			context.getBean(ApplicationDBServiceIF.class).loadDBConfiguration(new RequestInfo());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(0);

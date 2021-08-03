@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-      <property name="LOG_PATH" value="/Users/rautatul/Documents/Atul/Study/Projects/logs"/>
+      <property name="LOG_PATH" value="/Users/rautatul/Documents/Atul/Study/Projects/booking/logs"/>
 
       <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/log.log</file>

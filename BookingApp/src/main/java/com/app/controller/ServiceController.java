@@ -8,17 +8,17 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.annotation.ServiceInfo;
-import com.app.common.ApplicationService;
-import com.app.dto.RequestInfo;
+import com.app.core.annotation.ServiceInfo;
+import com.app.core.common.ApplicationDBServiceIF;
+import com.app.core.dto.RequestInfo;
+import com.app.core.utils.LogUtils;
 import com.app.dto.ResponseDTO;
-import com.app.utils.LogUtils;
 
 @RestController
 @RequestMapping("service")
@@ -33,7 +33,7 @@ public class ServiceController extends ControllerBase {
     };
     
 	@Autowired
-	ApplicationService service;
+	ApplicationDBServiceIF service;
 	
 	
 	private static Logger logger = LoggerFactory.getLogger(ServiceController.class);
@@ -41,7 +41,7 @@ public class ServiceController extends ControllerBase {
 	public ServiceController() {
 	}
 	
-	@GetMapping("/type/all")
+	@PostMapping("/type/all")
 	@ServiceInfo(serviceCode = "WS-SE-01", serviceName = "Get All Active Services Types", queryId = "app.service.get.all")
 	private ResponseDTO getAll(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
 			@RequestAttribute("requestId") String requestId) throws Exception {
