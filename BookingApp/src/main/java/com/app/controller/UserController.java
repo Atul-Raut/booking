@@ -8,20 +8,19 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.annotation.ServiceInfo;
-import com.app.common.ApplicationService;
-import com.app.common.CommonConstants;
-import com.app.dto.RequestInfo;
+import com.app.core.annotation.ServiceInfo;
+import com.app.core.common.ApplicationDBServiceIF;
+import com.app.core.common.CommonConstants;
+import com.app.core.dto.RequestInfo;
+import com.app.core.util.CoreUtils;
+import com.app.core.utils.LogUtils;
 import com.app.dto.ResponseDTO;
-import com.app.utils.AppUtils;
-import com.app.utils.LogUtils;
 
 @RestController
 @RequestMapping("user")
@@ -39,7 +38,7 @@ public class UserController extends ControllerBase {
     
 	
 	@Autowired
-	ApplicationService service;
+	ApplicationDBServiceIF service;
 	
 	
 	private static Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -48,7 +47,7 @@ public class UserController extends ControllerBase {
 	}
 	
 
-	@GetMapping("/id")
+	@PostMapping("/id")
 	@ServiceInfo(serviceCode = "WS-UP-01", serviceName = "Get User Information", queryId = "app.user.get")
 	private ResponseDTO get(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
 			@RequestAttribute("requestId") String requestId) throws Exception {
@@ -69,7 +68,7 @@ public class UserController extends ControllerBase {
 		return result;
 	}
 	
-	@GetMapping("/all")
+	@PostMapping("/all")
 	@ServiceInfo(serviceCode = "WS-UP-02", serviceName = "Get All User Information", queryId = "app.user.get.all")
 	private ResponseDTO getAll(@RequestBody Map<String, Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
 			@RequestAttribute("requestId") String requestId) throws Exception {
@@ -96,7 +95,7 @@ public class UserController extends ControllerBase {
 		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
 		
 		requestInfo.putAll(input);
-		requestInfo.put(CommonConstants.KEY_ID, AppUtils.getUUID());
+		requestInfo.put(CommonConstants.KEY_ID, CoreUtils.getUUID());
 		
 		//set request info
 		setRequestInfo(requestInfo);
@@ -125,7 +124,7 @@ public class UserController extends ControllerBase {
 		return result;
 	}
 	
-	@GetMapping("/login")
+	@PostMapping("/login")
 	@ServiceInfo(serviceCode = "WS-UP-04", serviceName = "Login service", queryId = "app.user.get", logActivity = true)
 	private ResponseDTO login(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
 			@RequestAttribute("requestId") String requestId) throws Exception {
@@ -153,7 +152,7 @@ public class UserController extends ControllerBase {
 		return result;
 	}
 	
-	@GetMapping("/logout")
+	@PostMapping("/logout")
 	@ServiceInfo(serviceCode = "WS-UP-05", serviceName = "Logout service", queryId = "app.user.logout", logActivity = true)
 	private ResponseDTO logout(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
 			@RequestAttribute("requestId") String requestId) throws Exception {

@@ -3,7 +3,7 @@ package com.app.dto;
 import java.util.HashMap;
 import java.util.Objects;
 
-import com.app.common.CommonConstants;
+import com.app.core.common.CommonConstants;
 
 public class ResponseDTO extends HashMap<String, Object>{
 

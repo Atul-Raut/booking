@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-      <property name="LOG_PATH" value="/Users/rautatul/Documents/Atul/Study/Projects/logs"/>
+      <property name="LOG_PATH" value="/Users/rautatul/Documents/Atul/Study/Projects/booking-dev/logs"/>
 
       <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}/log.log</file>
+        <file>${LOG_PATH}/booking-dev.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n</Pattern>
         </encoder>

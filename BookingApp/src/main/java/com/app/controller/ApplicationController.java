@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.annotation.ServiceInfo;
-import com.app.common.ApplicationService;
-import com.app.dto.RequestInfo;
+import com.app.core.annotation.ServiceInfo;
+import com.app.core.common.ApplicationDBServiceIF;
+import com.app.core.dto.RequestInfo;
 import com.app.dto.ResponseDTO;
 
 @RestController
@@ -28,13 +28,13 @@ public class ApplicationController extends ControllerBase {
 
     
 	@Autowired
-	ApplicationService service;
+	ApplicationDBServiceIF service;
 
 	public ApplicationController() {
 	}
 
 
-	@GetMapping("/refreshcache")
+	@PostMapping("/refreshcache")
 	@ServiceInfo(serviceCode = "WS-AP-01", serviceName = "Reload Cache")
 	private ResponseDTO refreshCache(@RequestAttribute("requestId") String requestId
 			, @RequestAttribute("requestInfo") RequestInfo requestInfo) throws Exception {
@@ -53,7 +53,7 @@ public class ApplicationController extends ControllerBase {
 		return result;
 	}
 	
-	@GetMapping("/refreshsql")
+	@PostMapping("/refreshsql")
 	@ServiceInfo(serviceCode = "WS-AP-02", serviceName = "Reload SQL")
 	private ResponseDTO refreshSql(@RequestAttribute("requestId") String requestId
 			, @RequestAttribute("requestInfo") RequestInfo requestInfo) throws Exception {

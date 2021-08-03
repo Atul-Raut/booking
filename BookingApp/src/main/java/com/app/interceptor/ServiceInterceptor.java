@@ -10,10 +10,10 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.app.BookingApplication;
-import com.app.annotation.ServiceInfo;
-import com.app.common.CommonConstants;
-import com.app.dto.RequestInfo;
-import com.app.utils.AppUtils;
+import com.app.core.annotation.ServiceInfo;
+import com.app.core.common.CommonConstants;
+import com.app.core.dto.RequestInfo;
+import com.app.core.util.CoreUtils;
 
 @Component
 public class ServiceInterceptor extends BaseHandlerInterceptor {
@@ -68,6 +68,6 @@ public class ServiceInterceptor extends BaseHandlerInterceptor {
 	 * @return requestID
 	 */
 	private String getRequestID(String serviceCode) {
-		return serviceCode + "-" + AppUtils.getRandomNumber(10000)+ "-" + System.currentTimeMillis();
+		return serviceCode + "-" + CoreUtils.getRandomNumber(10000)+ "-" + System.currentTimeMillis();
 	}
 }

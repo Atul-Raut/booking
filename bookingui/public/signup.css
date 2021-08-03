@@ -1,0 +1,184 @@
+.wrapper {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* background-color: #258ea6; */
+  /* padding: 10% 10%; */
+}
+
+.form-wrapper {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  padding: 5% 5%;
+  border-radius: 10px;
+  box-shadow: 0px 10px 50px #555;
+  background-color: #ffffff;
+}
+
+form {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+h1 {
+  text-align: center;
+  width: 100%;
+  color: #111;
+  font-weight: lighter;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+label {
+  font-size: 0.8em;
+  margin-bottom: 0.25em;
+  color: #222;
+  font-weight: lighter;
+}
+
+input {
+  padding: 3% 3%;
+  border-radius: 5px;
+  outline: none;
+  border: 2px solid #cfcfcf;
+}
+
+select {
+  padding: 3% 3%;
+  border-radius: 5px;
+  outline: none;
+  border: 2px solid #cfcfcf;
+}
+
+select::placeholder {
+  font-size: 1.2em;
+  font-weight: lighter;
+  color: #999;
+}
+
+input::placeholder {
+  font-size: 1.2em;
+  font-weight: lighter;
+  color: #999;
+}
+
+input.error {
+  border: 1px solid red;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 0.75em;
+  display: relative;
+}
+
+.firstName {
+  margin-right: 1%;
+}
+
+.lastName {
+  margin-left: 1%;
+}
+
+.email {
+  margin-right: 1%;
+}
+
+.password {
+  margin-right: 1%;
+}
+
+.confirmPassword {
+  margin-left: 1%;
+}
+
+.role {
+  margin-left: 1%;
+}
+
+.mobile {
+  margin-left: 1%;
+}
+
+.firstName,
+.lastName,
+.email,
+.password,
+.confirmPassword,
+.role,
+.mobile {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2%;
+}
+
+.firstName,
+.lastName,
+.email,
+.password,
+.confirmPassword,
+.role,
+.mobile {
+  width: 49%;
+}
+
+.captcha {
+  width: 100%;
+  text-align: center;
+}
+
+/* .email,
+.password {
+  width: 100%;
+} */
+
+.createAccount {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.createAccount button {
+  background-color: #2c65e0;
+  color: #fff;
+  border: 2px solid #fff;
+  width: 30%;
+  margin-top: 1em;
+  padding: 2% 0px;
+  font-size: 1em;
+  font-weight: lighter;
+  /* letter-spacing: 1px; */
+  margin-bottom: 0.25em;
+  border-radius: 10px;
+}
+
+.createAccount button:hover {
+  color: white;
+  background-color: rgb(133, 183, 219);
+  border: 2px solid rgb(21, 95, 148);
+}
+
+.createAccount small {
+  color: #999;
+  font-weight: lighter;
+}
+
+.signupForm {
+  justify-content: center;
+  margin-top: 7%;
+  /* background: none; */
+  background-color: cadetblue;
+  width: 1000px;
+  display: flex;
+  /* flex-direction: column; */
+  padding: 20px 40px;
+  border-radius: 10px;
+  box-shadow: 0px 10px 50px #555;
+  /* background-color: #ffffff; */
+}

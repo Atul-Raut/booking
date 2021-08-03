@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -17,13 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.annotation.ServiceInfo;
-import com.app.common.ApplicationService;
-import com.app.common.CommonConstants;
-import com.app.dto.RequestInfo;
+import com.app.core.annotation.ServiceInfo;
+import com.app.core.common.ApplicationDBServiceIF;
+import com.app.core.common.CommonConstants;
+import com.app.core.dto.RequestInfo;
+import com.app.core.util.CoreUtils;
+import com.app.core.utils.LogUtils;
 import com.app.dto.ResponseDTO;
-import com.app.utils.AppUtils;
-import com.app.utils.LogUtils;
 
 @RestController
 @RequestMapping("post")
@@ -38,7 +37,7 @@ public class PostController extends ControllerBase {
     };
     
 	@Autowired
-	ApplicationService service;
+	ApplicationDBServiceIF service;
 	
 	
 	private static Logger logger = LoggerFactory.getLogger(PostController.class);
@@ -46,7 +45,7 @@ public class PostController extends ControllerBase {
 	public PostController() {
 	}
 	
-	@GetMapping("/search")
+	@PostMapping("/search")
 	@ServiceInfo(serviceCode = "WS-PS-01", serviceName = "Search post", queryId = "app.post.search")
 	private ResponseDTO getAll(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
 			@RequestAttribute("requestId") String requestId) throws Exception {
@@ -74,7 +73,7 @@ public class PostController extends ControllerBase {
 		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
 		
 		requestInfo.putAll(input);
-		requestInfo.put(CommonConstants.KEY_ID, AppUtils.getUUID());
+		requestInfo.put(CommonConstants.KEY_ID, CoreUtils.getUUID());
 		
 		//set request info
 		setRequestInfo(requestInfo);
@@ -194,7 +193,7 @@ public class PostController extends ControllerBase {
 		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
 		
 		requestInfo.putAll(input);
-		requestInfo.put(CommonConstants.KEY_ID, AppUtils.getUUID());
+		requestInfo.put(CommonConstants.KEY_ID, CoreUtils.getUUID());
 		
 		//set request info
 		setRequestInfo(requestInfo);
@@ -246,7 +245,7 @@ public class PostController extends ControllerBase {
 		return result;
 	}
 	
-	@GetMapping("/getrequestcount")
+	@PostMapping("/getrequestcount")
 	@ServiceInfo(serviceCode = "WS-PS-08", serviceName = "Get Post Request Count", queryId = "app.post.get.request.count")
 	private ResponseDTO getrequestcount(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
 			@RequestAttribute("requestId") String requestId) throws Exception {
@@ -267,7 +266,7 @@ public class PostController extends ControllerBase {
 		return result;
 	}
 	
-	@GetMapping("/getrequest")
+	@PostMapping("/getrequest")
 	@ServiceInfo(serviceCode = "WS-PS-09", serviceName = "Get Post Request", queryId = "app.post.get.request")
 	private ResponseDTO getRequest(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
 			@RequestAttribute("requestId") String requestId) throws Exception {

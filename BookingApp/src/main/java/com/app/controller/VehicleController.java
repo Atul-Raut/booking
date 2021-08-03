@@ -8,20 +8,19 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.annotation.ServiceInfo;
-import com.app.common.ApplicationService;
-import com.app.common.CommonConstants;
-import com.app.dto.RequestInfo;
+import com.app.core.annotation.ServiceInfo;
+import com.app.core.common.ApplicationDBServiceIF;
+import com.app.core.common.CommonConstants;
+import com.app.core.dto.RequestInfo;
+import com.app.core.util.CoreUtils;
+import com.app.core.utils.LogUtils;
 import com.app.dto.ResponseDTO;
-import com.app.utils.AppUtils;
-import com.app.utils.LogUtils;
 
 @RestController
 @RequestMapping("vehicle")
@@ -36,7 +35,7 @@ public class VehicleController extends ControllerBase {
     };
     
 	@Autowired
-	ApplicationService service;
+	ApplicationDBServiceIF service;
 	
 	
 	private static Logger logger = LoggerFactory.getLogger(VehicleController.class);
@@ -44,7 +43,7 @@ public class VehicleController extends ControllerBase {
 	public VehicleController() {
 	}
 	
-	@GetMapping("/all")
+	@PostMapping("/all")
 	@ServiceInfo(serviceCode = "WS-VS-01", serviceName = "Get All Vehicle From Master", queryId = "app.vehicle.get.all")
 	private ResponseDTO getAll(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
 			@RequestAttribute("requestId") String requestId) throws Exception {
@@ -72,7 +71,7 @@ public class VehicleController extends ControllerBase {
 		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
 		
 		requestInfo.putAll(input);
-		requestInfo.put(CommonConstants.KEY_ID, AppUtils.getUUID());
+		requestInfo.put(CommonConstants.KEY_ID, CoreUtils.getUUID());
 		
 		//set request info
 		setRequestInfo(requestInfo);
@@ -95,7 +94,7 @@ public class VehicleController extends ControllerBase {
 		return result;
 	}
 	
-	@GetMapping("/uservehicle")
+	@PostMapping("/uservehicle")
 	@ServiceInfo(serviceCode = "WS-VS-03", serviceName = "Get User Vehicles", queryId = "app.vehicle.get.uservehicle")
 	private ResponseDTO getUserVehicle(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
 			@RequestAttribute("requestId") String requestId) throws Exception {
