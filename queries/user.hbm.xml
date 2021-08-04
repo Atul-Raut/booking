@@ -4,6 +4,17 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
+  <sql-query name="app.user.type.get">
+    <![CDATA[
+      select
+         "AC_TYP" AS "acType",
+         "NAME" AS "acName"
+      from "M_ACCOUNT_TYPE"
+      where
+            "AC_TYP" in (1,2)
+        AND "DEL_FLG" = 0
+    ]]>
+  </sql-query>
   <sql-query name="app.user.get">
     <![CDATA[
       select

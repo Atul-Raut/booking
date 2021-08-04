@@ -153,7 +153,7 @@ public class UserController extends ControllerBase {
 	}
 	
 	@PostMapping("/logout")
-	@ServiceInfo(serviceCode = "WS-UP-05", serviceName = "Logout service", queryId = "app.user.logout", logActivity = true)
+	@ServiceInfo(serviceCode = "WS-UP-05", serviceName = "Logout service", queryId = "app.user.logout", logActivity = false)
 	private ResponseDTO logout(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
 			@RequestAttribute("requestId") String requestId) throws Exception {
 		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
@@ -167,6 +167,28 @@ public class UserController extends ControllerBase {
 			
 			service.executeUpdate(requestInfo);
 			result = createSuccessResponse(requestInfo,null);
+		}catch(Exception e) {
+			result = createErrorResponse(requestInfo, null, e);
+		}
+		return result;
+	}
+	
+	@PostMapping("/usertype")
+	@ServiceInfo(serviceCode = "WS-UP-06", serviceName = "User Type", queryId = "app.user.type.get", logActivity = false)
+	private ResponseDTO getUserType(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
+			@RequestAttribute("requestId") String requestId) throws Exception {
+		
+		
+		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
+		requestInfo.putAll(input);
+		ResponseDTO result = null;
+		try {
+			result = validate(requestInfo);
+			if(null != result) {
+				return result;
+			}
+			
+			result = createSuccessResponse(requestInfo,service.getData(requestInfo));
 		}catch(Exception e) {
 			result = createErrorResponse(requestInfo, null, e);
 		}
