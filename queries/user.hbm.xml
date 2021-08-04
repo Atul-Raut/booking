@@ -80,14 +80,14 @@
   </sql-query>
   <sql-query name="app.user.get.all">
     <![CDATA[
-      select
+      SELECT
         "USER_ID" AS "userId",
         "AC_TYP" AS "acType",
         "EMAIL" AS "email",
         "MOBILE" AS "mobile",
         "FIRST_NAME" AS "firstName",
         "LAST_NAME" AS "lastName"
-      from
+      FROM
         "M_USER" 
       WHERE
         "DEL_FLG" = 0

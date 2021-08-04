@@ -134,6 +134,8 @@ public class UserController extends ControllerBase {
 		RequestInfo logLoginTime = new RequestInfo();
 		logLoginTime.putAll(requestInfo);
 		try {
+			System.out.println(CoreUtils.getJsonStringFromObject(logLoginTime));
+			
 			result = validate(requestInfo);
 			logLoginTime.putAll(requestInfo);
 			if(null != result) {

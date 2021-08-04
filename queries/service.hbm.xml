@@ -6,11 +6,12 @@
 <hibernate-mapping>
   <sql-query name="app.service.get.all">
     <![CDATA[
-      select
+      SELECT
         "ID" AS "serviceId",
         "SERVICE_NAME" As "serviceName"
-      from "M_SERVICES"
-      where
+      FROM 
+      	"M_SERVICES"
+      WHERE
         "DEL_FLG" = 0
     ]]>
   </sql-query>
