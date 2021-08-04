@@ -222,6 +222,36 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "User Type",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"macAddress\":\"abc\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/usertype",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"usertype"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
