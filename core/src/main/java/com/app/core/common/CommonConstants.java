@@ -22,6 +22,7 @@ public class CommonConstants {
 	public static final String ERROR_DATA_INS_UPD_FAILED 	= "WS-E-CM-0004";
 	public static final String ERROR_VAL_FAILED			 	= "WS-E-CM-0005";
 	public static final String ERROR_CONFIG				 	= "WS-E-CM-0006";
+	public static final String ERROR_HIST_MATCH				= "WS-E-CM-0007";
 	public static final String SUCCESS_CODE     			= "WS-S-CM-0000";
 	public static final String ERROR_APP_001    			= "WS-E-AP-0001";
 	

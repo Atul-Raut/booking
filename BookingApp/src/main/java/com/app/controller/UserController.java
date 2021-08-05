@@ -4,11 +4,13 @@ package com.app.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,13 +20,15 @@ import com.app.core.annotation.ServiceInfo;
 import com.app.core.common.ApplicationDBServiceIF;
 import com.app.core.common.CommonConstants;
 import com.app.core.dto.RequestInfo;
+import com.app.core.exceptions.DataNotFoundException;
+import com.app.core.exceptions.InvalidDataException;
 import com.app.core.util.CoreUtils;
 import com.app.core.utils.LogUtils;
 import com.app.dto.ResponseDTO;
 
 @RestController
 @RequestMapping("user")
-public class UserController extends ControllerBase {
+public class UserController extends UserControllerBase {
 
 	public static final List<String> PATH_SERVICE_PATHS = new ArrayList<String>(){
 		private static final long serialVersionUID = 1L;
@@ -196,4 +200,140 @@ public class UserController extends ControllerBase {
 		}
 		return result;
 	}
+	
+	@SuppressWarnings("null")
+	@PutMapping("/passwordupdate")	
+	@ServiceInfo(serviceCode = "WS-UP-07", serviceName = "Change Password", queryId = "app.user.password.update", logActivity =true)
+	private ResponseDTO changePassword(@RequestBody Map<String, Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
+			@RequestAttribute("requestId") String requestId) throws Exception {
+		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
+		
+		requestInfo.putAll(input);
+		requestInfo.put(CommonConstants.KEY_ID, CoreUtils.getUUID());
+		
+		//set request info
+		setRequestInfo(requestInfo);
+
+		ResponseDTO result = null;
+		try {
+			
+			result = validate(requestInfo);
+			if(null != result) {
+				return result;
+			}
+			
+			RequestInfo requestInfoTemp =  new RequestInfo();
+			requestInfoTemp.putAll(requestInfo);
+			requestInfoTemp.put("password", requestInfoTemp.get("passwordOld"));
+			if(!(requestInfo.containsKey("otpValidated") 
+					&& "true".equals( Objects.toString(requestInfo.get("otpValidated"),"false").toLowerCase()))){
+				//Check password
+				requestInfoTemp.setQueryId("app.user.get");
+				service.getDataObject(requestInfoTemp);
+			}
+
+			try {
+				//Check with old password
+				requestInfoTemp.put("password", requestInfoTemp.get("passwordNew"));
+				requestInfoTemp.setQueryId("app.user.password.count");
+				Map<String, Object> oldPassCount = service.getDataObject(requestInfoTemp);
+				if(null != oldPassCount || !oldPassCount.isEmpty()) {
+					Integer count = Integer.parseInt(Objects.toString(oldPassCount.get("count"), "0"));
+					if(count > 0) {
+						throw new InvalidDataException(CommonConstants.ERROR_HIST_MATCH, "New password match with one of the old password.", null);
+					}
+				}
+			}
+			catch(DataNotFoundException e) {
+				LogUtils.logDebug(logger, requestId, "New password not match with old password.");
+			}
+		
+			//Update new password
+			service.executeUpdate(requestInfo);
+			
+			//save password into history
+			requestInfo.setQueryId("app.user.password.hist.save");
+			requestInfo.put("password", requestInfo.get("passwordNew"));
+			service.executeUpdate(requestInfo);
+			result = createSuccessResponse(requestInfo,null);
+		}catch(DataNotFoundException e) {
+			e.setErrorDescription("Password update failed. Username or Password not match.");
+			result = createErrorResponse(requestInfo, null, e);
+		}
+		catch(Exception e) {
+			result = createErrorResponse(requestInfo, null, e);
+		}
+		return result;
+	}
+	
+	@PostMapping("/sendotp")
+	@ServiceInfo(serviceCode = "WS-UP-08", serviceName = "Forgot Password OTP", queryId = "app.user.otp.save", logActivity =true)
+	private ResponseDTO sendOTP(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
+			@RequestAttribute("requestId") String requestId) throws Exception {
+		
+		
+		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
+		requestInfo.putAll(input);
+		ResponseDTO result = null;
+		try {
+			result = validate(requestInfo);
+			if(null != result) {
+				return result;
+			}
+			
+			//Check UserId is exist or not
+			RequestInfo requestInfoTemp =  new RequestInfo();
+			requestInfoTemp.putAll(requestInfo);
+			requestInfoTemp.setQueryId("app.user.get.for.otp");
+			Map<String, Object>  userInfo = service.getDataObject(requestInfoTemp);
+			requestInfo.put("userInfo", userInfo);
+			
+			String otp = sendOtp(requestInfo);
+			requestInfo.put("otp", otp);
+			service.executeUpdate(requestInfo);
+			
+			result = createSuccessResponse(requestInfo, null);
+		}
+		catch(DataNotFoundException e) {
+			e.setErrorDescription("Username not exist.");
+			result = createErrorResponse(requestInfo, null, e);
+		}
+		catch(Exception e) {
+			result = createErrorResponse(requestInfo, null, e);
+		}
+		return result;
+	}
+	
+	
+	
+	@PostMapping("/validateotp")
+	@ServiceInfo(serviceCode = "WS-UP-09", serviceName = "Validate OTP", queryId = "app.user.otp.get", logActivity =true)
+	private ResponseDTO validateOTP(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
+			@RequestAttribute("requestId") String requestId) throws Exception {
+		
+		
+		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
+		requestInfo.putAll(input);
+		ResponseDTO result = null;
+		try {
+			result = validate(requestInfo);
+			if(null != result) {
+				return result;
+			}
+
+			//TODO validate OTP
+			
+			result = createSuccessResponse(requestInfo, null);
+		}
+		catch(DataNotFoundException e) {
+			e.setErrorDescription("Invalid OTP.");
+			result = createErrorResponse(requestInfo, null, e);
+		}
+		catch(Exception e) {
+			result = createErrorResponse(requestInfo, null, e);
+		}
+		return result;
+	}
+
+	
 }

@@ -140,4 +140,87 @@
       );
     ]]>
   </sql-query>
+  <sql-query name="app.user.password.update">
+    <![CDATA[
+      UPDATE "M_USER" SET
+      		"PASSWORD" = :passwordNew,
+      		"UPD_DT" = CURRENT_TIMESTAMP,
+        	"UPD_BY" = :serviceCode
+      WHERE
+        "USER_ID" = :userId
+        AND "AC_TYP" = CAST (:acType AS INTEGER)
+        AND "DEL_FLG" = 0
+    ]]>
+  </sql-query>
+  <sql-query name="app.user.password.count">
+      <![CDATA[
+        SELECT
+	       count(*) as "count"
+	      FROM
+	        "T_USER_PASSWORD_HIST" 
+	      WHERE
+	      	"USER_ID" = :userId
+	      	AND "AC_TYP" = :acType
+	      	AND "PASSWORD" = :passwordNew
+	      	
+      ]]>
+  </sql-query>
+  <sql-query name="app.user.password.hist.save">
+      <![CDATA[
+        INSERT INTO
+	        "T_USER_PASSWORD_HIST" (
+	        	"USER_ID",
+	        	"AC_TYP",
+	        	"PASSWORD",
+	        	"INS_DT",
+	        	"INS_BY"
+	        )
+	      	VALUES(
+	      		:userId,
+	      		:acType,
+	      		:password,
+	      		CURRENT_TIMESTAMP,
+	      		:serviceCode
+	      	)
+	      	
+      ]]>
+  </sql-query>
+  <sql-query name="app.user.otp.save">
+      <![CDATA[
+        INSERT INTO
+	        "T_USER_OTP_HIST" (
+	        	"USER_ID",
+	        	"AC_TYP",
+	        	"OTP",
+	        	"INS_DT",
+	        	"INS_BY"
+	        )
+	      	VALUES(
+	      		:userId,
+	      		:acType,
+	      		:otp,
+	      		CURRENT_TIMESTAMP,
+	      		:serviceCode
+	      	)
+      ]]>
+  </sql-query>
+  <sql-query name="app.user.get.for.otp">
+    <![CDATA[
+	    SELECT 
+	      "USER_ID",
+	      "AC_TYP",
+	      "EMAIL",
+	      "MOBILE",
+	      "FIRST_NAME",
+	      "LAST_NAME"
+	     FROM 
+	     	"M_USER"
+	     WHERE
+	        "USER_ID" = :userId
+	        AND "AC_TYP" = :acType
+	        AND "DEL_FLG" = 0
+    ]]>
+  </sql-query>
+  
+  
 </hibernate-mapping>
