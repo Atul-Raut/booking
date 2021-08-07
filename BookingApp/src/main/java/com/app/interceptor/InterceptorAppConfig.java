@@ -6,6 +6,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.app.controller.ApplicationController;
+import com.app.controller.FileController;
 import com.app.controller.PostController;
 import com.app.controller.ServiceController;
 import com.app.controller.UserController;
@@ -36,5 +37,8 @@ public class InterceptorAppConfig implements WebMvcConfigurer {
 		
 		//Post Services
 		registry.addInterceptor(serviceInterceptor).addPathPatterns(PostController.PATH_SERVICE_PATHS);
+		
+		//File Controller
+		registry.addInterceptor(serviceInterceptor).addPathPatterns(FileController.PATH_SERVICE_PATHS);
 	}
 }

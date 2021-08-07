@@ -1,4 +1,3 @@
-
 {
 	"info": {
 		"_postman_id": "c53a8344-d1a4-4364-9fc8-1d790259925c",
@@ -10,7 +9,7 @@
 			"name": "Application",
 			"item": [
 				{
-					"name": "Refresh Cache",
+					"name": "WS-AP-01: Refresh Cache",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -40,7 +39,7 @@
 					"response": []
 				},
 				{
-					"name": "Refresh SQL",
+					"name": "WS-AP-02: Refresh SQL",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -75,7 +74,7 @@
 			"name": "User",
 			"item": [
 				{
-					"name": "Get User Information",
+					"name": "WS-UP-01: Get User Information",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -105,7 +104,7 @@
 					"response": []
 				},
 				{
-					"name": "Get All User Information",
+					"name": "WS-UP-02: Get All User Information",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -135,7 +134,7 @@
 					"response": []
 				},
 				{
-					"name": "User Registration",
+					"name": "WS-UP-03: User Registration",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -165,7 +164,7 @@
 					"response": []
 				},
 				{
-					"name": "Login",
+					"name": "WS-UP-04:Login",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -195,7 +194,7 @@
 					"response": []
 				},
 				{
-					"name": "LogOut",
+					"name": "WS-UP-05: LogOut",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -225,7 +224,7 @@
 					"response": []
 				},
 				{
-					"name": "User Type",
+					"name": "WS-UP-06: User Type",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -253,6 +252,96 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "WS-UP-07: Change Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut2\", \"acType\":1,\"passwordOld\":\"test6\",\"passwordNew\":\"test6\",\"macAddress\":\"abc\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/passwordupdate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"passwordupdate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "WS-UP-08: Send Otp",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut2\", \"acType\":1,\"macAddress\":\"abc\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/sendotp",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"sendotp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "WS-UP-09: Validate Otp",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"atul.raut2\", \"acType\":1,\"macAddress\":\"abc\",\"otp\":\"102030\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/validateotp",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"validateotp"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -260,7 +349,7 @@
 			"name": "Vehicle",
 			"item": [
 				{
-					"name": "Get All Vehicle From Master",
+					"name": "WS-VS-01: Get All Vehicle From Master",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -290,7 +379,7 @@
 					"response": []
 				},
 				{
-					"name": "User Vehicle Registration",
+					"name": "WS-UP-02: User Vehicle Registration",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -320,7 +409,7 @@
 					"response": []
 				},
 				{
-					"name": "Get User Vehicles",
+					"name": "WS-UP-03: Get User Vehicles",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -355,7 +444,7 @@
 			"name": "Service",
 			"item": [
 				{
-					"name": "Get All Active Services Types",
+					"name": "WS-SE-01: Get All Active Services Types",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -391,7 +480,7 @@
 			"name": "PostServices",
 			"item": [
 				{
-					"name": "Search post",
+					"name": "WS-PS-01: Search post",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -421,7 +510,7 @@
 					"response": []
 				},
 				{
-					"name": "Create Post",
+					"name": "WS-PS-02: Create Post",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -456,7 +545,7 @@
 					"response": []
 				},
 				{
-					"name": "Update Post",
+					"name": "WS-PS-03: Update Post",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -491,7 +580,7 @@
 					"response": []
 				},
 				{
-					"name": "Update Post Status",
+					"name": "WS-PS-04: Update Post Status",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -526,7 +615,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete Post",
+					"name": "WS-PS-05: Delete Post",
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -561,7 +650,7 @@
 					"response": []
 				},
 				{
-					"name": "Create Post Request",
+					"name": "WS-PS-06: Create Post Request",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -596,7 +685,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete Post Request",
+					"name": "WS-PS-07: Delete Post Request",
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -631,7 +720,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Post Request Count",
+					"name": "WS-PS-08: Get Post Request Count",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -661,7 +750,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Post Request",
+					"name": "WS-PS-09: Get Post Request",
 					"request": {
 						"method": "POST",
 						"header": [

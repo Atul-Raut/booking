@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ImportResource;
 
 import com.app.core.common.ApplicationContext;
 import com.app.core.common.ApplicationDBServiceIF;
@@ -13,6 +14,7 @@ import com.app.core.dto.RequestInfo;
 import com.app.core.exceptions.ConfigurationException;
 
 @SpringBootApplication
+@ImportResource("classpath:beans.xml")
 public class BookingApplication {
 
 	private static Logger logger = null;

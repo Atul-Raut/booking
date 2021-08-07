@@ -22,6 +22,7 @@ import com.app.core.common.CommonConstants;
 import com.app.core.dto.RequestInfo;
 import com.app.core.exceptions.DataNotFoundException;
 import com.app.core.exceptions.InvalidDataException;
+import com.app.core.service.NotificationService;
 import com.app.core.util.CoreUtils;
 import com.app.core.utils.LogUtils;
 import com.app.dto.ResponseDTO;
@@ -43,6 +44,9 @@ public class UserController extends UserControllerBase {
 	
 	@Autowired
 	ApplicationDBServiceIF service;
+	
+	@Autowired
+	private org.springframework.context.ApplicationContext context;
 	
 	
 	private static Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -291,6 +295,10 @@ public class UserController extends UserControllerBase {
 			String otp = sendOtp(requestInfo);
 			requestInfo.put("otp", otp);
 			service.executeUpdate(requestInfo);
+			//TODO validate OTP by SMS
+			context.getBean("SMSNotificationService", NotificationService.class).publish(requestInfo);
+			//TODO OTP by EMAIL
+			context.getBean("EmailNotificationService", NotificationService.class).publish(requestInfo);
 			
 			result = createSuccessResponse(requestInfo, null);
 		}

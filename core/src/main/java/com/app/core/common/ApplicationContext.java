@@ -157,4 +157,14 @@ public class ApplicationContext extends Cache{
 	public static String getProperty(String key) {
 		return properties.getProperty(key);
 	}
+
+	@SuppressWarnings("rawtypes")
+	public static Class getClassByName(String className) throws ClassNotFoundException {
+		return Class.forName(className);
+	}
+
+	@SuppressWarnings("deprecation")
+	public static Object getObjectByClass(String className) throws Exception {
+		return getClassByName(className).newInstance();
+	}
 }
