@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Button, View, Text} from 'react-native';
 
+import {translate} from './common/Translation'
 
 export default class Aboutscreen extends Component {
   render() {
@@ -10,9 +11,9 @@ export default class Aboutscreen extends Component {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Button
-          title="Go to Home"
-          onPress={() => this.props.navigation.navigate('Home')}/>
-        <Text>About Screen</Text>
+            title={translate('homeScreenName')}
+            onPress={() => this.props.navigation.navigate('Home')}/>
+        <Text>{translate('aboutScreenName')}</Text>
       </View>
     )
   }

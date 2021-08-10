@@ -1,0 +1,13 @@
+{
+    "homeScreenName":"Home Screen",
+    "aboutScreenName":"About Screen",
+    "aboutButtonName":"About",
+    "changePasswordButtonName":"Change Password",
+    "loginButtonName":"Login",
+    "currentPassword":"Current Password",
+    "newPassword":"New Password",
+    "password8CharMsg":"Must be at least 8 characters.",
+    "confirmPassword":"Confirm Password",
+    "bothPassSame":"Both password must be match.",
+    "resetPasswordButton":"Rest Password"
+}
