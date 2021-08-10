@@ -1,19 +1,20 @@
 // Aboutscreen.js
-import React, { Component } from 'react';
+import React from 'react';
 import { Button, View, Text} from 'react-native';
+import AppBaseComponent from '../components/common/AppBaseComponent';
 
-import {translate} from './common/Translation'
-
-export default class Aboutscreen extends Component {
-  render() {
-//JS code
-
+export default class Aboutscreen extends AppBaseComponent {
+  constructor(props) {
+    super(props)
+    this.translate = this.translate.bind(this);
+  }
+render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Button
-            title={translate('homeScreenName')}
+            title={this.translate('homeScreenName')}
             onPress={() => this.props.navigation.navigate('Home')}/>
-        <Text>{translate('aboutScreenName')}</Text>
+        <Text>{this.translate('aboutScreenName')}</Text>
       </View>
     )
   }

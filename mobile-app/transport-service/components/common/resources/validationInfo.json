@@ -1,0 +1,22 @@
+{
+    "SCR-CMN-06":{
+        "name":"Change Password",
+        "validations":[
+           {
+                "name" : "currentPassword",
+                "validate" : {"required": true},
+                "msgId" : "currentPasswordMandatory"
+           },
+           {
+                "name" : "newPassword",
+                "validate" : {"required": true},
+                "msgId" : "newPasswordMandatory"
+            },
+            {
+                 "name" : "confirmPassword",
+                 "validate" : {"required": true},
+                 "msgId" : "confirmPasswordMandatory"
+             }
+        ]
+    }
+}

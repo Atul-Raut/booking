@@ -6,8 +6,8 @@ import memoize from 'lodash.memoize'
 
 //TODO add languages json and code
 const translationGetters = {
-    en: () => require('../../src/lang/en.json'),
-    jp: () => require('../../src/lang/jp.json')
+    en: () => require('../common/resources/lang/en.json'),
+    jp: () => require('../common/resources/lang/jp.json')
 }
 
 const setI18nConfig = (key) => {
@@ -22,7 +22,7 @@ const translations = memoize(
     (key, config) => (config ? key + JSON.stringify(config) : key)
 )
 
-export const translate = (key) => {
+export const translateMsg = (key) => {
     //TODO will be remove
     setI18nConfig('en');
     return translations(key);

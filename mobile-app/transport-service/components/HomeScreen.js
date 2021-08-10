@@ -1,22 +1,24 @@
 // Homescreen.js
-import React, { Component } from 'react';
+import React from 'react';
 import { Button, View, Text } from 'react-native';
-import {translate} from './common/Translation'
+import AppBaseComponent from '../components/common/AppBaseComponent'
 
-export default class Homescreen extends Component {
+export default class Homescreen extends AppBaseComponent {
   constructor(props) {
     super(props)
+    this.translate = this.translate.bind(this);
   }
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>{translate('homeScreenName')}</Text>
+        <Text>{this.translate('homeScreenName')}</Text>
           <Button
-          title={translate('aboutButtonName')}
+          title={this.translate('aboutButtonName')}
           onPress={() => this.props.navigation.navigate('About')}/>
           <Button
-          title={translate('changePasswordButtonName')}
+          title={this.translate('changePasswordButtonName')}
           onPress={() => this.props.navigation.navigate('ChangePassword')}/>
+
       </View>
     )
   }
