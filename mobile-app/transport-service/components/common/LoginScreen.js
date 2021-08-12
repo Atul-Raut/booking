@@ -7,7 +7,7 @@ import {
   Platform,
   StyleSheet,
   ScrollView,
-  StatusBar
+  StatusBar,
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -19,7 +19,7 @@ const LoginScreen = ({ navigation }) => {
     password: "",
     check_textInputChange: false,
     secureTextEntry: true,
-    confirm_secureTextEntry: true
+    confirm_secureTextEntry: true,
   });
 
   const textInputChange = (val) => {
@@ -66,6 +66,10 @@ const LoginScreen = ({ navigation }) => {
     });
   };
 
+  const routeToHome = () => {
+    navigation.navigate("HomeScreen");
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
@@ -90,7 +94,7 @@ const LoginScreen = ({ navigation }) => {
             ) : null}
           </View>
 
-          <Text style={[ styles.text_footer, { marginTop: 10, }, ]} >Password</Text>
+          <Text style={[styles.text_footer, { marginTop: 10 }]}>Password</Text>
           <View style={styles.action}>
             <Feather name="lock" color="#05375a" size={20} />
             <TextInput
@@ -109,8 +113,8 @@ const LoginScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <View style={styles.button}>
-          <TouchableOpacity
-              onPress={() => navigation.goBack()}
+            <TouchableOpacity
+              onPress={() => routeToHome()}
               style={[
                 styles.signIn,
                 {
@@ -119,8 +123,9 @@ const LoginScreen = ({ navigation }) => {
                   backgroundColor: "#009387",
                   marginTop: 15,
                 },
-              ]}>
-              <Text style={[styles.textSign,{color: "white",},]}>Sign In</Text>
+              ]}
+            >
+              <Text style={[styles.textSign, { color: "white" }]}>Sign In</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -132,8 +137,9 @@ const LoginScreen = ({ navigation }) => {
                   backgroundColor: "green",
                 },
               ]}
-              onPress={() => {}}>
-              <Text style={[ styles.textSign, { color: "white", }, ]}>Sign Up</Text>
+              onPress={() => navigation.navigate("SignUpScreen")}
+            >
+              <Text style={[styles.textSign, { color: "white" }]}>Sign Up</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>

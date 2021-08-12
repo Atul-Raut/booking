@@ -1,17 +1,80 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import BaseNavigation from "./components/common/BaseNavigation";
 import { NavigationContainer } from "@react-navigation/native";
-//import {BaseDrawer} from "./components/common/Drawer"
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { DrawerContent } from "./components/common/DrawerContent";
+import HomeScreen from "./components/HomeScreen";
+import AboutScreen from "./components/AboutScreen";
+import ChangePassword from "./components/common/ChangePassword";
+import GetStarted from "./components/GetStarted";
+import LoginScreen from "./components/common/LoginScreen";
+import SignUpScreen from "./components/common/SignUpScreen";
+import Header from "./components/common/Header";
+
+const Drawer = createDrawerNavigator();
 
 export default function App() {
+  const [login, setlogin] = useState(true);
+
   return (
-      <NavigationContainer >
-        <BaseNavigation></BaseNavigation>
+    <View style={styles.container}>
+      <NavigationContainer>
+        <Drawer.Navigator
+          drawerContent={(props) => <DrawerContent {...props} />}
+        >
+          <Drawer.Screen
+            name="GetStarted"
+            component={GetStarted}
+            options={({ navigation }) => ({ headerShown: false })}
+          />
+          <Drawer.Screen
+            name="LoginScreen"
+            component={LoginScreen}
+            options={({ navigation }) => ({ headerShown: false })}
+          />
+          <Drawer.Screen
+            name="SignUpScreen"
+            component={SignUpScreen}
+            options={({ navigation }) => ({ headerShown: false })}
+          />
+          {/* <Drawer.Screen
+            name="AboutScreen"
+            component={AboutScreen}
+            options={({ navigation }) => ({ headerShown: false })}
+          /> */}
+          <Drawer.Screen
+            name="HomeScreen"
+            component={HomeScreen}
+            options={({ navigation }) => ({
+              header: (props) => <Header navigation={navigation} />,
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
+          />
+          <Drawer.Screen
+            name="AboutScreen"
+            component={AboutScreen}
+            options={({ navigation }) => ({
+              header: (props) => <Header navigation={navigation} />,
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
+          />
+          <Drawer.Screen
+            name="ChangePassword"
+            component={ChangePassword}
+            options={({ navigation }) => ({
+              header: (props) => <Header navigation={navigation} />,
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
+          />
+        </Drawer.Navigator>
       </NavigationContainer>
+    </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
