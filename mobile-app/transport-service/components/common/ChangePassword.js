@@ -10,8 +10,9 @@ export default class ChangePassword extends AppBaseComponent {
         this.onSubmit = this.onSubmit.bind(this);
         this.validate = this.validate.bind(this);
         this.translate = this.translate.bind(this);
+        this.screenID = "SCR-CMN-06";
+        this.OnSubmitServiceID = "WS-UP-07";
 
-        
         this.state = {
           currentPassword : "",
           newPassword : "",
@@ -21,26 +22,38 @@ export default class ChangePassword extends AppBaseComponent {
 
     async onSubmit(event) {
         event.preventDefault();
+        let otherVal = [
+            {
+              "name" : "confirmPassword",
+              "validate" : {"equalPassword": this.state.newPassword},
+              "msgId" : "passConfirmPasswordNotMatch"
+            },
+            {
+              "name" : "currentPassword",
+              "validate" : {"notEqualPassword": this.state.newPassword},
+              "msgId" : "currentPassNewPasswordMatch"
+            }
+        ];
 
-        this.validateFields("SCR-CMN-06")
-
-        let result = this.validate({
-          currentPassword: {required: true},
-          newPassword: {required: true},
-          confirmPassword : {equalPassword : this.state.newPassword}
-        });
-        
-        if(!result){
+        let validationResult = this.validateFields(this.screenID, otherVal);
+        if(!validationResult || !(validationResult.length == 0)){
+          alert(JSON.stringify(validationResult));
           return;
         }
 
         let param = {
-            'serviceId':'SCR-CMN-06',
+            'serviceId': this.OnSubmitServiceID,
             'body':this.state
         }
-        let response = await callApi(param);
-        alert(JSON.stringify(response));
 
+        let response = await callApi(param);
+        if(response && response.retCode == this.SUCCESS_RET_CODE){
+          alert(this.translate("passwordChangeSuccess"));
+          this.props.navigation.navigate('Home')
+        } else{
+          alert(this.translate("passwordChangeError"));
+          alert(JSON.stringify(response));
+        }
       }
   render() {
     return (
