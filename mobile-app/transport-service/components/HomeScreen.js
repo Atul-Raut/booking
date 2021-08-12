@@ -11,7 +11,7 @@ export default class Homescreen extends AppBaseComponent {
   render() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>{this.translate("homeScreenName")}</Text>
+        {/*<Text>{this.translate("homeScreenName")}</Text>
         <Button
           title={this.translate("aboutButtonName")}
           onPress={() => this.props.navigation.navigate("AboutScreen")}
@@ -19,7 +19,7 @@ export default class Homescreen extends AppBaseComponent {
         <Button
           title={this.translate("changePasswordButtonName")}
           onPress={() => this.props.navigation.navigate("ChangePassword")}
-        />
+    />*/}
       </View>
     );
   }

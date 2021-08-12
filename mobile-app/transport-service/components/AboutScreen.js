@@ -11,11 +11,7 @@ export default class Aboutscreen extends AppBaseComponent {
   render() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Button
-          title={this.translate("homeScreenName")}
-          onPress={() => this.props.navigation.navigate("HomeScreen")}
-        />
-        <Text>{this.translate("aboutScreenName")}</Text>
+
       </View>
     );
   }

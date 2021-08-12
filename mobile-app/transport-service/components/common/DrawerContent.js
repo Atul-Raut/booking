@@ -14,12 +14,17 @@ import {
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import {translateMsg} from '../common/Translation'
 
 //import { AuthContext } from "../components/context";
 
 export function DrawerContent(props) {
   const paperTheme = useTheme();
 
+  function signOut() {
+    //TODO call signout Api
+    props.navigation.navigate("LoginScreen");
+  }
   //   const { signOut, toggleTheme } = React.useContext(AuthContext);
 
   return (
@@ -79,12 +84,12 @@ export function DrawerContent(props) {
               icon={({ color, size }) => (
                 <Icon name="bookmark-outline" color={color} size={size} />
               )}
-              label="Bookmarks"
+              label={translateMsg("changePasswordScreenName")}
               onPress={() => {
                 props.navigation.navigate("ChangePassword");
               }}
             />
-            {/* <DrawerItem
+             <DrawerItem
               icon={({ color, size }) => (
                 <Icon name="settings-outline" color={color} size={size} />
               )}
@@ -92,16 +97,7 @@ export function DrawerContent(props) {
               onPress={() => {
                 props.navigation.navigate("SettingsScreen");
               }}
-            /> */}
-            {/* <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="account-check-outline" color={color} size={size} />
-              )}
-              label="Support"
-              onPress={() => {
-                props.navigation.navigate("SupportScreen");
-              }}
-            /> */}
+            /> 
           </Drawer.Section>
           <Drawer.Section title="Preferences">
             <TouchableRipple
@@ -119,7 +115,16 @@ export function DrawerContent(props) {
           </Drawer.Section>
         </View>
       </DrawerContentScrollView>
-      <Drawer.Section style={styles.bottomDrawerSection}>
+      <DrawerItem
+              icon={({ color, size }) => (
+                <Icon name="bookmark-outline" color={color} size={size} />
+              )}
+              label={translateMsg("aboutButtonName")}
+              onPress={() => {
+                props.navigation.navigate("AboutScreen");
+              }}
+            />
+          <Drawer.Section style={styles.bottomDrawerSection}>
         <DrawerItem
           icon={({ color, size }) => (
             <Icon name="exit-to-app" color={color} size={size} />

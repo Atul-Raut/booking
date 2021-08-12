@@ -11,6 +11,7 @@ import GetStarted from "./components/GetStarted";
 import LoginScreen from "./components/common/LoginScreen";
 import SignUpScreen from "./components/common/SignUpScreen";
 import Header from "./components/common/Header";
+import {translateMsg} from './components/common/Translation'
 
 const Drawer = createDrawerNavigator();
 
@@ -47,7 +48,8 @@ export default function App() {
             name="HomeScreen"
             component={HomeScreen}
             options={({ navigation }) => ({
-              header: (props) => <Header navigation={navigation} />,
+              header: (props) => <Header navigation={navigation} 
+              name={translateMsg('homeScreenName')}/>,
               headerLeft: null,
               headerTitleStyle: { alignSelf: "center" },
             })}
@@ -56,7 +58,8 @@ export default function App() {
             name="AboutScreen"
             component={AboutScreen}
             options={({ navigation }) => ({
-              header: (props) => <Header navigation={navigation} />,
+              header: (props) => <Header navigation={navigation} 
+              name={translateMsg('aboutScreenName')}/>,
               headerLeft: null,
               headerTitleStyle: { alignSelf: "center" },
             })}
@@ -65,7 +68,8 @@ export default function App() {
             name="ChangePassword"
             component={ChangePassword}
             options={({ navigation }) => ({
-              header: (props) => <Header navigation={navigation} />,
+              header: (props) => <Header navigation={navigation} 
+              name={translateMsg('changePasswordScreenName')} />,
               headerLeft: null,
               headerTitleStyle: { alignSelf: "center" },
             })}

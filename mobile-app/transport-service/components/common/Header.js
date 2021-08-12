@@ -3,7 +3,8 @@ import { StyleSheet, View, Text } from "react-native";
 import { translateMsg } from "../common/Translation";
 import { MaterialIcons } from "@expo/vector-icons";
 
-export default function Header({ navigation }) {
+export default function Header({ navigation, name }) {
+
   const openMenu = () => {
     navigation.openDrawer();
   };
@@ -16,7 +17,7 @@ export default function Header({ navigation }) {
         style={styles.icon}
       />
       <View>
-        <Text style={styles.headerText}>Header</Text>
+        <Text style={styles.headerText}>{name}</Text>
       </View>
       {/* <MaterialIcons
         name="settings"
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#FFF",
+    backgroundColor: "#009387",
   },
   headerText: {
     fontWeight: "bold",

@@ -2,6 +2,7 @@
     "homeScreenName":"Home Screen",
     "aboutScreenName":"About Screen",
     "aboutButtonName":"About",
+    "changePasswordScreenName":"Change Password",
     "changePasswordButtonName":"Change Password",
     "loginButtonName":"Login",
     "currentPassword":"Current Password",
