@@ -54,7 +54,7 @@ export default class GetStarted extends Component {
           <Text style={styles.text}>Sign in with account</Text>
           <View style={styles.button}>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("HomeScreen")}
+              onPress={() => this.props.navigation.navigate("SignUpScreen")}
             >
               <Text style={styles.textSign}>Get Started</Text>
               {/* <MaterialIcons name="navigate-next" color="#fff" size={20} /> */}
