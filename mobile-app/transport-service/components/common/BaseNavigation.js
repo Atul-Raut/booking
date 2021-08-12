@@ -6,7 +6,8 @@ import GetStarted from "../GetStarted";
 import HomeScreen from "../HomeScreen";
 import AboutScreen from "../AboutScreen";
 import ChangePassword from "../common/ChangePassword";
-import SignUpScreen from "../SignUpScreen";
+import SignUpScreen from "../common/SignUpScreen";
+import LoginScreen from "../common/LoginScreen"
 import Header from "../common/Header"
 
 
@@ -14,10 +15,10 @@ const RootStack = createStackNavigator();
 
 const BaseNavigation = function StackScreen() {
   return (
-    <RootStack.Navigator screenOptions={{headerTitleAlign: 'center', headerTitleStyle:{width:300, textAlign:"center"}}} navi>
+    <RootStack.Navigator screenOptions={{headerTitleAlign: 'center', headerTitleStyle:{textAlign:"center"}}}>
      <RootStack.Screen  name="GetStarted" component={GetStarted}
       options={({ navigation }) => ({ headerShown:false})}/> 
-  
+      <RootStack.Screen name="LoginScreen" component={LoginScreen} />
       <RootStack.Screen name="SignUpScreen" component={SignUpScreen} />
       <RootStack.Screen  name="HomeScreen" component={HomeScreen} 
         options={({ navigation }) => ({
