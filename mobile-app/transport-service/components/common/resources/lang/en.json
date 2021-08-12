@@ -9,5 +9,13 @@
     "password8CharMsg":"Must be at least 8 characters.",
     "confirmPassword":"Confirm Password",
     "bothPassSame":"Both password must be match.",
-    "resetPasswordButton":"Rest Password"
+    "resetPasswordButton":"Rest Password",
+    "currentPasswordMandatory":"Please enter your current password.",
+    "newPasswordMandatory":"Please enter your new password.",
+    "confirmPasswordMandatory":"Please enter your confirm password.",
+    "passConfirmPasswordNotMatch":"New Password and Confirm password must be match.",
+    "passwordChangeSuccess":"Password changed successfully.",
+    "passwordChangeError":"Password change failed.",
+    "currentPassNewPasswordMatch":"New password must be different than current password."
+
 }

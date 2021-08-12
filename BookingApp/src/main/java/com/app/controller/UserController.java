@@ -228,7 +228,7 @@ public class UserController extends UserControllerBase {
 			
 			RequestInfo requestInfoTemp =  new RequestInfo();
 			requestInfoTemp.putAll(requestInfo);
-			requestInfoTemp.put("password", requestInfoTemp.get("passwordOld"));
+			requestInfoTemp.put("password", requestInfoTemp.get("currentPassword"));
 			if(!(requestInfo.containsKey("otpValidated") 
 					&& "true".equals( Objects.toString(requestInfo.get("otpValidated"),"false").toLowerCase()))){
 				//Check password
@@ -238,7 +238,7 @@ public class UserController extends UserControllerBase {
 
 			try {
 				//Check with old password
-				requestInfoTemp.put("password", requestInfoTemp.get("passwordNew"));
+				requestInfoTemp.put("password", requestInfoTemp.get("newPassword"));
 				requestInfoTemp.setQueryId("app.user.password.count");
 				Map<String, Object> oldPassCount = service.getDataObject(requestInfoTemp);
 				if(null != oldPassCount || !oldPassCount.isEmpty()) {
@@ -257,7 +257,7 @@ public class UserController extends UserControllerBase {
 			
 			//save password into history
 			requestInfo.setQueryId("app.user.password.hist.save");
-			requestInfo.put("password", requestInfo.get("passwordNew"));
+			requestInfo.put("password", requestInfo.get("newPassword"));
 			service.executeUpdate(requestInfo);
 			result = createSuccessResponse(requestInfo,null);
 		}catch(DataNotFoundException e) {

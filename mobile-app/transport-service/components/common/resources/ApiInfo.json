@@ -4,7 +4,7 @@
     
     "baseUrl":"http://127.0.0.1:8080/",
     "apiInfo":{
-        "SCR-CMN-06":{
+        "WS-UP-07":{
             "name":"Change Password",
             "type":"PUT",
             "path":"user/passwordupdate"

@@ -143,7 +143,7 @@
   <sql-query name="app.user.password.update">
     <![CDATA[
       UPDATE "M_USER" SET
-      		"PASSWORD" = :passwordNew,
+      		"PASSWORD" = :newPassword,
       		"UPD_DT" = CURRENT_TIMESTAMP,
         	"UPD_BY" = :serviceCode
       WHERE
@@ -161,7 +161,7 @@
 	      WHERE
 	      	"USER_ID" = :userId
 	      	AND "AC_TYP" = :acType
-	      	AND "PASSWORD" = :passwordNew
+	      	AND "PASSWORD" = :newPassword
 	      	
       ]]>
   </sql-query>
