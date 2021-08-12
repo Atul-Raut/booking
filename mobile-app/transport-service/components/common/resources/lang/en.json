@@ -16,6 +16,13 @@
     "passConfirmPasswordNotMatch":"New Password and Confirm password must be match.",
     "passwordChangeSuccess":"Password changed successfully.",
     "passwordChangeError":"Password change failed.",
-    "currentPassNewPasswordMatch":"New password must be different than current password."
+    "currentPassNewPasswordMatch":"New password must be different than current password.",
+    "signInHeader":"Login",
+    "email":"Email",
+    "password":"Password",
+    "logIn":"Login",
+    "signUp":"Sign Up",
+    "createAccount":"Create an account",
+    "forgotPassword":"Forgot Password?"
 
 }

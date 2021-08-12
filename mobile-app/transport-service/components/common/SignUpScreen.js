@@ -16,6 +16,7 @@ import * as Animatable from "react-native-animatable";
 // import LinearGradient from "react-native-linear-gradient";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
+import {translateMsg} from '../common/Translation'
 
 const SignInScreen = ({ navigation }) => {
   const [data, setData] = React.useState({
@@ -236,7 +237,7 @@ const SignInScreen = ({ navigation }) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => navigation.goBack()}
+              onPress={() => navigation.navigate("LoginScreen")}
               style={[
                 styles.signIn,
                 {
@@ -255,7 +256,7 @@ const SignInScreen = ({ navigation }) => {
                   },
                 ]}
               >
-                Sign In
+                {translateMsg('signInHeader')}
               </Text>
             </TouchableOpacity>
           </View>
