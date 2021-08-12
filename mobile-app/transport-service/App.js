@@ -3,16 +3,15 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import BaseNavigation from "./components/common/BaseNavigation";
 import { NavigationContainer } from "@react-navigation/native";
+//import {BaseDrawer} from "./components/common/Drawer"
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <NavigationContainer>
+      <NavigationContainer >
         <BaseNavigation></BaseNavigation>
       </NavigationContainer>
-    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
