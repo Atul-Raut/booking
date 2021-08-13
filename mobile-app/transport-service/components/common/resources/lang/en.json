@@ -16,14 +16,23 @@
     "confirmPasswordMandatory":"Please enter your confirm password.",
     "passConfirmPasswordNotMatch":"New Password and Confirm password must be match.",
     "passwordChangeSuccess":"Password changed successfully.",
-    "passwordChangeError":"Password change failed.",
+    "passwordChangeError":"Invalid current password.",
     "currentPassNewPasswordMatch":"New password must be different than current password.",
+    "resetPasswordTitle":"Change Password",
     "signInHeader":"Login",
     "email":"Email",
     "password":"Password",
     "logIn":"Login",
     "signUp":"Sign Up",
     "createAccount":"Create an account",
-    "forgotPassword":"Forgot Password?"
+    "forgotPassword":"Forgot Password?",
+    "userNameMandatory":"Please enter your email Id.",
+    "passwordMandatory":"Please enter your password.",
+    "loginFailed":"Login Failed.",
+    "loginFailedMsg":"Please enter valid Email ID or Password.",
+    "unExpectedError":"Unexpected error occured.",
+    "error":"Error",
+    "operationFailed":"Operaton Failed"
+
 
 }

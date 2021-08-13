@@ -55,7 +55,7 @@ export default class AppBaseComponent extends ValidationComponent {
         let msg = translateMsg(valConfig.msgId);
         errors.push({[valConfig.name]:msg});
       }
-      else if(!res){
+      else if(!falseCheck && !res){
         let msg = translateMsg(valConfig.msgId);
         errors.push({[valConfig.name]:msg});
       }

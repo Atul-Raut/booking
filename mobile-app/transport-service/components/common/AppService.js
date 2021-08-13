@@ -5,11 +5,16 @@ import apiInformaton from "../common/resources/ApiInfo.json";
 export const callApi = (param) => {
   let serviceId = param.serviceId;
   let apiInfo = apiInformaton.apiInfo[serviceId];
+  if(!apiInfo){
+    return { retCode: "UNEXPECTED", msg:"Service configuration not found for [" + serviceId + "] service ID."};
+  }
   let body = param.body;
   //TODO
   //  body.macAddress = DeviceInfo.getUniqueId();
   //TODO get from sessing
-  body.userId = apiInformaton.userId;
+  if(!body.userId){
+    body.userId = apiInformaton.userId;
+  }
   body.acType = apiInformaton.acType;
 
   async function sendRequest(type, body, url) {
@@ -28,14 +33,12 @@ export const callApi = (param) => {
         if (!response.ok) {
           // get error message from body or default to response status
           const error = (data && data.message) || response.status;
-          return { retCode: "UNEXPECTED" };
+          return { retCode: "UNEXPECTED" , msg: error};
         }
         return data;
       })
       .catch((error) => {
-        alert("There was an error!" + error);
-        console.log(error);
-        return { retCode: "UNEXPECTED" };
+        return { retCode: "UNEXPECTED", msg: error };
       });
     return response;
   }

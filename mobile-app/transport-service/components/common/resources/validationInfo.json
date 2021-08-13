@@ -1,4 +1,19 @@
 {
+    "SCR-CMN-01":{
+        "name":"Login Screen",
+        "validations":[
+            {
+                 "name" : "userId",
+                 "validate" : {"required": true},
+                 "msgId" : "userNameMandatory"
+            },
+            {
+                 "name" : "password",
+                 "validate" : {"required": true},
+                 "msgId" : "passwordMandatory"
+             }
+         ]
+    },
     "SCR-CMN-06":{
         "name":"Change Password",
         "validations":[
