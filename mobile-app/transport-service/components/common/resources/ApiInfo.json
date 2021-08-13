@@ -1,7 +1,4 @@
 {
-    "userId":"atul.raut2",
-    "acType":1,
-    
     "baseUrl":"http://127.0.0.1:8080/",
     "apiInfo":{
         "WS-UP-04":{

@@ -8,7 +8,7 @@ import AppBaseComponent from "../common/AppBaseComponent";
 import { callApi, sendRequest } from "./AppService";
 import AwesomeAlert from 'react-native-awesome-alerts';
 
-export default class ChangePassword extends AppBaseComponent {
+export default class LoginScreen extends AppBaseComponent {
   constructor(props){
       super(props);
       this.onSubmit = this.onSubmit.bind(this);
@@ -46,9 +46,7 @@ async onSubmit(event) {
         this.state[key1]=value;
       }
     }
-    //TODO remove
-    this.props.navigation.navigate('HomeScreen')
-    //return;
+    return;
   }
 
   let param = {
@@ -58,6 +56,18 @@ async onSubmit(event) {
 
   let response = await callApi(param);
   if(response && response.retCode == this.SUCCESS_RET_CODE){
+    localStorage.setItem("userInfo", JSON.stringify(response.result));
+    this.setState({
+      userId: "",
+      password: "",
+      check_textInputChange: false,
+      secureTextEntry: true,
+      showAlert: false,
+      errorMsg:"",
+      title:"",
+      userIdVal:"",
+      passwordVal:"",
+    });
     this.props.navigation.navigate('HomeScreen')
   }  
   else if(response && response.retCode == "WS-E-CM-0002"){

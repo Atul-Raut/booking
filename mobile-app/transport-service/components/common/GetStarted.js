@@ -9,11 +9,7 @@ import {
   StatusBar,
   Image,
 } from "react-native";
-import { translate } from "./common/Translation";
 import * as Animatable from "react-native-animatable";
-
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-//import { useTheme } from "@react-navigation/native";
 
 export default class GetStarted extends Component {
   constructor(props) {
@@ -27,10 +23,10 @@ export default class GetStarted extends Component {
           <Animatable.Image
             animation="bounceIn"
             duraton="1500"
-            source={require("../assets/Hertz-icon-2.png")}
+            source={require("../../assets/Hertz-icon-2.png")}
             style={styles.logo}
             resizeMode="stretch"
-          />
+          /> 
         </View>
         <Animatable.View
           style={[

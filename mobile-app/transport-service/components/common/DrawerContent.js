@@ -15,18 +15,19 @@ import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {translateMsg} from '../common/Translation'
+import {getUserInfo, getServiceID} from "./AppBaseComponent"
+import { TransportDrawerContent } from "../transport-service/TransportDrawerContent";
 
-//import { AuthContext } from "../components/context";
 
 export function DrawerContent(props) {
   const paperTheme = useTheme();
 
+  const userInfo =  getUserInfo();
+  
   function signOut() {
     //TODO call signout Api
     props.navigation.navigate("LoginScreen");
   }
-  //   const { signOut, toggleTheme } = React.useContext(AuthContext);
-
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
@@ -34,33 +35,16 @@ export function DrawerContent(props) {
           <View style={styles.userInfoSection}>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
               <Avatar.Image
-                source={{
-                  uri: "https://api.adorable.io/avatars/50/abott@adorable.png",
-                }}
+                
+                source={require("../../assets/Hertz-icon-2.png")}
                 size={50}
-              />
+              ></Avatar.Image>
               <View style={{ marginLeft: 15, flexDirection: "column" }}>
-                <Title style={styles.title}>Ravi Aglave</Title>
-                <Caption style={styles.caption}>@Ravi</Caption>
-              </View>
-            </View>
-
-            <View style={styles.row}>
-              <View style={styles.section}>
-                <Paragraph style={[styles.paragraph, styles.caption]}>
-                  80
-                </Paragraph>
-                <Caption style={styles.caption}>Following</Caption>
-              </View>
-              <View style={styles.section}>
-                <Paragraph style={[styles.paragraph, styles.caption]}>
-                  100
-                </Paragraph>
-                <Caption style={styles.caption}>Followers</Caption>
+                <Title style={styles.title}>{userInfo.firstName + ' ' + userInfo.lastName}</Title>
+                <Caption style={styles.caption}>Service Provider</Caption>
               </View>
             </View>
           </View>
-
           <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
               icon={({ color, size }) => (
@@ -77,41 +61,32 @@ export function DrawerContent(props) {
               )}
               label="Profile"
               onPress={() => {
-                props.navigation.navigate("AboutScreen");
+                props.navigation.navigate("ProfileScreen");
               }}
             />
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="bookmark-outline" color={color} size={size} />
-              )}
-              label={translateMsg("changePasswordScreenName")}
-              onPress={() => {
-                props.navigation.navigate("ChangePassword");
-              }}
-            />
-             <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="settings-outline" color={color} size={size} />
-              )}
-              label="Settings"
-              onPress={() => {
-                props.navigation.navigate("SettingsScreen");
-              }}
-            /> 
           </Drawer.Section>
-          <Drawer.Section title="Preferences">
-            <TouchableRipple
-              onPress={() => {
-                toggleTheme();
-              }}
-            >
-              <View style={styles.preference}>
-                <Text>Dark Theme</Text>
-                <View pointerEvents="none">
-                  <Switch value={paperTheme.dark} />
-                </View>
-              </View>
-            </TouchableRipple>
+          <View>
+                <TransportDrawerContent props = {props}></TransportDrawerContent>
+          </View>
+          <Drawer.Section title="Settings">
+            <DrawerItem
+                  icon={({ color, size }) => (
+                    <Icon name="cog" color={color} size={size} />
+                  )}
+                  label="Settings"
+                  onPress={() => {
+                    props.navigation.navigate("SettingsScreen");
+                  }}
+                /> 
+            <DrawerItem
+                icon={({ color, size }) => (
+                  <Icon name="key" color={color} size={size} />
+                )}
+                label={translateMsg("changePasswordScreenName")}
+                onPress={() => {
+                  props.navigation.navigate("ChangePassword");
+                }}
+              />
           </Drawer.Section>
         </View>
       </DrawerContentScrollView>
@@ -178,6 +153,12 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
   },
   preference: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+  },
+  settings: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingVertical: 12,

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import apiInformaton from "../common/resources/ApiInfo.json";
+import {getUserId,getAcountType,getUserInfo} from "./AppBaseComponent";
 //import DeviceInfo from 'react-native-device-info';
 
 export const callApi = (param) => {
@@ -13,9 +14,11 @@ export const callApi = (param) => {
   //  body.macAddress = DeviceInfo.getUniqueId();
   //TODO get from sessing
   if(!body.userId){
-    body.userId = apiInformaton.userId;
+    body.userId = getUserId();
   }
-  body.acType = apiInformaton.acType;
+  if(!body.acType){
+    body.acType = getAcountType();
+  }
 
   async function sendRequest(type, body, url) {
     const requestOptions = {

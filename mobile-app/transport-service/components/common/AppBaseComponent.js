@@ -5,11 +5,11 @@ import {translateMsg} from '../common/Translation'
 import ValidationComponent from 'react-native-form-validator';
 import validationInfo from '../common/resources/validationInfo.json'
 
-
 export default class AppBaseComponent extends ValidationComponent {
   constructor(props) {
     super(props)
     this.validate = this.validate.bind(this);
+    this.data = {}
   }
 
   SUCCESS_RET_CODE = "WS-S-CM-0000";
@@ -62,4 +62,43 @@ export default class AppBaseComponent extends ValidationComponent {
     }
     return errors;
   }
+
+  storeData = (key, value) => {
+       this.data[key] = value;
+  }
+}
+
+/**
+ * retrive data from loacl storage
+ * @param {key} key 
+ * @returns value
+ */
+export const retrieveData = (key) => {
+  return localStorage.getItem(key)
+}
+/**
+ * Get user info from loacl storage
+ * @returns userInfo
+ */
+export const getUserInfo = () => {
+  return JSON.parse(localStorage.getItem("userInfo"))
+}
+/**
+ * Get Account Type
+ * @returns account type
+ */ 
+export const getAcountType = () => {
+  return getUserInfo().acType;
+}
+
+/**
+ * Get User ID
+ * @returns user id
+ */ 
+ export const getUserId = () => {
+  return getUserInfo().userId;
+}
+
+export const getServiceID = () => {
+  return getAcountType();
 }
