@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     marginTop:30,
   },
   serviceNameText2: {
-    fontSize: "10px",
+    fontSize: 10,
     color: "#333",
     letterSpacing: 1,
     letterSpacing:0,
