@@ -17,7 +17,7 @@ import com.app.dto.ResponseDTO;
 @RestController
 @RequestMapping("application")
 public class ApplicationController extends ControllerBase {
-
+// Service path
 	public static final List<String> PATH_SERVICE_PATHS = new ArrayList<String>(){
 		private static final long serialVersionUID = 1L;
 
