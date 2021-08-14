@@ -27,6 +27,8 @@ const SignInScreen = ({ navigation }) => {
     secureTextEntry: true,
     confirm_secureTextEntry: true,
     selectedValue: "",
+    mobileNo: "",
+    email: "",
   });
 
   const textInputChange = (val) => {
@@ -72,7 +74,28 @@ const SignInScreen = ({ navigation }) => {
       confirm_secureTextEntry: !data.confirm_secureTextEntry,
     });
   };
+  const setUserRole = (val) => {
+    setData({
+      ...data,
+      selectedValue: val
+    });
+  };
+  const setEmail = (val) => {
+    setData({
+      ...data,
+      email: val
+    });
+  };
+  const setMobileNo = (val) => {
+    setData({
+      ...data,
+      mobileNo: val
+    });
+  };
 
+  const registrationSubmission = (data) => {
+       console.log(data)
+  };
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
@@ -87,8 +110,7 @@ const SignInScreen = ({ navigation }) => {
             <Picker
               // selectedValue={data.setSelectedValue}
               style={styles.pickerInput}
-              onValueChange={(itemValue, itemIndex) =>
-                setSelectedValue(itemValue)
+              onValueChange={(itemValue, itemIndex) => setUserRole(itemValue)
               }
             >
               <Picker.Item fontSize="5" value="Customer" label="Customer" />
@@ -128,7 +150,7 @@ const SignInScreen = ({ navigation }) => {
               placeholder="Email"
               style={styles.textInput}
               autoCapitalize="none"
-              onChangeText={(val) => textInputChange(val)}
+              onChangeText={(val) => setEmail(val)}
             />
             {data.check_textInputChange ? (
               <Animatable.View animation="bounceIn">
@@ -136,7 +158,21 @@ const SignInScreen = ({ navigation }) => {
               </Animatable.View>
             ) : null}
           </View>
-
+          <Text style={styles.text_footer}>Mobile No</Text>
+          <View style={styles.action}>
+            <FontAwesome name="user-o" color="#05375a" size={20} />
+            <TextInput
+              placeholder="Mobile No"
+              style={styles.textInput}
+              autoCapitalize="none"
+              onChangeText={(val) => setMobileNo(val)}
+            />
+            {data.check_textInputChange ? (
+              <Animatable.View animation="bounceIn">
+                <Feather name="check-circle" color="green" size={20} />
+              </Animatable.View>
+            ) : null}
+          </View>
           <Text
             style={[
               styles.text_footer,
@@ -217,7 +253,8 @@ const SignInScreen = ({ navigation }) => {
                   backgroundColor: "green",
                 },
               ]}
-              onPress={() => {}}
+              onPress={() => registrationSubmission(data)}
+              // onPress={registrationSubmission(data)}
             >
               {/* <LinearGradient
                 colors={["#08d4c4", "#01ab9d"]}
