@@ -14,8 +14,8 @@ import {
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { translateMsg } from "../common/Translation";
-import { getUserInfo, getServiceID } from "./AppBaseComponent";
+import {translateMsg} from '../common/Translation'
+import {getUserInfo, getServiceID, getAcountTypeName, clearLocalStorage} from "./AppBaseComponent"
 import { TransportDrawerContent } from "../transport-service/TransportDrawerContent";
 
 export function DrawerContent(props) {
@@ -25,6 +25,7 @@ export function DrawerContent(props) {
 
   function signOut() {
     //TODO call signout Api
+    clearLocalStorage();
     props.navigation.navigate("LoginScreen");
   }
   return (
@@ -43,7 +44,7 @@ export function DrawerContent(props) {
                     {userInfo.firstName + " " + userInfo.lastName}
                   </Title>
                 ) : null}
-                <Caption style={styles.caption}>Service Provider</Caption>
+                <Caption style={styles.caption}>{getAcountTypeName()}</Caption>
               </View>
             </View>
           </View>

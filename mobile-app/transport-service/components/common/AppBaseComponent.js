@@ -62,10 +62,6 @@ export default class AppBaseComponent extends ValidationComponent {
     }
     return errors;
   }
-
-  storeData = (key, value) => {
-       this.data[key] = value;
-  }
 }
 
 /**
@@ -81,7 +77,13 @@ export const retrieveData = (key) => {
  * @returns userInfo
  */
 export const getUserInfo = () => {
-  return JSON.parse(localStorage.getItem("userInfo"))
+  let userInfo = localStorage.getItem("userInfo");
+  if(userInfo){
+    return JSON.parse(localStorage.getItem("userInfo"))
+  }else{
+    return {};
+  }
+  
 }
 /**
  * Get Account Type
@@ -89,6 +91,20 @@ export const getUserInfo = () => {
  */ 
 export const getAcountType = () => {
   return getUserInfo().acType;
+}
+
+/**
+ * Get Account Type
+ * @returns account type
+ */ 
+ export const getAcountTypeName = () => {
+   if(getAcountType() == 1){
+      return "Customer";
+   }
+   else if(getAcountType() == 2){
+     return "Service Provider";
+  }
+  return "";
 }
 
 /**
@@ -101,4 +117,19 @@ export const getAcountType = () => {
 
 export const getServiceID = () => {
   return getAcountType();
+}
+
+export const setSelectedService=(serviceId, serviceName)=>{
+  localStorage.setItem("serviceId", serviceId);
+  localStorage.setItem("serviceName", serviceName);
+}
+
+export const getSelectedServiceName=()=>{
+  return localStorage.getItem("serviceName");
+}
+
+export const clearLocalStorage=()=>{
+  localStorage.removeItem("userInfo");
+  localStorage.removeItem("serviceName");
+  localStorage.removeItem("serviceId");
 }

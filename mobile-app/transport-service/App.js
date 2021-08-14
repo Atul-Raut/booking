@@ -7,14 +7,16 @@ import { DrawerContent } from "./components/common/DrawerContent";
 import HomeScreen from "./components/common/HomeScreen";
 import AboutScreen from "./components/common/AboutScreen";
 import ChangePassword from "./components/common/ChangePassword";
-import GetStarted from "./components/Common/GetStarted";
+import GetStarted from "./components/common/GetStarted";
 import LoginScreen from "./components/common/LoginScreen";
 import SignUpScreen from "./components/common/SignUpScreen";
 import Header from "./components/common/Header";
 import {translateMsg} from './components/common/Translation'
-import ProfileScreen from './components/Common/ProfileScreen'
+import ProfileScreen from './components/common/ProfileScreen'
 import Settings from "./components/common/Settings";
 import MyVehicleScreen from "./components/transport-service/MyVehicleScreen";
+import TransportCustomerDashbord from './components/transport-service/TransportCustomerDashboard'
+import TransportServiceProviderDashbord from './components/transport-service/TransportServiceProviderDashboard'
 
 const Drawer = createDrawerNavigator();
 
@@ -101,6 +103,27 @@ export default function App() {
                 headerTitleStyle: { alignSelf: "center" },
               })}
           />
+          <Drawer.Screen
+              name="TransportCustomerDashbord"
+              component={TransportCustomerDashbord}
+              options={({ navigation }) => ({
+                header: (props) => <Header navigation={navigation} 
+                name={translateMsg('Dashboard')} />,
+                headerLeft: null,
+                headerTitleStyle: { alignSelf: "center" },
+              })}
+          />
+          <Drawer.Screen
+              name="TransportServiceProviderDashbord"
+              component={TransportServiceProviderDashbord}
+              options={({ navigation }) => ({
+                header: (props) => <Header navigation={navigation} 
+                name={translateMsg('Dashboard')} />,
+                headerLeft: null,
+                headerTitleStyle: { alignSelf: "center" },
+              })}
+          />
+
         </Drawer.Navigator>
       </NavigationContainer>
     </View>

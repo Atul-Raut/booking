@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { translateMsg } from "../common/Translation";
 import { MaterialIcons } from "@expo/vector-icons";
+import { getSelectedServiceName } from "./AppBaseComponent";
 
 export default function Header({ navigation, name }) {
 
@@ -25,6 +26,9 @@ export default function Header({ navigation, name }) {
         onPress={openSettings}
         style={styles.settingsIcon}
       /> */}
+       <View style={styles.serviceNameText}>
+        <Text style={styles.serviceNameText2}>{getSelectedServiceName()}</Text>
+      </View>
     </View>
   );
 }
@@ -45,6 +49,20 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     textAlign: "center",
     width: "100%",
+  },
+  serviceNameText: {
+    right: 5,
+    position: "absolute",
+    justifyContent: "flex-end",
+    flexDirection: "row",
+    textAlign: "right",
+    marginTop:30,
+  },
+  serviceNameText2: {
+    fontSize: "10px",
+    color: "#333",
+    letterSpacing: 1,
+    letterSpacing:0,
   },
   icon: {
     position: "absolute",

@@ -4,7 +4,7 @@ import * as Animatable from "react-native-animatable";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 import {translateMsg} from '../common/Translation'
-import AppBaseComponent from "../common/AppBaseComponent";
+import AppBaseComponent,{clearLocalStorage} from "../common/AppBaseComponent";
 import { callApi, sendRequest } from "./AppService";
 import AwesomeAlert from 'react-native-awesome-alerts';
 
@@ -14,6 +14,7 @@ export default class LoginScreen extends AppBaseComponent {
       this.onSubmit = this.onSubmit.bind(this);
       this.validate = this.validate.bind(this);
       this.translate = this.translate.bind(this);
+      this.setUserInfoAndNavigateToHomePage = this.setUserInfoAndNavigateToHomePage.bind(this);
       this.screenID = "SCR-CMN-01";
       this.OnSubmitServiceID = "WS-UP-04";
       this.state = {
@@ -26,12 +27,19 @@ export default class LoginScreen extends AppBaseComponent {
           title:"",
           userIdVal:"",
           passwordVal:"",
+          showMultipleAccount:false,
+          type1Flag:false,
+          type1:"",
+          type2Flag:false,
+          type2:"",
       };
+      this.respo=[];
 }
 async onSubmit(event) {
   event.preventDefault();
   this.state.userIdVal = "";
   this.state.passwordVal = "";
+  clearLocalStorage();
 
   let validationResult = this.validateFields(this.screenID, null);
   if(!validationResult || !(validationResult.length == 0)){
@@ -56,19 +64,20 @@ async onSubmit(event) {
 
   let response = await callApi(param);
   if(response && response.retCode == this.SUCCESS_RET_CODE){
-    localStorage.setItem("userInfo", JSON.stringify(response.result));
-    this.setState({
-      userId: "",
-      password: "",
-      check_textInputChange: false,
-      secureTextEntry: true,
-      showAlert: false,
-      errorMsg:"",
-      title:"",
-      userIdVal:"",
-      passwordVal:"",
-    });
-    this.props.navigation.navigate('HomeScreen')
+
+      if(response.result.length == 1){
+        this.setUserInfoAndNavigateToHomePage(response.result[0]);
+      }else{
+        
+        this.setState({
+          showMultipleAccount: true,
+          type1Flag:true,
+          type1:"Customer",
+          type2Flag:true,
+          type2:"Service Provider",
+        });
+        this.respo=response.result;
+      }
   }  
   else if(response && response.retCode == "WS-E-CM-0002"){
     this.state.title = this.translate("loginFailed")
@@ -82,6 +91,10 @@ async onSubmit(event) {
   }
 }
 
+setUserInfoAndNavigateToHomePage =(userInfo) =>{
+  localStorage.setItem("userInfo", JSON.stringify(userInfo));
+  this.props.navigation.navigate('HomeScreen')
+}
 showAlert = () => {
   this.setState({
     showAlert: true
@@ -94,8 +107,16 @@ hideAlert = () => {
   });
 };
 
+handleLoginType = (type) => {
+  this.setState({
+    showMultipleAccount: false
+  });
+  this.setUserInfoAndNavigateToHomePage(this.respo[type-1]);
+};
+
 render() {
-  const {check_textInputChange, secureTextEntry,showAlert, errorMsg, title, userIdVal, passwordVal} = this.state;
+  const {check_textInputChange, secureTextEntry,showAlert, errorMsg, title, 
+    userIdVal, passwordVal, showMultipleAccount, type1, type1Flag, type2, type2Flag} = this.state;
 
   const textInputChange = (val) => {
     this.state.userId=val;
@@ -201,6 +222,26 @@ render() {
           cancelText="OK"
           onCancelPressed={() => {
             this.hideAlert();
+          }}
+        />
+
+        <AwesomeAlert
+          show={showMultipleAccount}
+          showProgress={false}
+          title={translateMsg('AccountSelection')}
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          showCancelButton={type1Flag}
+          showConfirmButton={type2Flag}
+          cancelText={type1}
+          cancelButtonColor="#24a0ed"
+          confirmButtonColor="#24ec70"
+          confirmText={type2}
+          onCancelPressed={() => {
+            this.handleLoginType(1);
+          }}
+          onConfirmPressed={() => {
+            this.handleLoginType(2);
           }}
         />
     </View>

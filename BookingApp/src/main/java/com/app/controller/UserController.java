@@ -34,31 +34,31 @@ public class UserController extends UserControllerBase {
 	public static final List<String> PATH_SERVICE_PATHS = new ArrayList<String>(){
 		private static final long serialVersionUID = 1L;
 		{
-            add("/user/*");
-            add("/user/id?*");
-            add("/user/login?*");
-            add("/user/logout?*");
-        }
-    };
-    
-	
+			add("/user/*");
+			add("/user/id?*");
+			add("/user/login?*");
+			add("/user/logout?*");
+		}
+	};
+
+
 	@Autowired
 	ApplicationDBServiceIF service;
-	
+
 	@Autowired
 	private org.springframework.context.ApplicationContext context;
-	
-	
+
+
 	private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	public UserController() {
 	}
-	
+
 
 	@PostMapping("/id")
 	@ServiceInfo(serviceCode = "WS-UP-01", serviceName = "Get User Information", queryId = "app.user.get")
-	private ResponseDTO get(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
-			@RequestAttribute("requestId") String requestId) throws Exception {
+	private ResponseDTO get(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo,
+							@RequestAttribute("requestId") String requestId) throws Exception {
 		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
 		requestInfo.putAll(input);
 		ResponseDTO result = null;
@@ -67,19 +67,19 @@ public class UserController extends UserControllerBase {
 			if(null != result) {
 				return result;
 			}
-			
+
 			result = createSuccessResponse(requestInfo,service.getDataObject(requestInfo));
-			
+
 		}catch(Exception e) {
 			result = createErrorResponse(requestInfo, null, e);
 		}
 		return result;
 	}
-	
+
 	@PostMapping("/all")
 	@ServiceInfo(serviceCode = "WS-UP-02", serviceName = "Get All User Information", queryId = "app.user.get.all")
-	private ResponseDTO getAll(@RequestBody Map<String, Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
-			@RequestAttribute("requestId") String requestId) throws Exception {
+	private ResponseDTO getAll(@RequestBody Map<String, Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo,
+							   @RequestAttribute("requestId") String requestId) throws Exception {
 		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
 		requestInfo.putAll(input);
 		ResponseDTO result = null;
@@ -88,7 +88,7 @@ public class UserController extends UserControllerBase {
 			if(null != result) {
 				return result;
 			}
-			
+
 			result = createSuccessResponse(requestInfo,service.getData(requestInfo));
 		}catch(Exception e) {
 			result = createErrorResponse(requestInfo, null, e);
@@ -98,44 +98,44 @@ public class UserController extends UserControllerBase {
 
 	@PostMapping("/registor")
 	@ServiceInfo(serviceCode = "WS-UP-03", serviceName = "User Registration", queryId = "app.user.save", logActivity = true)
-	private ResponseDTO registor(@RequestBody Map<String, Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
-			@RequestAttribute("requestId") String requestId) throws Exception {
+	private ResponseDTO registor(@RequestBody Map<String, Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo,
+								 @RequestAttribute("requestId") String requestId) throws Exception {
 		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
-		
+
 		requestInfo.putAll(input);
 		requestInfo.put(CommonConstants.KEY_ID, CoreUtils.getUUID());
-		
+
 		//set request info
 		setRequestInfo(requestInfo);
-		
-		
+
+
 		ResponseDTO result = null;
 		try {
-			
+
 			result = validate(requestInfo);
 			if(null != result) {
 				return result;
 			}
-			
+
 			service.executeUpdate(requestInfo);
 			result = createSuccessResponse(requestInfo,null);
-			
+
 			//Save Privacy Policy
 			RequestInfo privacy = new RequestInfo();
 			privacy.putAll(requestInfo);
 			privacy.put(CommonConstants.KEY_QUERY_ID, "app.user.policy.save");
 			service.executeUpdate(privacy);
-			
+
 		}catch(Exception e) {
 			result = createErrorResponse(requestInfo, null, e);
 		}
 		return result;
 	}
-	
+
 	@PostMapping("/login")
 	@ServiceInfo(serviceCode = "WS-UP-04", serviceName = "Login service", queryId = "app.user.get", logActivity = true)
-	private ResponseDTO login(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
-			@RequestAttribute("requestId") String requestId) throws Exception {
+	private ResponseDTO login(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo,
+							  @RequestAttribute("requestId") String requestId) throws Exception {
 		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
 		requestInfo.putAll(input);
 		ResponseDTO result = null;
@@ -143,29 +143,29 @@ public class UserController extends UserControllerBase {
 		logLoginTime.putAll(requestInfo);
 		try {
 			System.out.println(CoreUtils.getJsonStringFromObject(logLoginTime));
-			
+
 			result = validate(requestInfo);
 			logLoginTime.putAll(requestInfo);
 			if(null != result) {
 				return result;
 			}
-			
-			result = createSuccessResponse(requestInfo,service.getDataObject(requestInfo));
-			
+
+			result = createSuccessResponse(requestInfo,service.getData(requestInfo));
+
 			//Login history
 			logLoginTime.put(CommonConstants.KEY_QUERY_ID, "app.user.login");
 			service.executeUpdate(logLoginTime);
-			
+
 		}catch(Exception e) {
 			result = createErrorResponse(requestInfo, null, e);
 		}
 		return result;
 	}
-	
+
 	@PostMapping("/logout")
 	@ServiceInfo(serviceCode = "WS-UP-05", serviceName = "Logout service", queryId = "app.user.logout", logActivity = false)
-	private ResponseDTO logout(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
-			@RequestAttribute("requestId") String requestId) throws Exception {
+	private ResponseDTO logout(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo,
+							   @RequestAttribute("requestId") String requestId) throws Exception {
 		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
 		requestInfo.putAll(input);
 		ResponseDTO result = null;
@@ -174,7 +174,7 @@ public class UserController extends UserControllerBase {
 			if(null != result) {
 				return result;
 			}
-			
+
 			service.executeUpdate(requestInfo);
 			result = createSuccessResponse(requestInfo,null);
 		}catch(Exception e) {
@@ -182,13 +182,13 @@ public class UserController extends UserControllerBase {
 		}
 		return result;
 	}
-	
+
 	@PostMapping("/usertype")
 	@ServiceInfo(serviceCode = "WS-UP-06", serviceName = "User Type", queryId = "app.user.type.get", logActivity = false)
-	private ResponseDTO getUserType(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
-			@RequestAttribute("requestId") String requestId) throws Exception {
-		
-		
+	private ResponseDTO getUserType(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo,
+									@RequestAttribute("requestId") String requestId) throws Exception {
+
+
 		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
 		requestInfo.putAll(input);
 		ResponseDTO result = null;
@@ -197,39 +197,39 @@ public class UserController extends UserControllerBase {
 			if(null != result) {
 				return result;
 			}
-			
+
 			result = createSuccessResponse(requestInfo,service.getData(requestInfo));
 		}catch(Exception e) {
 			result = createErrorResponse(requestInfo, null, e);
 		}
 		return result;
 	}
-	
+
 	@SuppressWarnings("null")
-	@PutMapping("/passwordupdate")	
+	@PutMapping("/passwordupdate")
 	@ServiceInfo(serviceCode = "WS-UP-07", serviceName = "Change Password", queryId = "app.user.password.update", logActivity =true)
-	private ResponseDTO changePassword(@RequestBody Map<String, Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
-			@RequestAttribute("requestId") String requestId) throws Exception {
+	private ResponseDTO changePassword(@RequestBody Map<String, Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo,
+									   @RequestAttribute("requestId") String requestId) throws Exception {
 		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
-		
+
 		requestInfo.putAll(input);
 		requestInfo.put(CommonConstants.KEY_ID, CoreUtils.getUUID());
-		
+
 		//set request info
 		setRequestInfo(requestInfo);
 
 		ResponseDTO result = null;
 		try {
-			
+
 			result = validate(requestInfo);
 			if(null != result) {
 				return result;
 			}
-			
+
 			RequestInfo requestInfoTemp =  new RequestInfo();
 			requestInfoTemp.putAll(requestInfo);
 			requestInfoTemp.put("password", requestInfoTemp.get("currentPassword"));
-			if(!(requestInfo.containsKey("otpValidated") 
+			if(!(requestInfo.containsKey("otpValidated")
 					&& "true".equals( Objects.toString(requestInfo.get("otpValidated"),"false").toLowerCase()))){
 				//Check password
 				requestInfoTemp.setQueryId("app.user.get");
@@ -251,10 +251,10 @@ public class UserController extends UserControllerBase {
 			catch(DataNotFoundException e) {
 				LogUtils.logDebug(logger, requestId, "New password not match with old password.");
 			}
-		
+
 			//Update new password
 			service.executeUpdate(requestInfo);
-			
+
 			//save password into history
 			requestInfo.setQueryId("app.user.password.hist.save");
 			requestInfo.put("password", requestInfo.get("newPassword"));
@@ -269,13 +269,13 @@ public class UserController extends UserControllerBase {
 		}
 		return result;
 	}
-	
+
 	@PostMapping("/sendotp")
 	@ServiceInfo(serviceCode = "WS-UP-08", serviceName = "Forgot Password OTP", queryId = "app.user.otp.save", logActivity =true)
-	private ResponseDTO sendOTP(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
-			@RequestAttribute("requestId") String requestId) throws Exception {
-		
-		
+	private ResponseDTO sendOTP(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo,
+								@RequestAttribute("requestId") String requestId) throws Exception {
+
+
 		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
 		requestInfo.putAll(input);
 		ResponseDTO result = null;
@@ -284,14 +284,14 @@ public class UserController extends UserControllerBase {
 			if(null != result) {
 				return result;
 			}
-			
+
 			//Check UserId is exist or not
 			RequestInfo requestInfoTemp =  new RequestInfo();
 			requestInfoTemp.putAll(requestInfo);
 			requestInfoTemp.setQueryId("app.user.get.for.otp");
 			Map<String, Object>  userInfo = service.getDataObject(requestInfoTemp);
 			requestInfo.put("userInfo", userInfo);
-			
+
 			String otp = sendOtp(requestInfo);
 			requestInfo.put("otp", otp);
 			service.executeUpdate(requestInfo);
@@ -299,7 +299,7 @@ public class UserController extends UserControllerBase {
 			context.getBean("SMSNotificationService", NotificationService.class).publish(requestInfo);
 			//TODO OTP by EMAIL
 			context.getBean("EmailNotificationService", NotificationService.class).publish(requestInfo);
-			
+
 			result = createSuccessResponse(requestInfo, null);
 		}
 		catch(DataNotFoundException e) {
@@ -311,15 +311,15 @@ public class UserController extends UserControllerBase {
 		}
 		return result;
 	}
-	
-	
-	
+
+
+
 	@PostMapping("/validateotp")
 	@ServiceInfo(serviceCode = "WS-UP-09", serviceName = "Validate OTP", queryId = "app.user.otp.get", logActivity =true)
-	private ResponseDTO validateOTP(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
-			@RequestAttribute("requestId") String requestId) throws Exception {
-		
-		
+	private ResponseDTO validateOTP(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo,
+									@RequestAttribute("requestId") String requestId) throws Exception {
+
+
 		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
 		requestInfo.putAll(input);
 		ResponseDTO result = null;
@@ -330,7 +330,7 @@ public class UserController extends UserControllerBase {
 			}
 
 			//TODO validate OTP
-			
+
 			result = createSuccessResponse(requestInfo, null);
 		}
 		catch(DataNotFoundException e) {
@@ -343,5 +343,5 @@ public class UserController extends UserControllerBase {
 		return result;
 	}
 
-	
+
 }

@@ -28,8 +28,8 @@
       where
         "USER_ID" = :userId
         AND "PASSWORD" = :password
-        AND "AC_TYP" = CAST (:acType AS INTEGER)
         AND "DEL_FLG" = 0
+      ORDER BY "AC_TYP"
     ]]>
   </sql-query>
   <sql-query name="app.user.login">

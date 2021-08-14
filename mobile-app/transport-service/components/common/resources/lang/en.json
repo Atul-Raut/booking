@@ -36,7 +36,7 @@
     "loginFailedMsg":"Please enter valid Email ID or Password.",
     "unExpectedError":"Unexpected error occured.",
     "error":"Error",
-    "operationFailed":"Operaton Failed"
-
-
+    "operationFailed":"Operaton Failed",
+    "AccountSelection":"Login As",
+    "Dashboard":"Dashboard"
 }
