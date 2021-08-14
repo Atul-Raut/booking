@@ -14,16 +14,15 @@ import {
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import {translateMsg} from '../common/Translation'
-import {getUserInfo, getServiceID} from "./AppBaseComponent"
+import { translateMsg } from "../common/Translation";
+import { getUserInfo, getServiceID } from "./AppBaseComponent";
 import { TransportDrawerContent } from "../transport-service/TransportDrawerContent";
-
 
 export function DrawerContent(props) {
   const paperTheme = useTheme();
 
-  const userInfo =  getUserInfo();
-  
+  const userInfo = getUserInfo();
+
   function signOut() {
     //TODO call signout Api
     props.navigation.navigate("LoginScreen");
@@ -35,12 +34,15 @@ export function DrawerContent(props) {
           <View style={styles.userInfoSection}>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
               <Avatar.Image
-                
                 source={require("../../assets/Hertz-icon-2.png")}
                 size={50}
               ></Avatar.Image>
               <View style={{ marginLeft: 15, flexDirection: "column" }}>
-                <Title style={styles.title}>{userInfo.firstName + ' ' + userInfo.lastName}</Title>
+                {userInfo ? (
+                  <Title style={styles.title}>
+                    {userInfo.firstName + " " + userInfo.lastName}
+                  </Title>
+                ) : null}
                 <Caption style={styles.caption}>Service Provider</Caption>
               </View>
             </View>
@@ -66,40 +68,40 @@ export function DrawerContent(props) {
             />
           </Drawer.Section>
           <View>
-                <TransportDrawerContent props = {props}></TransportDrawerContent>
+            <TransportDrawerContent props={props}></TransportDrawerContent>
           </View>
           <Drawer.Section title="Settings">
             <DrawerItem
-                  icon={({ color, size }) => (
-                    <Icon name="cog" color={color} size={size} />
-                  )}
-                  label="Settings"
-                  onPress={() => {
-                    props.navigation.navigate("SettingsScreen");
-                  }}
-                /> 
+              icon={({ color, size }) => (
+                <Icon name="cog" color={color} size={size} />
+              )}
+              label="Settings"
+              onPress={() => {
+                props.navigation.navigate("SettingsScreen");
+              }}
+            />
             <DrawerItem
-                icon={({ color, size }) => (
-                  <Icon name="key" color={color} size={size} />
-                )}
-                label={translateMsg("changePasswordScreenName")}
-                onPress={() => {
-                  props.navigation.navigate("ChangePassword");
-                }}
-              />
+              icon={({ color, size }) => (
+                <Icon name="key" color={color} size={size} />
+              )}
+              label={translateMsg("changePasswordScreenName")}
+              onPress={() => {
+                props.navigation.navigate("ChangePassword");
+              }}
+            />
           </Drawer.Section>
         </View>
       </DrawerContentScrollView>
       <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="bookmark-outline" color={color} size={size} />
-              )}
-              label={translateMsg("aboutButtonName")}
-              onPress={() => {
-                props.navigation.navigate("AboutScreen");
-              }}
-            />
-          <Drawer.Section style={styles.bottomDrawerSection}>
+        icon={({ color, size }) => (
+          <Icon name="bookmark-outline" color={color} size={size} />
+        )}
+        label={translateMsg("aboutButtonName")}
+        onPress={() => {
+          props.navigation.navigate("AboutScreen");
+        }}
+      />
+      <Drawer.Section style={styles.bottomDrawerSection}>
         <DrawerItem
           icon={({ color, size }) => (
             <Icon name="exit-to-app" color={color} size={size} />
