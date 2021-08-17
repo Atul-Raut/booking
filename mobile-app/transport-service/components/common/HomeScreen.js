@@ -1,12 +1,18 @@
 // Homescreen.js
 import React from "react";
-import { View,
+import {
+  View,
   Text,
   TouchableOpacity,
   Dimensions,
   StyleSheet,
-  StatusBar} from "react-native";
-import AppBaseComponent,{ getSelectedServiceName, setSelectedService, getAcountType } from "./AppBaseComponent";
+  StatusBar,
+} from "react-native";
+import AppBaseComponent, {
+  getSelectedServiceName,
+  setSelectedService,
+  getAcountType,
+} from "./AppBaseComponent";
 import * as Animatable from "react-native-animatable";
 
 export default class Homescreen extends AppBaseComponent {
@@ -18,33 +24,33 @@ export default class Homescreen extends AppBaseComponent {
 
   onSelectedService = (serviceId, serviceName) => {
     setSelectedService(serviceId, serviceName);
-    if(getAcountType()==1 && serviceId ==1){
+    if (getAcountType() == 1 && serviceId == 1) {
       this.props.navigation.navigate("TransportCustomerDashbord");
-    }
-    else  if(getAcountType()==2 && serviceId ==1){
+    } else if (getAcountType() == 2 && serviceId == 1) {
       this.props.navigation.navigate("TransportServiceProviderDashbord");
     }
+    this.props.navigation.navigate("TransportServiceProviderDashbord");
   };
 
   render() {
-    
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-        <TouchableOpacity onPress={() => this.onSelectedService('1', 'Transport Service')} >
-          <Animatable.Image
-            source={require("../../assets/Hertz-icon-2.png")}
-            style={styles.logo}
-            resizeMode="stretch"
-          /> 
-          <Text>Transport Service</Text>
+          <TouchableOpacity
+            onPress={() => this.onSelectedService("1", "Transport Service")}
+          >
+            <Animatable.Image
+              source={require("../../assets/Hertz-icon-2.png")}
+              style={styles.logo}
+              resizeMode="stretch"
+            />
+            <Text>Transport Service</Text>
           </TouchableOpacity>
         </View>
       </View>
     );
   }
 }
-
 
 const { height } = Dimensions.get("screen");
 const height_logo = height * 0.15;

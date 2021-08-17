@@ -11,12 +11,14 @@ import GetStarted from "./components/common/GetStarted";
 import LoginScreen from "./components/common/LoginScreen";
 import SignUpScreen from "./components/common/SignUpScreen";
 import Header from "./components/common/Header";
-import {translateMsg} from './components/common/Translation'
-import ProfileScreen from './components/common/ProfileScreen'
+import { translateMsg } from "./components/common/Translation";
+import ProfileScreen from "./components/common/ProfileScreen";
 import Settings from "./components/common/Settings";
 import MyVehicleScreen from "./components/transport-service/MyVehicleScreen";
-import TransportCustomerDashbord from './components/transport-service/TransportCustomerDashboard'
-import TransportServiceProviderDashbord from './components/transport-service/TransportServiceProviderDashboard'
+import TransportCustomerDashbord from "./components/transport-service/TransportCustomerDashboard";
+import TransportServiceProviderDashbord from "./components/transport-service/TransportServiceProviderDashboard";
+import PostDetails from "./components/common/PostDetails";
+import CustomerDashboard from "./components/common/CustomerDashboard";
 
 const Drawer = createDrawerNavigator();
 
@@ -27,7 +29,8 @@ export default function App() {
     <View style={styles.container}>
       <NavigationContainer>
         <Drawer.Navigator
-          drawerContent={(props) => <DrawerContent {...props} />}>
+          drawerContent={(props) => <DrawerContent {...props} />}
+        >
           <Drawer.Screen
             name="GetStarted"
             component={GetStarted}
@@ -47,8 +50,12 @@ export default function App() {
             name="HomeScreen"
             component={HomeScreen}
             options={({ navigation }) => ({
-              header: (props) => <Header navigation={navigation} 
-              name={translateMsg('homeScreenName')}/>,
+              header: (props) => (
+                <Header
+                  navigation={navigation}
+                  name={translateMsg("homeScreenName")}
+                />
+              ),
               headerLeft: null,
               headerTitleStyle: { alignSelf: "center" },
             })}
@@ -57,8 +64,12 @@ export default function App() {
             name="AboutScreen"
             component={AboutScreen}
             options={({ navigation }) => ({
-              header: (props) => <Header navigation={navigation} 
-              name={translateMsg('aboutScreenName')}/>,
+              header: (props) => (
+                <Header
+                  navigation={navigation}
+                  name={translateMsg("aboutScreenName")}
+                />
+              ),
               headerLeft: null,
               headerTitleStyle: { alignSelf: "center" },
             })}
@@ -67,18 +78,26 @@ export default function App() {
             name="ChangePassword"
             component={ChangePassword}
             options={({ navigation }) => ({
-              header: (props) => <Header navigation={navigation} 
-              name={translateMsg('changePasswordScreenName')} />,
+              header: (props) => (
+                <Header
+                  navigation={navigation}
+                  name={translateMsg("changePasswordScreenName")}
+                />
+              ),
               headerLeft: null,
               headerTitleStyle: { alignSelf: "center" },
             })}
           />
-           <Drawer.Screen
+          <Drawer.Screen
             name="ProfileScreen"
             component={ProfileScreen}
             options={({ navigation }) => ({
-              header: (props) => <Header navigation={navigation} 
-              name={translateMsg('ProfileScreenName')} />,
+              header: (props) => (
+                <Header
+                  navigation={navigation}
+                  name={translateMsg("ProfileScreenName")}
+                />
+              ),
               headerLeft: null,
               headerTitleStyle: { alignSelf: "center" },
             })}
@@ -87,43 +106,69 @@ export default function App() {
             name="SettingsScreen"
             component={Settings}
             options={({ navigation }) => ({
-              header: (props) => <Header navigation={navigation} 
-              name={translateMsg('SettingScreenName')} />,
+              header: (props) => (
+                <Header
+                  navigation={navigation}
+                  name={translateMsg("SettingScreenName")}
+                />
+              ),
               headerLeft: null,
               headerTitleStyle: { alignSelf: "center" },
             })}
           />
           <Drawer.Screen
-              name="MyVehiclesScreen"
-              component={MyVehicleScreen}
-              options={({ navigation }) => ({
-                header: (props) => <Header navigation={navigation} 
-                name={translateMsg('MyVehiclesMenu')} />,
-                headerLeft: null,
-                headerTitleStyle: { alignSelf: "center" },
-              })}
+            name="MyVehiclesScreen"
+            component={MyVehicleScreen}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header
+                  navigation={navigation}
+                  name={translateMsg("MyVehiclesMenu")}
+                />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
           />
           <Drawer.Screen
-              name="TransportCustomerDashbord"
-              component={TransportCustomerDashbord}
-              options={({ navigation }) => ({
-                header: (props) => <Header navigation={navigation} 
-                name={translateMsg('Dashboard')} />,
-                headerLeft: null,
-                headerTitleStyle: { alignSelf: "center" },
-              })}
+            name="TransportCustomerDashbord"
+            component={TransportCustomerDashbord}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header
+                  navigation={navigation}
+                  name={translateMsg("Dashboard")}
+                />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
           />
           <Drawer.Screen
-              name="TransportServiceProviderDashbord"
-              component={TransportServiceProviderDashbord}
-              options={({ navigation }) => ({
-                header: (props) => <Header navigation={navigation} 
-                name={translateMsg('Dashboard')} />,
-                headerLeft: null,
-                headerTitleStyle: { alignSelf: "center" },
-              })}
+            name="customerDashboard"
+            component={CustomerDashboard}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header
+                  navigation={navigation}
+                  name={translateMsg("Dashboard")}
+                />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
           />
-
+          <Drawer.Screen
+            name="PostDetails"
+            component={PostDetails}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header navigation={navigation} name="Post Details" />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
+          />
         </Drawer.Navigator>
       </NavigationContainer>
     </View>

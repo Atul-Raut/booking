@@ -293,7 +293,7 @@ const SignInScreen = ({ navigation }) => {
                   },
                 ]}
               >
-                {translateMsg('signInHeader')}
+                {translateMsg("signInHeader")}
               </Text>
             </TouchableOpacity>
           </View>
@@ -354,7 +354,7 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === "ios" ? 0 : 2,
     paddingLeft: 10,
     color: "#05375a",
-    borderBottomWidth: 2,
+    borderTopWidth: 1,
   },
   button: {
     alignItems: "center",
