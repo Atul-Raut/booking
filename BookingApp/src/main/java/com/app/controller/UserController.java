@@ -142,15 +142,17 @@ public class UserController extends UserControllerBase {
 		RequestInfo logLoginTime = new RequestInfo();
 		logLoginTime.putAll(requestInfo);
 		try {
-			System.out.println(CoreUtils.getJsonStringFromObject(logLoginTime));
-
 			result = validate(requestInfo);
 			logLoginTime.putAll(requestInfo);
 			if(null != result) {
 				return result;
 			}
 
-			result = createSuccessResponse(requestInfo,service.getData(requestInfo));
+			List<Map<String, Object>> user = service.getData(requestInfo);
+			if(null == user || user.size() < 1) {
+				throw new DataNotFoundException(CommonConstants.ERROR_DATA_NOT_FOUND, CommonConstants.DATA_NOT_FOUND, null); 
+			}
+			result = createSuccessResponse(requestInfo,user);
 
 			//Login history
 			logLoginTime.put(CommonConstants.KEY_QUERY_ID, "app.user.login");

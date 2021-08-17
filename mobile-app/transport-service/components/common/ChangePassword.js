@@ -3,7 +3,7 @@ import { View, Text,TouchableOpacity,TextInput,Platform,StyleSheet, ScrollView,S
 import * as Animatable from "react-native-animatable";
 import Feather from "react-native-vector-icons/Feather";
 import {translateMsg} from '../common/Translation'
-import AppBaseComponent from "../common/AppBaseComponent";
+import AppBaseComponent,{getUserId} from "../common/AppBaseComponent";
 import { callApi } from "./AppService";
 import AwesomeAlert from 'react-native-awesome-alerts';
 
@@ -82,6 +82,12 @@ async onSubmit(event) {
       return;
     }
   }
+
+  let body = {
+    userId          :   getUserId(),
+    currentPassword : this.state.currentPassword,
+    newPassword     : this.state.newPassword
+  };
 
   let param = {
       'serviceId': this.OnSubmitServiceID,

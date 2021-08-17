@@ -69,11 +69,9 @@ async onSubmit(event) {
 
   let response = await callApi(param);
   if(response && response.retCode == this.SUCCESS_RET_CODE){
-
       if(response.result.length == 1){
         this.setUserInfoAndNavigateToHomePage(response.result[0]);
-      }else{
-        
+      }else if(response.result.length > 0){
         this.setState({
           showMultipleAccount: true,
           type1Flag:true,
@@ -82,6 +80,10 @@ async onSubmit(event) {
           type2:"Service Provider",
         });
         this.respo=response.result;
+      } else{
+        this.state.title = this.translate("loginFailed")
+        this.state.errorMsg = this.translate("loginFailedMsg")
+        this.showAlert();
       }
   }  
   else if(response && response.retCode == "WS-E-CM-0002"){
