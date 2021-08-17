@@ -64,22 +64,34 @@ export default class AppBaseComponent extends ValidationComponent {
   }
 }
 
+global.APP_GLOBAL_Data = {};
+
+/**
+ * retrive data from loacl storage
+ * @param {key} key 
+ * @param {value} value
+ */
+ export const setDataintoLocalStorage = (key,value) => {
+  global.APP_GLOBAL_Data[key] = value;
+}
+
 /**
  * retrive data from loacl storage
  * @param {key} key 
  * @returns value
  */
-export const retrieveData = (key) => {
-  return localStorage.getItem(key)
+export const getDataFromLocalStorage = (key) => {
+  return global.APP_GLOBAL_Data[key];
 }
 /**
  * Get user info from loacl storage
  * @returns userInfo
  */
 export const getUserInfo = () => {
-  let userInfo = localStorage.getItem("userInfo");
+  let userInfo = getDataFromLocalStorage("userInfo");
+
   if(userInfo){
-    return JSON.parse(localStorage.getItem("userInfo"))
+    return userInfo
   }else{
     return {};
   }
@@ -120,16 +132,15 @@ export const getServiceID = () => {
 }
 
 export const setSelectedService=(serviceId, serviceName)=>{
-  localStorage.setItem("serviceId", serviceId);
-  localStorage.setItem("serviceName", serviceName);
+  setDataintoLocalStorage("serviceId", serviceId);
+  setDataintoLocalStorage("serviceName", serviceName);
 }
 
 export const getSelectedServiceName=()=>{
-  return localStorage.getItem("serviceName");
+  return getDataFromLocalStorage("serviceName");
 }
 
 export const clearLocalStorage=()=>{
-  localStorage.removeItem("userInfo");
-  localStorage.removeItem("serviceName");
-  localStorage.removeItem("serviceId");
+  global.APP_GLOBAL_Data = {};
 }
+
