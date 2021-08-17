@@ -15,10 +15,9 @@ import { translateMsg } from "./components/common/Translation";
 import ProfileScreen from "./components/common/ProfileScreen";
 import Settings from "./components/common/Settings";
 import MyVehicleScreen from "./components/transport-service/MyVehicleScreen";
-import TransportCustomerDashbord from "./components/transport-service/TransportCustomerDashboard";
-import TransportServiceProviderDashbord from "./components/transport-service/TransportServiceProviderDashboard";
 import PostDetails from "./components/common/PostDetails";
-import CustomerDashboard from "./components/common/CustomerDashboard";
+import Dashboard from "./components/common/Dashboard";
+import AddVehicleScreen from './components/transport-service/AddVehicleScreen'
 
 const Drawer = createDrawerNavigator();
 
@@ -131,22 +130,8 @@ export default function App() {
             })}
           />
           <Drawer.Screen
-            name="TransportCustomerDashbord"
-            component={TransportCustomerDashbord}
-            options={({ navigation }) => ({
-              header: (props) => (
-                <Header
-                  navigation={navigation}
-                  name={translateMsg("Dashboard")}
-                />
-              ),
-              headerLeft: null,
-              headerTitleStyle: { alignSelf: "center" },
-            })}
-          />
-          <Drawer.Screen
-            name="customerDashboard"
-            component={CustomerDashboard}
+            name="Dashboard"
+            component={Dashboard}
             options={({ navigation }) => ({
               header: (props) => (
                 <Header
@@ -168,6 +153,16 @@ export default function App() {
               headerLeft: null,
               headerTitleStyle: { alignSelf: "center" },
             })}
+          />
+          <Drawer.Screen
+              name="AddVehicleScreen"
+              component={AddVehicleScreen}
+              options={({ navigation }) => ({
+                header: (props) => <Header navigation={navigation} 
+                name={translateMsg('AddVehicleScreen')} />,
+                headerLeft: null,
+                headerTitleStyle: { alignSelf: "center" },
+              })}
           />
         </Drawer.Navigator>
       </NavigationContainer>

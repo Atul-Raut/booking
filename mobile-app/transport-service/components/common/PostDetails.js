@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Button, TouchableOpacity } from "react-native";
 import Card from "./Card";
-import { globalStyles } from "./global";
+import { globalStyles } from "./GlobalStyles";
 
 export default function PostDetails({ navigation, route }) {
   const { service, dateFrom, source, destination } = route.params;

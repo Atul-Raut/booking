@@ -7,6 +7,7 @@
     "SettingScreenName":"Settings",
     "TransportMenu":"Transport",
     "MyVehiclesMenu":"My Vehicles",
+    "AddVehicleScreen":"New Vehicle",
     "changePasswordButtonName":"Change Password",
     "loginButtonName":"Login",
     "currentPassword":"Current Password",
@@ -38,5 +39,16 @@
     "error":"Error",
     "operationFailed":"Operaton Failed",
     "AccountSelection":"Login As",
-    "Dashboard":"Dashboard"
+    "Dashboard":"Dashboard",
+    "edit":"Edit",
+    "delete":"Delete",
+    "deleteConfTitle":"Alert",
+    "deleteVehicleConfirmation":"Are you sure want to delete selected vehicle?",
+    "cancle":"Cancle",
+    "yesDelete":"Yes, Delete it.",
+    "vehicleDeleted":"Vehicle Deleted successfully.",
+    "ok":"OK",
+    "vehicleDeletedFailed":"Vehicle delete operation failed.",
+    "addVehicle":"Add Vehicle",
+    "vehicleNo":"Vehicle Number"
 }

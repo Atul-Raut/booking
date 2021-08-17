@@ -5,7 +5,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 import {translateMsg} from '../common/Translation'
 import AppBaseComponent,{clearLocalStorage, setDataintoLocalStorage} from "../common/AppBaseComponent";
-import { callApi, sendRequest } from "./AppService";
+import { callApi } from "./AppService";
 import AwesomeAlert from 'react-native-awesome-alerts';
 
 export default class LoginScreen extends AppBaseComponent {

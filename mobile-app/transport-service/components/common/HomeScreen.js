@@ -24,12 +24,12 @@ export default class Homescreen extends AppBaseComponent {
 
   onSelectedService = (serviceId, serviceName) => {
     setSelectedService(serviceId, serviceName);
-    if (getAcountType() == 1 && serviceId == 1) {
-      this.props.navigation.navigate("TransportCustomerDashbord");
-    } else if (getAcountType() == 2 && serviceId == 1) {
-      this.props.navigation.navigate("TransportServiceProviderDashbord");
-    }
-    this.props.navigation.navigate("TransportServiceProviderDashbord");
+   // if (getAcountType() == 1 && serviceId == 1) {
+   //   this.props.navigation.navigate("TransportCustomerDashbord");
+   // } else if (getAcountType() == 2 && serviceId == 1) {
+   //   this.props.navigation.navigate("TransportServiceProviderDashbord");
+   // }
+    this.props.navigation.navigate("Dashboard");
   };
 
   render() {

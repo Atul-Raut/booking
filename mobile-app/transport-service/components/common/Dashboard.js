@@ -11,8 +11,8 @@ import {
   FlatList,
 } from "react-native";
 import Feather from "react-native-vector-icons/Feather";
-import Card from "../common/card";
-import { globalStyles } from "../common/global";
+import Card from "./Card";
+import { globalStyles } from "./GlobalStyles";
 
 export default function CustomerDashboard({ navigation }) {
   const [posts, setposts] = useState([

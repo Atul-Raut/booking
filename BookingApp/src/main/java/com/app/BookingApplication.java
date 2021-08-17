@@ -21,7 +21,7 @@ public class BookingApplication {
 
 	public static void main(String[] args) {
 
-		System.setProperty("app-config-path", "/Users/rautatul/Documents/Atul/Study/Projects/booking-dev/booking/config");
+		System.setProperty("app-config-path", "/Users/rautatul/Documents/Atul/Study/Projects/booking-dev-int/config");
 		
 		try {
 			setConfigFolderAndEnableLogging();

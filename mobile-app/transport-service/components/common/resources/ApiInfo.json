@@ -10,6 +10,17 @@
             "name":"Change Password",
             "type":"PUT",
             "path":"user/passwordupdate"
+        },
+        "WS-VS-03":{
+            "name":"Get User Vehicles",
+            "type":"POST",
+            "path":"vehicle/uservehicle"
+        },
+        "WS-VS-04":{
+            "name":"Delete User Vehicle",
+            "type":"DELETE",
+            "path":"vehicle/deletevehicle"
         }
+
       }
 }

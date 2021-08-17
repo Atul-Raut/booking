@@ -40,14 +40,21 @@
   </sql-query>
   <sql-query name="app.vehicle.get.uservehicle">
     <![CDATA[
-      select
-        "ID" AS "userVehicleId",
-        "VEHICLE_ID" AS "vehicleId",
-        "VEHICLE_NO" AS "vehicleNo"
-      from "T_USER_VEHICLE"
-      where
-        "DEL_FLG" = 0
-        AND "USER_ID" = :userId
+        select
+          uservehicle."ID" AS "userVehicleId",
+          uservehicle."VEHICLE_ID" AS "vehicleId",
+          uservehicle."VEHICLE_NO" AS "vehicleNo",
+          vehicletype."TYPE" AS "vehicleType",
+          vehicletype."NAME" AS "vehicleTypeName"
+          from "T_USER_VEHICLE" as uservehicle
+        JOIN "M_VEHICLE_TYPE" as vehicletype
+        ON (
+          uservehicle."VEHICLE_ID" = vehicletype."ID"
+        )
+        where
+          uservehicle."DEL_FLG" = 0
+          AND vehicletype."DEL_FLG" = 0
+          AND uservehicle."USER_ID" = :userId
     ]]>
   </sql-query>
 </hibernate-mapping>
