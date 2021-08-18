@@ -26,7 +26,8 @@ export function DrawerContent(props) {
   function signOut() {
     //TODO call signout Api
     clearLocalStorage();
-    props.navigation.navigate("LoginScreen");
+    props.navigation.reset({index: 0,
+      routes: [{name:'LoginScreen'}]});
   }
   return (
     <View style={{ flex: 1 }}>

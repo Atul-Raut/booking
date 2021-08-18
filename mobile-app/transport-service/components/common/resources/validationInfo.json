@@ -33,5 +33,20 @@
                  "msgId" : "confirmPasswordMandatory"
              }
         ]
+    },
+    "SCR-VH-02":{
+        "name":"Add Vehicle",
+        "validations":[
+            {
+                 "name" : "vehicleNo",
+                 "validate" : {"required": true},
+                 "msgId" : "vehicleNoMandatory"
+            },
+            {
+                 "name" : "vehicleName",
+                 "validate" : {"required": true},
+                 "msgId" : "vehicleNameMandatory"
+             }
+         ]
     }
 }

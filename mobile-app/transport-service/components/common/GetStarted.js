@@ -50,7 +50,7 @@ export default class GetStarted extends Component {
           <Text style={styles.text}>Sign in with account</Text>
           <View style={styles.button}>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("MyVehiclesScreen")}
+              onPress={() => this.props.navigation.navigate("LoginScreen")}
             >
               <Text style={styles.textSign}>Get Started</Text>
             </TouchableOpacity>

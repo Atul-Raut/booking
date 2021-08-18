@@ -8,7 +8,7 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {globalStyles} from '../common/GlobalStyles'
 import * as Animatable from "react-native-animatable";
-
+import { SpeedDial } from 'react-native-elements';
 
 export default class MyVehicleScreen extends AppBaseComponent {
   constructor(props){
@@ -29,7 +29,7 @@ componentDidMount() {
   //TODO remove userID and account type from body
   let param = {
     'serviceId': 'WS-VS-03',
-    'body': {"userId":"atul.raut11",'acType' : 1}
+    'body': {}
   }
 
   let response = await callApi(param);
@@ -53,7 +53,8 @@ componentDidMount() {
   }
 
   updateVehicle =(item)=>{
-    alert('Update');
+    this.props.navigation.reset({index: 0,
+      routes: [{name:'AddVehicleScreen', item:item.item}]});
   }
 
   handleDelete = (item)=>{
@@ -77,10 +78,7 @@ componentDidMount() {
       showDeleteConfirmation:false
     }
     );
-    let item = this.state.selectedItem;
-    //TODO remove userID and account type from body
-    item["userId"] = "atul.raut11";
-    item["acType"] = 1;
+    let item = this.state.selectedItem.item;
     let param = {
       'serviceId': 'WS-VS-04',
       'body': item
@@ -108,23 +106,22 @@ render() {
   const {deleteSuccess, showDeleteConfirmation, deleteFailed} =this.state
   return (
     <View style={globalStyles.container}>
-      <StatusBar backgroundColor="#009387" barStyle="light-content" />
       <Animatable.View animation="fadeInUpBig" style={globalStyles.footer}>
         <ScrollView>
-          <View style={globalStyles.addButton} >
-            <Icon name="plus-circle" color="#FFBF00" size={50}
-            onPress={()=>this.props.navigation.navigate("AddVehicleScreen")}/>
-          </View>
+          <SpeedDial.Action
+            icon={{ name: 'add', color: '#fff' }}
+            style={{marginBottom:0}}
+            onPress={() => this.props.navigation.navigate("AddVehicleScreen")}
+          />
           <FlatGrid
             itemDimension={130}
             data={this.state.data}
             style={globalStyles.gridView}
-            spacing={10}
             renderItem={({ item }) => (
               <View style={[globalStyles.itemContainer, { backgroundColor: '#1abc9c' }]}>
                 <Text style={globalStyles.itemName}>{item.vehicleNo}</Text>
-                <Text style={globalStyles.itemName}>{item.vehicleType}</Text>
-                <Text style={globalStyles.itemCode}>{item.vehicleTypeName}</Text>
+                <Text style={globalStyles.itemCode}>{item.vehicleType}</Text>
+                <Text style={globalStyles.itemCode}>{item.vehicleName}</Text>
                 <View style={globalStyles.buttenContainer}>
                     <TouchableOpacity style={globalStyles.editbutton}
                       onPress={() => this.updateVehicle({ item })}>
@@ -172,6 +169,8 @@ render() {
                 deleteSuccess:false
               }
               );
+              this.props.navigation.reset({index: 0,
+                routes: [{name:'MyVehiclesScreen'}]});
             }}
           />
 

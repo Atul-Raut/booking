@@ -10,6 +10,13 @@ export const globalStyles = StyleSheet.create({
     fontSize: 18,
     color: "#333",
   },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    color: "#05375a",
+  },
   textInput: {
     flex: 1,
     marginTop: Platform.OS === "ios" ? 0 : 5,
@@ -19,7 +26,6 @@ export const globalStyles = StyleSheet.create({
     height:50
   },
   gridView: {
-    marginTop: 10,
     flex: 1,
   },
   itemContainer: {
@@ -36,6 +42,7 @@ export const globalStyles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 12,
     color: '#FFF',
+    marginTop:5
   },
   editbutton: {
     color: "white",
@@ -59,9 +66,55 @@ export const globalStyles = StyleSheet.create({
   },
   buttenContainer: {
     flex:1,
+    flexDirection:'row',
+    width:'100%',
+    alignItems:'flex-end',
+    justifyContent:'space-between',
+    textAlign:'center'
   },
   addButton: {
     right: 20, 
     alignItems: 'flex-end'
+  },
+  dropDownItemStyle: {
+    fontSize: 14,
+    fontFamily: "Roboto-Regular",
+    color: "#05375a",
+  },
+  dropDownPickerStyle: {
+    height: 40,
+    color: "#05375a",
+    fontSize: 14,
+    fontFamily: "Roboto-Regular",
+
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  },
+  text_footer:{
+
+  },
+  text_comp:{ 
+    marginTop: 30 
+  },
+  validation_text_msg:{ 
+    color: 'red', 
+    marginTop: 2, 
+    position: "absolute", 
+    justifyContent:'flex-end', 
+    flexDirection: "row", 
+    textAlign:"right"
+  },
+  submitButton: {
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    borderColor: "#009387",  
+    borderWidth: 1, 
+    backgroundColor: "#009387", 
+    marginTop: 15,
+    margin:12,
+    padding:10
   }
 });

@@ -100,7 +100,8 @@ async onSubmit(event) {
 
 setUserInfoAndNavigateToHomePage =(userInfo) =>{
   setDataintoLocalStorage("userInfo", userInfo);
-  this.props.navigation.navigate('HomeScreen')
+  this.props.navigation.reset({index: 0,
+    routes: [{name:'HomeScreen'}]});
 }
 showAlert = () => {
   this.setState({

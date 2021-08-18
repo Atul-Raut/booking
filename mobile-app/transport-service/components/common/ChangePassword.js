@@ -91,7 +91,7 @@ async onSubmit(event) {
 
   let param = {
       'serviceId': this.OnSubmitServiceID,
-      'body':this.state
+      'body':this.body
   }
 
   let response = await callApi(param);
@@ -133,7 +133,8 @@ hideSuccess = () => {
   this.setState({
     showSuccess: false
   });
-  this.props.navigation.navigate('HomeScreen');
+  this.props.navigation.reset({index: 0,
+    routes: [{name:'HomeScreen'}]});
 };
 
 

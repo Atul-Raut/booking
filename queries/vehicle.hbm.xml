@@ -6,13 +6,15 @@
 <hibernate-mapping>
   <sql-query name="app.vehicle.get.all">
     <![CDATA[
-      select
+      SELECT
         "ID" AS "vehicleId",
         "TYPE" AS "vehicleType",
         "NAME" AS "vehicleName"
-      from "M_VEHICLE_TYPE"
-      where
+      FROM "M_VEHICLE_TYPE"
+      WHERE
         "DEL_FLG" = 0
+      ORDER BY
+        "DISP_ORD"
     ]]>
   </sql-query>
   <sql-query name="app.vehicle.save">
@@ -25,7 +27,8 @@
           "USER_ID",
           "DEL_FLG",
           "INS_DT",
-          "INS_BY"
+          "INS_BY",
+          "NAME"
         )
          VALUES(
            :id,
@@ -34,7 +37,8 @@
            :userId,
            0,
            CURRENT_TIMESTAMP,
-           :serviceCode
+           :serviceCode,
+           :vehicleName
          )
       ]]>
   </sql-query>
@@ -44,6 +48,7 @@
           uservehicle."ID" AS "userVehicleId",
           uservehicle."VEHICLE_ID" AS "vehicleId",
           uservehicle."VEHICLE_NO" AS "vehicleNo",
+          uservehicle."NAME" AS "vehicleName",
           vehicletype."TYPE" AS "vehicleType",
           vehicletype."NAME" AS "vehicleTypeName"
           from "T_USER_VEHICLE" as uservehicle
@@ -56,5 +61,29 @@
           AND vehicletype."DEL_FLG" = 0
           AND uservehicle."USER_ID" = :userId
     ]]>
+  </sql-query>
+  <sql-query name="app.vehicle.delete.uservehicle">
+      <![CDATA[
+        UPDATE "T_USER_VEHICLE"
+        SET
+          "DEL_FLG" = 1,
+          "UPD_DT" = CURRENT_TIMESTAMP,
+          "UPD_BY" = :serviceCode
+        WHERE
+         "ID" = :userVehicleId
+      ]]>
+  </sql-query>
+  <sql-query name="app.vehicle.update.uservehicle">
+      <![CDATA[
+        UPDATE "T_USER_VEHICLE"
+        SET
+          "VEHICLE_ID" = :vehicleId,
+          "VEHICLE_NO" = :vehicleNo,
+          "NAME" = :vehicleName,
+          "UPD_DT" = CURRENT_TIMESTAMP,
+          "UPD_BY" = :serviceCode
+        WHERE
+         "ID" = :userVehicleId
+      ]]>
   </sql-query>
 </hibernate-mapping>

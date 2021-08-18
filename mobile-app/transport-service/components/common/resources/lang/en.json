@@ -50,5 +50,13 @@
     "ok":"OK",
     "vehicleDeletedFailed":"Vehicle delete operation failed.",
     "addVehicle":"Add Vehicle",
-    "vehicleNo":"Vehicle Number"
+    "updateVehicle":"Update Vehicle",
+    "vehicleNo":"Vehicle Number",
+    "vehicleType":"Vehicle Type",
+    "vehicleName":"Vehicle Name",
+    "vehicleNoMandatory":"Please enter your vehicle number.",
+    "vehicleNameMandatory":"Please enter your vehicle Name.",
+    "addVehicleSuccess":"Vehicle added successfully.",
+    "updateVehicleSuccess":"Vehicle updated successfully.",
+    "addVehicleError":"Vehicle already exist."
 }

@@ -8,7 +8,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -108,6 +110,67 @@ public class VehicleController extends ControllerBase {
 			}
 			
 			result = createSuccessResponse(requestInfo,service.getData(requestInfo));
+		}catch(Exception e) {
+			result = createErrorResponse(requestInfo, null, e);
+		}
+		return result;
+	}
+	
+	
+	@DeleteMapping("/deletevehicle")	
+	@ServiceInfo(serviceCode = "WS-VS-04", serviceName = "Delete User Vehicle", queryId = "app.vehicle.delete.uservehicle", logActivity =true)
+	private ResponseDTO delete(@RequestBody Map<String, Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
+			@RequestAttribute("requestId") String requestId) throws Exception {
+		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
+		
+		requestInfo.putAll(input);
+		requestInfo.put(CommonConstants.KEY_ID, CoreUtils.getUUID());
+		
+		//set request info
+		setRequestInfo(requestInfo);
+		
+		
+		ResponseDTO result = null;
+		try {
+			
+			result = validate(requestInfo);
+
+			if(null != result) {
+				return result;
+			}
+			
+			service.executeUpdate(requestInfo);
+			result = createSuccessResponse(requestInfo,null);
+		}catch(Exception e) {
+			result = createErrorResponse(requestInfo, null, e);
+		}
+		return result;
+	}
+	
+	@PutMapping("/updatevehicle")	
+	@ServiceInfo(serviceCode = "WS-VS-05", serviceName = "Update User Vehicle", queryId = "app.vehicle.update.uservehicle", logActivity =true)
+	private ResponseDTO update(@RequestBody Map<String, Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
+			@RequestAttribute("requestId") String requestId) throws Exception {
+		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
+		
+		requestInfo.putAll(input);
+		requestInfo.put(CommonConstants.KEY_ID, CoreUtils.getUUID());
+		
+		//set request info
+		setRequestInfo(requestInfo);
+		
+		
+		ResponseDTO result = null;
+		try {
+			
+			result = validate(requestInfo);
+
+			if(null != result) {
+				return result;
+			}
+			
+			service.executeUpdate(requestInfo);
+			result = createSuccessResponse(requestInfo,null);
 		}catch(Exception e) {
 			result = createErrorResponse(requestInfo, null, e);
 		}
