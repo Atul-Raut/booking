@@ -9,57 +9,54 @@ export default function PostDetails({ navigation, route }) {
   return (
     <View>
       <Card>
-        <View>
-          <View style={styles.container}>
-            <View
-              style={{
-                width: "50%",
-                marginRight: 20,
-                alignItems: "flex-start",
-              }}
+        <View style={{ flexDirection: "row" }}>
+          <View
+            style={{
+              width: "50%",
+              marginRight: 30,
+              // marginTop: 20,
+              //alignItems: "flex-start",
+            }}
+          >
+            <Text
+              style={[
+                styles.text_footer,
+                {
+                  marginTop: 10,
+                },
+              ]}
             >
-              <Text
-                style={[
-                  styles.text_footer,
-                  {
-                    marginTop: 10,
-                  },
-                ]}
-              >
-                Service:
-              </Text>
-              <View>
-                <Text>{service}</Text>
-              </View>
+              Service:
+            </Text>
+            <View>
+              <Text>{service}</Text>
             </View>
-            <View
-              style={{
-                width: "50%",
-                marginRight: 20,
-                alignItems: "flex-start",
-              }}
+          </View>
+          <View
+            style={{
+              width: "50%",
+              marginRight: 20,
+              // alignItems: "flex-end",
+            }}
+          >
+            <Text
+              style={[
+                styles.text_footer,
+                {
+                  marginTop: 10,
+                },
+              ]}
             >
-              <Text
-                style={[
-                  styles.text_footer,
-                  {
-                    marginTop: 10,
-                  },
-                ]}
-              >
-                Date:
-              </Text>
-              <View>
-                <Text>{dateFrom}</Text>
-              </View>
+              Date:
+            </Text>
+            <View>
+              <Text>{dateFrom}</Text>
             </View>
           </View>
         </View>
 
-        <View style={styles.container}>
-          <View
-            style={{ width: "50%", marginRight: 20, alignItems: "flex-start" }}
-          >
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ width: "50%", marginRight: 20 }}>
             <Text
               style={[
                 styles.text_footer,
@@ -74,9 +71,7 @@ export default function PostDetails({ navigation, route }) {
               <Text>{source}</Text>
             </View>
           </View>
-          <View
-            style={{ width: "50%", marginRight: 20, alignItems: "flex-start" }}
-          >
+          <View style={{ width: "50%", marginRight: 10 }}>
             <Text
               style={[
                 styles.text_footer,
@@ -119,10 +114,11 @@ export default function PostDetails({ navigation, route }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "flex-end",
+    // flex: 1,
+    // flexDirection: "row",
+    // justifyContent: "flex-start",
+    // alignItems: "flex-end",
+    // height: 200,
   },
 
   button: {

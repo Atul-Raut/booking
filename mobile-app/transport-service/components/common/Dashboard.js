@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   View,
@@ -13,6 +13,7 @@ import {
 import Feather from "react-native-vector-icons/Feather";
 import Card from "./Card";
 import { globalStyles } from "./GlobalStyles";
+import { SpeedDial } from "react-native-elements";
 
 export default function CustomerDashboard({ navigation }) {
   const [posts, setposts] = useState([
@@ -77,12 +78,15 @@ export default function CustomerDashboard({ navigation }) {
   }
 
   return (
-    <View>
-      <View style={{ alignItems: "flex-center" }}>
-        <TouchableOpacity onPress={addPost}>
-          <Feather name="plus-square" size={30} />
-        </TouchableOpacity>
+    <>
+      <View>
+        <SpeedDial.Action
+          icon={{ name: "add", color: "#fff" }}
+          style={{ marginBottom: -5, marginTop: 10 }}
+          onPress={() => navigation.navigate("CreatePost")}
+        />
       </View>
+
       <View style={globalStyles.container}>
         <FlatList
           data={posts}
@@ -92,14 +96,14 @@ export default function CustomerDashboard({ navigation }) {
             >
               <Card>
                 <Text>{item.service}</Text>
-                <br />
+                {/* <br /> */}
                 <Text>{item.dateFrom}</Text>
               </Card>
             </TouchableOpacity>
           )}
         />
       </View>
-    </View>
+    </>
   );
 }
 const styles = StyleSheet.create({
