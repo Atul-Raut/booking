@@ -55,6 +55,13 @@ export default class GetStarted extends Component {
               <Text style={styles.textSign}>Get Started</Text>
             </TouchableOpacity>
           </View>
+          <View style={styles.button}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("CreatePost")}
+            >
+              <Text style={styles.textSign}>Create Post</Text>
+            </TouchableOpacity>
+          </View>
         </Animatable.View>
       </View>
     );

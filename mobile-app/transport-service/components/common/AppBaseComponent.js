@@ -127,13 +127,12 @@ export const getAcountType = () => {
   return getUserInfo().userId;
 }
 
-export const getServiceID = () => {
-  return getAcountType();
-}
-
 export const setSelectedService=(serviceId, serviceName)=>{
   setDataintoLocalStorage("serviceId", serviceId);
   setDataintoLocalStorage("serviceName", serviceName);
+}
+export const getServiceID = () => {
+  return getDataFromLocalStorage('serviceId');
 }
 
 export const getSelectedServiceName=()=>{

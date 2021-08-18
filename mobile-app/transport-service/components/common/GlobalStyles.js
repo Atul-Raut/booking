@@ -17,6 +17,12 @@ export const globalStyles = StyleSheet.create({
     padding: 10,
     color: "#05375a",
   },
+  inputTextArea: {
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    color: "#05375a",
+  },
   textInput: {
     flex: 1,
     marginTop: Platform.OS === "ios" ? 0 : 5,

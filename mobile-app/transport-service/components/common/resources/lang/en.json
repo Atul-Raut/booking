@@ -58,5 +58,14 @@
     "vehicleNameMandatory":"Please enter your vehicle Name.",
     "addVehicleSuccess":"Vehicle added successfully.",
     "updateVehicleSuccess":"Vehicle updated successfully.",
-    "addVehicleError":"Vehicle already exist."
+    "addVehicleError":"Vehicle already exist.",
+    "CreatePost":"Create Post",
+    "activityDate":"Activity Date",
+    "activityDateFrom": "From",
+    "activityDateTo":"To",
+    "locationFrom":"Source",
+    "locationTo":"Destination",
+    "location":"Location",
+    "details":"Details",
+    "createPost":"Create Post"
 }

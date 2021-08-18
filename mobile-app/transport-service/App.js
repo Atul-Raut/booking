@@ -18,6 +18,7 @@ import MyVehicleScreen from "./components/transport-service/MyVehicleScreen";
 import PostDetails from "./components/common/PostDetails";
 import Dashboard from "./components/common/Dashboard";
 import AddVehicleScreen from './components/transport-service/AddVehicleScreen'
+import CreatePost from "./components/common/CreatePost";
 
 const Drawer = createDrawerNavigator();
 
@@ -142,6 +143,16 @@ export default function App() {
               headerLeft: null,
               headerTitleStyle: { alignSelf: "center" },
             })}
+          />
+          <Drawer.Screen
+              name="CreatePost"
+              component={CreatePost}
+              options={({ navigation }) => ({
+                header: (props) => <Header navigation={navigation} 
+                name={translateMsg('CreatePost')} />,
+                headerLeft: null,
+                headerTitleStyle: { alignSelf: "center" },
+              })}
           />
           <Drawer.Screen
             name="PostDetails"
