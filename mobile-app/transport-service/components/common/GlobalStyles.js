@@ -6,7 +6,6 @@ export const globalStyles = StyleSheet.create({
     flexDirection: "column",
   },
   titleText: {
-    fontFamily: "nunito-bold",
     fontSize: 18,
     color: "#333",
   },
@@ -84,14 +83,12 @@ export const globalStyles = StyleSheet.create({
   },
   dropDownItemStyle: {
     fontSize: 14,
-    fontFamily: "Roboto-Regular",
     color: "#05375a",
   },
   dropDownPickerStyle: {
     height: 40,
     color: "#05375a",
     fontSize: 14,
-    fontFamily: "Roboto-Regular",
 
     margin: 12,
     borderWidth: 1,

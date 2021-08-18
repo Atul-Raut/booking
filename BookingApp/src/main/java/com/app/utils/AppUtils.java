@@ -58,7 +58,7 @@ public class AppUtils {
 		LogUtils.logInfo(logger, requestInfo.getRequestId(), "Successfull response created.");
 		
 		try {
-			LogUtils.logDebug(logger, requestInfo.getRequestId(), CoreUtils.getJsonStringFromObject(response));
+			LogUtils.logInfo(logger, requestInfo.getRequestId(), CoreUtils.getJsonStringFromObject(response));
 		}catch(Exception e) {
 			LogUtils.logError(logger, requestInfo.getRequestId(), null,"Debug log error", e);
 		}
@@ -145,7 +145,7 @@ public class AppUtils {
 		response.setMessage(message);
 		
 		try {
-			LogUtils.logInfo(logger, requestInfo.getRequestId(), "Error response created.");
+			LogUtils.logInfo(logger, requestInfo.getRequestId(), "Error response created." + CoreUtils.getJsonStringFromObject(response));
 			logActivity(requestInfo, errorCode, service, message);
 		}catch(Exception | Error e1) {
 			LogUtils.logError(logger, requestInfo.getRequestId(), null, "Activity log error.", e1);

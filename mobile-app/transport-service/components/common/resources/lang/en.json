@@ -67,5 +67,9 @@
     "locationTo":"Destination",
     "location":"Location",
     "details":"Details",
-    "createPost":"Create Post"
+    "createPost":"Create Post",
+    "activityDateFromMandatory":"Please enter activity from date.",
+    "activityDateToMandatory":"Please enter activity to date.",
+    "postCreateSuccess":"Post Created.",
+    "postCreateError":"Post not created."
 }

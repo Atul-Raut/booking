@@ -4,7 +4,8 @@ import * as Animatable from "react-native-animatable";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 import {translateMsg} from '../common/Translation'
-import AppBaseComponent,{clearLocalStorage, setDataintoLocalStorage} from "../common/AppBaseComponent";
+import AppBaseComponent,{clearLocalStorage, setDataintoLocalStorage,
+   setSelectedService} from "../common/AppBaseComponent";
 import { callApi } from "./AppService";
 import AwesomeAlert from 'react-native-awesome-alerts';
 
@@ -14,6 +15,8 @@ export default class LoginScreen extends AppBaseComponent {
       this.onSubmit = this.onSubmit.bind(this);
       this.validate = this.validate.bind(this);
       this.translate = this.translate.bind(this);
+      this.onSelectedService=this.onSelectedService.bind(this);
+
       this.setUserInfoAndNavigateToHomePage = this.setUserInfoAndNavigateToHomePage.bind(this);
       this.screenID = "SCR-CMN-01";
       this.OnSubmitServiceID = "WS-UP-04";
@@ -98,8 +101,13 @@ async onSubmit(event) {
   }
 }
 
+onSelectedService = () => {
+  setSelectedService("1", "Transport Service");
+}
+
 setUserInfoAndNavigateToHomePage =(userInfo) =>{
   setDataintoLocalStorage("userInfo", userInfo);
+  this.onSelectedService();
   this.props.navigation.reset({index: 0,
     routes: [{name:'HomeScreen'}]});
 }

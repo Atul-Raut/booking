@@ -207,7 +207,7 @@ render() {
               placeholder={translateMsg('vehicleNo')}
               value={vehicleNo}
               style={globalStyles.input}
-              autoCapitalize="none"
+              autoCapitalize="characters"
               onChangeText={(val) => this.setState({vehicleNo:val})}
             />
           </View>

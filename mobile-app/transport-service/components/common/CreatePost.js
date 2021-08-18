@@ -1,23 +1,26 @@
 import React from "react";
 import { View, Text,TouchableOpacity,
-  TextInput,Platform,StyleSheet, ScrollView,StatusBar,
-   Alert,Picker} from "react-native";
-import AppBaseComponent,{getUserId} from "../common/AppBaseComponent";
+  TextInput, ScrollView,StatusBar, Picker, Button} from "react-native";
+import AppBaseComponent,{getServiceID, getUserId} from "../common/AppBaseComponent";
 import { callApi } from "../common/AppService";
 import {translateMsg} from '../common/Translation';
 import * as Animatable from "react-native-animatable";
 import {globalStyles} from '../common/GlobalStyles'
 import AwesomeAlert from 'react-native-awesome-alerts';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { format } from "date-fns";
 
 export default class CreatePost extends AppBaseComponent {
   constructor(props){
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
-    this.OnSubmitServiceID= "";
+    this.OnSubmitServiceID= "WS-PS-02";
     this.screenID = "SCR-DSH-03";
     this.state = {
       activityDateFrom:"",
       activityDateTo:"",
+      fromDate:"",
+      toDate:"",
       vehicleType:"",
       vehicleTypes: [],
       successMsg:"",
@@ -29,9 +32,9 @@ export default class CreatePost extends AppBaseComponent {
       activityDateToVal:"",
       locationFrom:"",
       locationTo:"",
-      locationFromVal:"",
-      locationToVal:"",
-      details:""
+      details:"",
+      isDatePickerVisibleFrom:false,
+      isDatePickerVisibleTo:false
     };
 }
 
@@ -72,6 +75,7 @@ getVehicleTypes = async () => {
 
 async onSubmit(event) {
   event.preventDefault();
+  this.setState({activityDateFromVal:'',activityDateToVal:''})
 
   let validationResult = await this.validateFields(this.screenID, null);
   if(!validationResult || !(validationResult.length == 0)){
@@ -87,7 +91,14 @@ async onSubmit(event) {
     return;
   }else {
     let body = {
-      userId          :   getUserId()
+      userId          :   getUserId(),
+      serviceId       : getServiceID(),
+      vehicleId       : this.state.vehicleType,
+      activityFromDate: this.state.fromDate,
+      activityToDate  : this.state.toDate,
+      source          : this.state.locationFrom,
+      destination     : this.state.locationTo,
+      otherInfo       : this.state.details
     };
   
     let param = {
@@ -97,13 +108,12 @@ async onSubmit(event) {
   
     let response = await callApi(param);
     if(response && response.retCode == this.SUCCESS_RET_CODE){
-      this.state.successMsg = 
-        (this.mode == "NEW")? translateMsg('addVehicleSuccess') : translateMsg('updateVehicleSuccess')
+      this.state.successMsg = translateMsg('postCreateSuccess')
       this.showSuccess();
     }  
     else if(response && response.retCode == "WS-E-CM-0002"){
       this.state.title = this.translate("operationFailed")
-      this.state.errorMsg = this.translate("addVehicleError")
+      this.state.errorMsg = this.translate("postCreateError")
       this.showAlert();
     }
     else{
@@ -137,23 +147,44 @@ hideSuccess = () => {
     showSuccess: false
   });
   this.props.navigation.reset({index: 0,
-    routes: [{name:'MyVehiclesScreen'}]});
+    routes: [{name:'Dashboard'}]});
 };
 
 async onValueChangeVehicleType(value) {
   this.setState({ vehicleType: value });
 }
 
-
-
 render() {
   const {vehicleType,activityDateFrom,activityDateTo, activityDateFromVal, activityDateToVal,
-    locationFrom,locationTo,locationFromVal,locationToVal,details,
-    successMsg, errorMsg, showAlert, showSuccess} = this.state;
+    locationFrom,locationTo,details,
+    successMsg, errorMsg, showAlert, showSuccess, isDatePickerVisibleFrom
+  ,isDatePickerVisibleTo} = this.state;
+
+    const showDatePickerFrom = () => {
+      this.setState({isDatePickerVisibleFrom:true})
+    };
+    const showDatePickerTo = () => {
+      this.setState({isDatePickerVisibleTo:true})
+    };
+  
+    const hideDatePickerFrom = () => {
+      this.setState({isDatePickerVisibleFrom:false})
+    };
+    const hideDatePickerTo = () => {
+      this.setState({isDatePickerVisibleTo:false})
+    };
+  
+    const handleConfirmFrom = (date) => {
+      this.setState({activityDateFrom: format(date, "yyyy-MM-dd HH"), fromDate : format(date, "yyyyMMddHHmmss")});
+      hideDatePickerFrom();
+    };
+    const handleConfirmTo = (date) => {
+      this.setState({activityDateTo:format(date, "yyyy-MM-dd HH"), toDate : format(date, "yyyyMMddHHmmss")});
+      hideDatePickerTo();
+    };
 
   return (
     <View style={globalStyles.container}>
-      <StatusBar backgroundColor="#009387" barStyle="light-content" />
       <Animatable.View animation="fadeInUpBig" style={globalStyles.footer}>
         <ScrollView>
           <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>{translateMsg('vehicleType')}</Text>
@@ -179,66 +210,63 @@ render() {
 
           <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>{translateMsg('activityDate')}</Text>
           <View style={[globalStyles.action,{flexDirection:'row'}]}>
+          <TouchableOpacity onPress={showDatePickerFrom}>
             <TextInput
+              editable={false}
               placeholder={translateMsg('activityDateFrom')}
               value={activityDateFrom}
-              style={globalStyles.input}
-              autoCapitalize="none"
-              onChangeText={(val) => this.setState({activityDateFrom:val})}
+              style={[globalStyles.input,{width:110}]}
+              autoCapitalize="characters"
             />
-            <TextInput
-              placeholder={translateMsg('activityDateTo')}
-              value={activityDateTo}
-              style={globalStyles.input}
-              autoCapitalize="none"
-              onChangeText={(val) => this.setState({activityDateTo:val})}
+            </TouchableOpacity>
+            <DateTimePickerModal
+              isVisible={isDatePickerVisibleFrom}
+              mode="datetime"
+              onConfirm={handleConfirmFrom}
+              onCancel={hideDatePickerFrom}
             />
+             <DateTimePickerModal
+              isVisible={isDatePickerVisibleTo}
+              mode="datetime"
+              onConfirm={handleConfirmTo}
+              onCancel={hideDatePickerTo}
+            />
+            <TouchableOpacity onPress={showDatePickerTo}>
+              <TextInput
+                editable={false}
+                placeholder={translateMsg('activityDateTo')}
+                value={activityDateTo}
+                style={[globalStyles.input,{width:110}]}
+                onChangeText={(val) => this.setState({activityDateTo:val})}
+              />
+            </TouchableOpacity>
           </View>
           <View>
-              <Text style={globalStyles.validation_text_msg}>
-                  {locationFromVal}
-              </Text>
-              <Text style={globalStyles.validation_text_msg}>
-                  {locationToVal}
-              </Text>
+            <Text style={globalStyles.validation_text_msg}>
+                  {activityDateFromVal || activityDateToVal}
+            </Text>
           </View>
           <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>{translateMsg('location')}</Text>
-          <View style={globalStyles.action}>
+          <View>
             <TextInput
-              multiline
               maxLength={250}
               placeholder={translateMsg('locationFrom')}
               value={locationFrom}
-              numberOfLines={2}
-              style={globalStyles.inputTextArea}
-              autoCapitalize="none"
+              style={[globalStyles.input]}
               onChangeText={(val) => this.setState({locationFrom:val})}
             />
           </View>
           <View>
-              <Text style={globalStyles.validation_text_msg}>
-                  {activityDateFromVal}
-              </Text>
-          </View>
-          <View style={globalStyles.action}>
             <TextInput
-              multiline
               maxLength={250}
               placeholder={translateMsg('locationTo')}
               value={locationTo}
-              numberOfLines={2}
-              style={globalStyles.inputTextArea}
-              autoCapitalize="none"
+              style={[globalStyles.input]}
               onChangeText={(val) => this.setState({locationTo:val})}
             />
           </View>
+          <Text>{translateMsg('details')}</Text>
           <View>
-              <Text style={globalStyles.validation_text_msg}>
-                  {activityDateToVal}
-              </Text>
-          </View>
-          <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>{translateMsg('details')}</Text>
-          <View style={[globalStyles.action]}>
             <TextInput
               multiline={true}
               editable={true}
@@ -247,15 +275,12 @@ render() {
               value={details}
               numberOfLines={4}
               style={globalStyles.inputTextArea}
-              autoCapitalize="none"
               onChangeText={(val) => this.setState({details:val})}
             />
           </View>
-
-
           <TouchableOpacity
             onPress={this.onSubmit}
-            style={[globalStyles.submitButton, {marginTop:30}]}>
+            style={[globalStyles.submitButton, {marginTop:10}]}>
             <Text style={[globalStyles.textSign, { color: "white" }]}>{
               translateMsg('createPost')
             }</Text>
@@ -265,7 +290,7 @@ render() {
       <AwesomeAlert
           show={showAlert}
           showProgress={false}
-          title={(this.mode == "NEW")? translateMsg('addVehicle') : translateMsg('updateVehicle')}
+          title={translateMsg('createPost')}
           message={errorMsg}
           closeOnTouchOutside={true}
           closeOnHardwareBackPress={false}
@@ -278,7 +303,7 @@ render() {
       <AwesomeAlert
           show={showSuccess}
           showProgress={false}
-          title={(this.mode == "NEW")? translateMsg('addVehicle') : translateMsg('updateVehicle')}
+          title={translateMsg('createPost')}
           message={successMsg}
           closeOnTouchOutside={false}
           closeOnHardwareBackPress={false}

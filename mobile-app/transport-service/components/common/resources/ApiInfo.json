@@ -35,6 +35,11 @@
             "name":"User User Vehicle",
             "type":"PUT",
             "path":"vehicle/updatevehicle"
+        },
+        "WS-PS-02":{
+            "name":"Create Post",
+            "type":"POST",
+            "path":"post/create"
         }
 
       }

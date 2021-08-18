@@ -48,5 +48,20 @@
                  "msgId" : "vehicleNameMandatory"
              }
          ]
+    },
+    "SCR-DSH-03":{
+        "name":"Create Post",
+        "validations":[
+            {
+                 "name" : "activityDateFrom",
+                 "validate" : {"required": true},
+                 "msgId" : "activityDateFromMandatory"
+            },
+            {
+                 "name" : "activityDateTo",
+                 "validate" : {"required": true},
+                 "msgId" : "activityDateToMandatory"
+             }
+        ]
     }
 }
