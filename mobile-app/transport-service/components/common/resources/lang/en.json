@@ -73,5 +73,6 @@
     "postCreateSuccess":"Post Created.",
     "postCreateError":"Post not created.",
     "chooseVehicleType":"Choose Vehicle Types...",
-    "vehicleTypeMandatory":"Please select at least onle vehicle type."
+    "vehicleTypeMandatory":"Please select at least onle vehicle type.",
+    "myRequest":"My Request"
 }

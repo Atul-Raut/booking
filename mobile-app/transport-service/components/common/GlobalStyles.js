@@ -9,6 +9,20 @@ export const globalStyles = StyleSheet.create({
     fontSize: 18,
     color: "#333",
   },
+  textPage:{
+    fontSize: 16,
+    color: "#333",
+    fontWeight: "bold",
+    letterSpacing: 1,
+  },
+  cartHeader:{
+    fontSize: 14,
+    color: "#333",
+    fontWeight: "bold",
+    letterSpacing: 1,
+    paddingLeft:5,
+    marginTop:5
+  },
   input: {
     height: 40,
     margin: 12,
@@ -153,5 +167,21 @@ export const globalStyles = StyleSheet.create({
     color: "#333",
     letterSpacing: 1,
     letterSpacing:0,
+  },
+  cardMyRequest: {
+    borderRadius: 6,
+    elevation: 2,
+    backgroundColor: "#C5CBE3",
+    shadowOffset: { width: 1, height: 1 },
+    shadowColor: "#333",
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    marginHorizontal: 5,
+    marginVertical: 5,
+    // height: "20%",
+  },
+  cardConsent: {
+    marginHorizontal: 10,
+    marginVertical: 20,
   },
 });
