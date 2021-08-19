@@ -71,5 +71,7 @@
     "activityDateFromMandatory":"Please enter activity from date.",
     "activityDateToMandatory":"Please enter activity to date.",
     "postCreateSuccess":"Post Created.",
-    "postCreateError":"Post not created."
+    "postCreateError":"Post not created.",
+    "chooseVehicleType":"Choose Vehicle Types...",
+    "vehicleTypeMandatory":"Please select at least onle vehicle type."
 }

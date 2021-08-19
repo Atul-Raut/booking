@@ -119,5 +119,9 @@ export const globalStyles = StyleSheet.create({
     marginTop: 15,
     margin:12,
     padding:10
-  }
+  },
+  icon: {
+    position: "absolute",
+    left: 16,
+  },
 });

@@ -61,7 +61,7 @@
         :id,
         :userId,
         :serviceId,
-        :vehicleId,
+        concat(',', :vehicleId, ','),
         :activityFromDate,
         :activityToDate,
         :source,

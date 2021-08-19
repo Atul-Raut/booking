@@ -36,6 +36,11 @@
             "type":"PUT",
             "path":"vehicle/updatevehicle"
         },
+        "WS-VS-06":{
+            "name":"Get Cat wise Vehicle Types From Master",
+            "type":"POST",
+            "path":"vehicle/allcatwise"
+        },
         "WS-PS-02":{
             "name":"Create Post",
             "type":"POST",

@@ -4,6 +4,7 @@ package com.app.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,6 +90,12 @@ public class PostController extends ControllerBase {
 				return result;
 			}
 			
+			String vehicleId = Objects.toString(requestInfo.get("vehicleId"), "");
+			vehicleId = vehicleId.replace("(", "");
+			vehicleId = vehicleId.replace(")", "");
+			vehicleId = vehicleId.replace("[", "");
+			vehicleId = vehicleId.replace("]", "");
+			requestInfo.put("vehicleId", vehicleId);
 			
 			service.executeUpdate(requestInfo);
 			result = createSuccessResponse(requestInfo,null);

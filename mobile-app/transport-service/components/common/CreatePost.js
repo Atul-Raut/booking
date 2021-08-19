@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text,TouchableOpacity,
-  TextInput, ScrollView,StatusBar, Picker, Button} from "react-native";
+  TextInput, ScrollView, StyleSheet} from "react-native";
 import AppBaseComponent,{getServiceID, getUserId} from "../common/AppBaseComponent";
 import { callApi } from "../common/AppService";
 import {translateMsg} from '../common/Translation';
@@ -9,6 +9,10 @@ import {globalStyles} from '../common/GlobalStyles'
 import AwesomeAlert from 'react-native-awesome-alerts';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
+import { AntDesign } from "@expo/vector-icons";
+import Icon from 'react-native-vector-icons/MaterialIcons'
+import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+
 
 export default class CreatePost extends AppBaseComponent {
   constructor(props){
@@ -22,7 +26,6 @@ export default class CreatePost extends AppBaseComponent {
       fromDate:"",
       toDate:"",
       vehicleType:"",
-      vehicleTypes: [],
       successMsg:"",
       title:"",
       errorMsg:"",
@@ -30,11 +33,14 @@ export default class CreatePost extends AppBaseComponent {
       showSuccess:false,
       activityDateFromVal:"",
       activityDateToVal:"",
+      vehicleTypeVal:"",
       locationFrom:"",
       locationTo:"",
       details:"",
       isDatePickerVisibleFrom:false,
-      isDatePickerVisibleTo:false
+      isDatePickerVisibleTo:false,
+      selectedItems: [],
+      items:[],
     };
 }
 
@@ -44,7 +50,7 @@ componentDidMount() {
 
 getVehicleTypes = async () => {
   let param = {
-    'serviceId': 'WS-VS-01',
+    'serviceId': 'WS-VS-06',
     'body': {}
   }
 
@@ -52,30 +58,25 @@ getVehicleTypes = async () => {
     if(response && response.retCode == this.SUCCESS_RET_CODE){
       if(response.result.length > 0){
         this.setState({
-          vehicleTypes: response.result
+          items: response.result
         });
-        if(!this.state.vehicleType){
-          this.setState({
-            vehicleType: response.result[0].vehicleId
-          });
-        }
       }
       else{
         this.setState({
-          vehicleTypes: []
+          items: []
         });
       }
     }
     else{
       this.setState({
-        vehicleTypes: []
+        items: []
       });
     }
   }
 
 async onSubmit(event) {
   event.preventDefault();
-  this.setState({activityDateFromVal:'',activityDateToVal:''})
+  this.setState({activityDateFromVal:'',activityDateToVal:'', vehicleTypeVal:''})
 
   let validationResult = await this.validateFields(this.screenID, null);
   if(!validationResult || !(validationResult.length == 0)){
@@ -154,9 +155,10 @@ async onValueChangeVehicleType(value) {
   this.setState({ vehicleType: value });
 }
 
+
 render() {
-  const {vehicleType,activityDateFrom,activityDateTo, activityDateFromVal, activityDateToVal,
-    locationFrom,locationTo,details,
+  const {activityDateFrom,activityDateTo, activityDateFromVal, activityDateToVal,vehicleTypeVal,
+    locationFrom,locationTo,details,items,
     successMsg, errorMsg, showAlert, showSuccess, isDatePickerVisibleFrom
   ,isDatePickerVisibleTo} = this.state;
 
@@ -183,32 +185,45 @@ render() {
       hideDatePickerTo();
     };
 
+    const onSelectedItemsChange = (selectedItems) => {
+      alert(selectedItems)
+      this.setState({ vehicleType : selectedItems});
+    };
+
   return (
     <View style={globalStyles.container}>
       <Animatable.View animation="fadeInUpBig" style={globalStyles.footer}>
         <ScrollView>
-          <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>{translateMsg('vehicleType')}</Text>
-          <View style={{ flex: 0.7, fontSize: 14 }}>
-            <Picker
-              itemStyle={globalStyles.dropDownItemStyle}
-              mode="dropdown"
-              style={globalStyles.dropDownPickerStyle}
-              selectedValue={vehicleType}
-              onValueChange={this.onValueChangeVehicleType.bind(this)}
-            >
-              {this.state.vehicleTypes.map((item, index) => (
-                <Picker.Item
-                  color="#0087F0"
-                  label={item.vehicleType}
-                  value={item.vehicleId}
-                  index={index}
-                  key={item.vehicleId}
-                />
-              ))}
-            </Picker>
+          <View>
+            <TouchableOpacity onPress={(props) => { this.props.navigation.navigate('Dashboard') }}>
+              <AntDesign name="arrowleft" size={24} color="black" 
+                style={globalStyles.icon}/>
+            </TouchableOpacity>
           </View>
-
+          <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>{translateMsg('vehicleType')}</Text>
+          <View>
+            <SectionedMultiSelect
+              items={items}
+              IconRenderer={Icon}
+              uniqueKey="id"
+              subKey="children"
+              selectText={translateMsg('chooseVehicleType')}
+              showDropDowns={true}
+              readOnlyHeadings={true}
+              onSelectedItemsChange={onSelectedItemsChange}
+              selectedItems={this.state.vehicleType}
+              animateDropDowns={false}
+              modalWithSafeAreaView={true}
+            />
+          </View>
+          <View>
+            <Text style={globalStyles.validation_text_msg}>
+                  {vehicleTypeVal}
+            </Text>
+          </View>
+          <View>
           <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>{translateMsg('activityDate')}</Text>
+          </View>
           <View style={[globalStyles.action,{flexDirection:'row'}]}>
           <TouchableOpacity onPress={showDatePickerFrom}>
             <TextInput

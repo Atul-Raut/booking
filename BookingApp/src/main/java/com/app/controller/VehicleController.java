@@ -2,6 +2,7 @@ package com.app.controller;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,8 @@ import com.app.core.dto.RequestInfo;
 import com.app.core.util.CoreUtils;
 import com.app.core.utils.LogUtils;
 import com.app.dto.ResponseDTO;
+
+import javassist.bytecode.analysis.Type;
 
 @RestController
 @RequestMapping("vehicle")
@@ -60,6 +63,57 @@ public class VehicleController extends ControllerBase {
 			}
 			
 			result = createSuccessResponse(requestInfo,service.getData(requestInfo));
+		}catch(Exception e) {
+			result = createErrorResponse(requestInfo, null, e);
+		}
+		return result;
+	}
+	@PostMapping("/allcatwise")
+	@ServiceInfo(serviceCode = "WS-VS-06", serviceName = "Get All Vehicle From Master with categry", queryId = "app.vehicle.get.allcatwise")
+	private ResponseDTO getAllCatWise(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
+			@RequestAttribute("requestId") String requestId) throws Exception {
+		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
+		ResponseDTO result = null;
+		try {
+			requestInfo.putAll(input);
+			result = validate(requestInfo);
+
+			if(null != result) {
+				return result;
+			}
+			
+			Map<String, List<Map<String, Object>>> categories = new HashMap<String, List<Map<String, Object>>>();
+			List<Map<String, Object>> allData = service.getData(requestInfo);
+			Map<String, String> idName = new HashMap<String, String>();
+			
+			allData.forEach( type -> {
+				String cat = type.get("CATEGORY_ID").toString();
+				if(!categories.containsKey(cat)) {
+					categories.put(cat, new ArrayList<Map<String,Object>>());
+				}
+				idName.put(cat, type.get("CATEGORY_NAME").toString());
+				
+				List<Map<String, Object>> catItems = categories.get(cat);
+				Map<String, Object> item = new HashMap<String, Object>();
+				item.put("id", type.get("vehicleId"));
+				item.put("name", type.get("vehicleName"));
+				item.put("vehicleType", type.get("vehicleType"));
+				catItems.add(item);
+				categories.put(cat, catItems);
+			});
+			
+			List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+			
+			idName.forEach((key, value) ->{
+				Map<String, Object> item = new HashMap<String, Object>();
+				item.put("name", value);
+				item.put("id", key);
+				item.put("children", categories.get(key));
+				data.add(item);
+			});
+		
+			
+			result = createSuccessResponse(requestInfo,data);
 		}catch(Exception e) {
 			result = createErrorResponse(requestInfo, null, e);
 		}

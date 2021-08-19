@@ -61,6 +61,11 @@
                  "name" : "activityDateTo",
                  "validate" : {"required": true},
                  "msgId" : "activityDateToMandatory"
+             },
+             {
+                 "name" : "vehicleType",
+                 "validate" : {"required": true},
+                 "msgId" : "vehicleTypeMandatory"
              }
         ]
     }
