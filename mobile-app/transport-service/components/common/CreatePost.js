@@ -1,17 +1,17 @@
 import React from "react";
 import { View, Text,TouchableOpacity,
-  TextInput, ScrollView, StyleSheet} from "react-native";
+  TextInput, ScrollView} from "react-native";
 import AppBaseComponent,{getServiceID, getUserId} from "../common/AppBaseComponent";
 import { callApi } from "../common/AppService";
 import {translateMsg} from '../common/Translation';
 import * as Animatable from "react-native-animatable";
-import {globalStyles} from '../common/GlobalStyles'
+import {globalStyles} from '../common/GlobalStyles';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
-import { AntDesign } from "@expo/vector-icons";
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+import { MaterialIcons } from "@expo/vector-icons";
 
 
 export default class CreatePost extends AppBaseComponent {
@@ -25,7 +25,7 @@ export default class CreatePost extends AppBaseComponent {
       activityDateTo:"",
       fromDate:"",
       toDate:"",
-      vehicleType:"",
+      vehicleType:[],
       successMsg:"",
       title:"",
       errorMsg:"",
@@ -186,7 +186,6 @@ render() {
     };
 
     const onSelectedItemsChange = (selectedItems) => {
-      alert(selectedItems)
       this.setState({ vehicleType : selectedItems});
     };
 
@@ -194,14 +193,14 @@ render() {
     <View style={globalStyles.container}>
       <Animatable.View animation="fadeInUpBig" style={globalStyles.footer}>
         <ScrollView>
-          <View>
-            <TouchableOpacity onPress={(props) => { this.props.navigation.navigate('Dashboard') }}>
-              <AntDesign name="arrowleft" size={24} color="black" 
-                style={globalStyles.icon}/>
-            </TouchableOpacity>
-          </View>
-          <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>{translateMsg('vehicleType')}</Text>
-          <View>
+          <MaterialIcons
+            name="arrow-back"
+            size={20}
+            onPress={(props) => { this.props.navigation.navigate('Dashboard') }}
+            style={[globalStyles.icon],{marginTop:5}}
+          />
+          <View style={[globalStyles.action]}>
+            <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>{translateMsg('vehicleType')}</Text>
             <SectionedMultiSelect
               items={items}
               IconRenderer={Icon}

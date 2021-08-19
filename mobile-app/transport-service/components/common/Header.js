@@ -1,77 +1,27 @@
-import React, { Component } from "react";
-import { StyleSheet, View, Text } from "react-native";
-import { translateMsg } from "../common/Translation";
+import React from "react";
+import { View, Text } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { getSelectedServiceName } from "./AppBaseComponent";
+import {globalStyles} from '../common/GlobalStyles';
 
 export default function Header({ navigation, name }) {
-
   const openMenu = () => {
     navigation.openDrawer();
   };
   return (
-    <View style={styles.header}>
+    <View style={globalStyles.header}>
       <MaterialIcons
         name="menu"
         size={20}
         onPress={openMenu}
-        style={styles.icon}
+        style={globalStyles.icon}
       />
       <View>
-        <Text style={styles.headerText}>{name}</Text>
+        <Text style={globalStyles.headerText}>{name}</Text>
       </View>
-      {/* <MaterialIcons
-        name="settings"
-        size={20}
-        onPress={openSettings}
-        style={styles.settingsIcon}
-      /> */}
-       <View style={styles.serviceNameText}>
-        <Text style={styles.serviceNameText2}>{getSelectedServiceName()}</Text>
+       <View style={globalStyles.serviceNameText}>
+        <Text style={globalStyles.serviceNameText2}>{getSelectedServiceName()}</Text>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  header: {
-    width: "100%",
-    height: 60,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#009387",
-  },
-  headerText: {
-    fontWeight: "bold",
-    fontSize: 20,
-    color: "#333",
-    letterSpacing: 1,
-    textAlign: "center",
-    width: "100%",
-  },
-  serviceNameText: {
-    right: 5,
-    position: "absolute",
-    justifyContent: "flex-end",
-    flexDirection: "row",
-    textAlign: "right",
-    marginTop:30,
-  },
-  serviceNameText2: {
-    fontSize: 10,
-    color: "#333",
-    letterSpacing: 1,
-    letterSpacing:0,
-  },
-  icon: {
-    position: "absolute",
-    left: 16,
-  },
-  settingsIcon: {
-    right: 16,
-    position: "absolute",
-    justifyContent: "flex-end",
-    flexDirection: "row",
-  },
-});
