@@ -4,11 +4,10 @@
     "slug": "TransportServiceApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Hertz-icon-2.png",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/Hertz-icon-2.png",
+      "backgroundColor": "#009387"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -16,14 +15,13 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
+     "ios": {
+      "bundleIdentifier": "com.trn.trasport",
+      "buildNumber": "1.0.0"
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+      "package": "com.trn.trasport",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
