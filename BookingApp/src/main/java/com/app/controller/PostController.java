@@ -2,6 +2,7 @@ package com.app.controller;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -286,8 +287,37 @@ public class PostController extends ControllerBase {
 			if(null != result) {
 				return result;
 			}
+			//Get post request
+			List<Map<String, Object>> requests = service.getData(requestInfo);
 			
-			result = createSuccessResponse(requestInfo,service.getData(requestInfo));
+			//get user images
+			requestInfo.setQueryId("app.vehicle.get.uservehicleimage");
+			List<Map<String, Object>> images = service.getData(requestInfo);
+			
+			
+			//group images request wise
+			Map<String, List<String>> requestWiseImages = new HashMap<String, List<String>>();
+			images.forEach(image -> {
+				String postRequestId = image.get("requestID").toString();
+				if(!requestWiseImages.containsKey(postRequestId)) {
+					requestWiseImages.put(postRequestId, new ArrayList<String>());
+				}
+				
+				List<String> vImages = requestWiseImages.get(postRequestId);
+				vImages.add(image.get("url").toString());
+				
+				requestWiseImages.put(postRequestId, vImages);
+			});
+			
+			//Add images to each request
+			requests.forEach(req -> {
+				String postRequestId = req.get("requestID").toString();
+				req.put("images", requestWiseImages.get(postRequestId));
+			});
+			
+			
+			
+			result = createSuccessResponse(requestInfo,requests);
 		}catch(Exception e) {
 			result = createErrorResponse(requestInfo, null, e);
 		}

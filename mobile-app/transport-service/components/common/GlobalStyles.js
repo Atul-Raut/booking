@@ -1,4 +1,7 @@
-import { StyleSheet, Platform} from "react-native";
+import { StyleSheet, Platform, Dimensions} from "react-native";
+
+const { height } = Dimensions.get("screen");
+const height_logo = height * 0.09;
 
 export const globalStyles = StyleSheet.create({
   container: {
@@ -178,10 +181,15 @@ export const globalStyles = StyleSheet.create({
     shadowRadius: 2,
     marginHorizontal: 5,
     marginVertical: 5,
-    // height: "20%",
+    height:200
   },
   cardConsent: {
     marginHorizontal: 10,
     marginVertical: 20,
   },
+  logo: {
+    width: height_logo,
+    height: height_logo,
+    borderColor: "black",
+  }
 });

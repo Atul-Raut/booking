@@ -6,6 +6,9 @@ import {translateMsg} from '../common/Translation';
 import * as Animatable from "react-native-animatable";
 import {globalStyles} from '../common/GlobalStyles'
 import AwesomeAlert from 'react-native-awesome-alerts';
+import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default class AddVehicleScreen extends AppBaseComponent {
   constructor(props){
@@ -24,6 +27,7 @@ export default class AddVehicleScreen extends AppBaseComponent {
         vehicleName:"",
         vehicleId:"",
         vehicleType:"",
+        vehicleTypeVal:"",
       };
     }
 
@@ -32,7 +36,7 @@ export default class AddVehicleScreen extends AppBaseComponent {
       vehicleNo:this.selectedItem.vehicleNo || "",
       vehicleNoVal:"",
       vehicleNameVal:"",
-      vehicleType: this.selectedItem.vehicleId || "",
+      vehicleType: this.selectedItem.vehicleId || [],
       vehicleName:this.selectedItem.vehicleName || "",
       vehicleTypes: [],
       successMsg:"",
@@ -40,6 +44,7 @@ export default class AddVehicleScreen extends AppBaseComponent {
       errorMsg:"",
       showAlert:false,
       showSuccess:false,
+      items:[],
     };
 }
 
@@ -48,6 +53,32 @@ componentDidMount() {
 }
 
 getVehicleTypes = async () => {
+  let param = {
+    'serviceId': 'WS-VS-06',
+    'body': {}
+  }
+
+  let response = await callApi(param);
+    if(response && response.retCode == this.SUCCESS_RET_CODE){
+      if(response.result.length > 0){
+        this.setState({
+          items: response.result
+        });
+      }
+      else{
+        this.setState({
+          items: []
+        });
+      }
+    }
+    else{
+      this.setState({
+        items: []
+      });
+    }
+  }
+
+getVehicleTypes1 = async () => {
   let param = {
     'serviceId': 'WS-VS-01',
     'body': {}
@@ -157,34 +188,48 @@ async onValueChangeVehicleType(value) {
 }
  
 render() {
-  const {vehicleNo, vehicleName, vehicleNoVal, vehicleNameVal, vehicleType,
-    successMsg, errorMsg, showAlert, showSuccess} = this.state
+  const {vehicleNo, vehicleName, vehicleNoVal, vehicleNameVal, vehicleType,vehicleTypeVal,
+    successMsg, errorMsg, showAlert, showSuccess, items} = this.state;
+
+    const onSelectedItemsChange = (selectedItems) => {
+      this.setState({ vehicleType : selectedItems});
+    };
+
   return (
     <View style={globalStyles.container}>
+      <View>
+      <MaterialIcons
+        name="arrow-back"
+        size={20}
+        onPress={(props) => { this.props.navigation.navigate('MyVehiclesScreen') }}
+        style={[globalStyles.icon],{marginTop:5}}
+      />
+    </View>
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
       <Animatable.View animation="fadeInUpBig" style={globalStyles.footer}>
         <ScrollView>
-          <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>{translateMsg('vehicleType')}</Text>
-          <View style={{ flex: 0.7, fontSize: 14 }}>
-            <Picker
-              itemStyle={globalStyles.dropDownItemStyle}
-              mode="dropdown"
-              style={globalStyles.dropDownPickerStyle}
-              selectedValue={vehicleType}
-              onValueChange={this.onValueChangeVehicleType.bind(this)}
-            >
-              {this.state.vehicleTypes.map((item, index) => (
-                <Picker.Item
-                  color="#0087F0"
-                  label={item.vehicleType}
-                  value={item.vehicleId}
-                  index={index}
-                  key={item.vehicleId}
-                />
-              ))}
-            </Picker>
-          </View>
-
+          <View style={[globalStyles.action]}>
+              <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>{translateMsg('vehicleType')}</Text>
+              <SectionedMultiSelect
+                items={items}
+                IconRenderer={Icon}
+                uniqueKey="id"
+                subKey="children"
+                selectText={translateMsg('chooseVehicleType')}
+                showDropDowns={true}
+                readOnlyHeadings={true}
+                onSelectedItemsChange={onSelectedItemsChange}
+                selectedItems={this.state.vehicleType}
+                animateDropDowns={false}
+                modalWithSafeAreaView={true}
+                single={true}
+              />
+            </View>
+            <View>
+              <Text style={globalStyles.validation_text_msg}>
+                  {vehicleTypeVal}
+              </Text>
+            </View>
           <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>{translateMsg('vehicleName')}</Text>
           <View style={globalStyles.action}>
             <TextInput

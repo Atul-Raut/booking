@@ -1,5 +1,5 @@
 import React from "react";
-import {  View,Text, StyleSheet, ScrollView,FlatList, TouchableOpacity } from 'react-native';
+import {  View,Text, StyleSheet, ScrollView,FlatList, TouchableOpacity,Image } from 'react-native';
 import AppBaseComponent,{getServiceID, getUserId} from "../common/AppBaseComponent";
 import { callApi } from "../common/AppService";
 import {translateMsg} from '../common/Translation';
@@ -7,12 +7,50 @@ import AccordionCustome from "./AccordionList/AccordionCustome";
 import { MaterialIcons } from "@expo/vector-icons";
 import {globalStyles} from '../common/GlobalStyles';
 import * as Animatable from "react-native-animatable";
-import { Button } from "react-native-paper";
 
 export default class MyRequest extends AppBaseComponent {
     constructor(props){
         super(props);
+        this.state={
+            requests:[]
+        }
     }
+
+    componentDidMount() {
+        this.makeRemoteRequest();
+    }
+
+    makeRemoteRequest = async () => {
+        //TODO remove userID and account type from body
+        let param = {
+            'serviceId': 'WS-PS-09',
+            'body': {
+                "userId":"atul.raut",
+                "acType":1,
+                "postId":"9fc615e0-ef2f-48f4-8e9a-5e34cd28a6a9"
+            }
+        }
+    
+        let response = await callApi(param);
+        if(response && response.retCode == this.SUCCESS_RET_CODE){
+            if(response.result.length > 0){
+                this.setState({
+                    requests: response.result
+                });
+            }
+            else{
+                this.setState({
+                    requests: []
+                });
+            }
+        }
+        else{
+            this.setState({
+                requests: []
+            });
+        }
+    }
+      
 
     _renderView(collapse, item) {
         let rets = [];
@@ -31,10 +69,18 @@ export default class MyRequest extends AppBaseComponent {
 
         if(item.status == 'NEW'){
             btn.push(
-                <View key={'new'}>
+                <View key={'new'} >
                     <TouchableOpacity
                         key={'new'}
+                        style={{flexDirection:'row'}}
                     >
+                        <MaterialIcons
+                            key={'acceptThumb'}
+                            name="thumb-up"
+                            size={15}
+                            color={'white'}
+                            style={{marginTop:8, marginRight:-20, zIndex:1}}
+                        />
                         <Text style={[ { color: "white",
                             fontWeight: "bold",
                             backgroundColor: "#079057",
@@ -42,30 +88,50 @@ export default class MyRequest extends AppBaseComponent {
                             borderRadius: 5,
                             width: 90,
                             textAlign: "center",
-                            padding: 6,}]}>
+                            padding: 5}]}>
                             {'Accept'}
                         </Text>
                     </TouchableOpacity>
                 </View>
             );
-        }
+        };
         return(
-            <View style={[globalStyles.cardMyRequest,{height:100}]}>
-                <View style={{flexDirection: "row"}}>
+            <View style={[globalStyles.cardMyRequest,{paddingBottom:10}]}>
+                <View style={{flexDirection: "row"}}> 
                     <Text style={[globalStyles.cartHeader]}>{item.requestUserName}</Text>
                     <Text style={{paddingLeft:20}}></Text>
                     {rets}
                    
                 </View>
-                <View style={{ position:"absolute", alignItems:"flex-end", width:'100%', marginTop: 25, right:10}}>
+                <View style={{ position:"absolute", marginTop: 25, right:10}}>
                     {btn}
                 </View>
-                <View style={{paddingLeft:10}}>
+                <View style={{paddingLeft:10, width:'70%'}}>
                     <Text>{item.experience + ' years of Driving Experience'}</Text>
                 </View>
-                <View style={{paddingLeft:10}}>
+                <View style={{paddingLeft:10, width:'70%'}}>
                     <Text>{'Leaving at ' + item.location}</Text>
                 </View>
+
+                <FlatList
+                    data={item.images}
+                    key={"2"}
+                    numColumns={3}
+                    renderItem={({ item }) => (
+                    <Image
+                        source={item}
+                        style={{
+                        width: 100,
+                        height: 120,
+                        borderWidth: 1,
+                        borderColor: "#c35547",
+                        resizeMode: "contain",
+                        margin: 6,
+                        }}
+                        keyExtractor={(item) => item.id}
+                    />
+                    )}
+                />
             </View>
         );
     }
@@ -73,84 +139,38 @@ export default class MyRequest extends AppBaseComponent {
     _renderBody(collapse, item) {
         return(
             <View> 
-            
+                 <View style={{
+                       flexDirection:'row'
+                       }}>
+                   <MaterialIcons
+                           key={'contactPhone'}
+                           name="phone-android"
+                           size={25}
+                           color={'black'}
+                       />
+                   <Text style={{marginTop:5}}>
+                       {' ' + item.phone}
+                   </Text>
+               </View>
+               <View style={{
+                       flexDirection:'row'
+                       }}>
+                   <MaterialIcons
+                           key={'contactEmail'}
+                           name="email"
+                           size={25}
+                           color={'black'}
+                       />
+                   <Text style={{marginTop:5}}>
+                       {' ' + item.email}
+                   </Text>
+               </View>
             </View>
         );
     }
 
 render() {
-
-    const requests = [
-        {
-            "postId": "9fc615e0-ef2f-48f4-8e9a-5e34cd28a6a9",
-            "requestUserId": "atul.raut1",
-            "status": "NEW",
-            "requestId": "f705c6d0-3c01-4c44-bd83-263305267806",
-            "requestUserName":"Atul Raut",
-            "review":5,
-            "location":"Osaka",
-            "experience":8
-        },
-        {
-            "postId": "9fc615e0-ef2f-48f4-8e9a-5e34cd28a6a9",
-            "requestUserId": "atul.raut1",
-            "status": "NEW",
-            "requestId": "f705c6d0-3c01-4c44-bd83-263305267806",
-            "requestUserName":"Ravi",
-            "review":4,
-            "location":"Pune",
-            "experience":6
-        },
-        {
-            "postId": "9fc615e0-ef2f-48f4-8e9a-5e34cd28a6a9",
-            "requestUserId": "viki",
-            "status": "NEW",
-            "requestId": "f705c6d0-3c01-4c44-bd83-263305267806",
-            "requestUserName":"Viki",
-            "review":3,
-            "location":"Pune",
-            "experience":3
-        },
-        {
-            "postId": "9fc615e0-ef2f-48f4-8e9a-5e34cd28a6a9",
-            "requestUserId": "shailendra",
-            "status": "NEW",
-            "requestId": "f705c6d0-3c01-4c44-bd83-263305267806",
-            "requestUserName":"Shailendra",
-            "review":3,
-            "location":"Nagar",
-            "experience":0
-        },
-        {
-            "postId": "9fc615e0-ef2f-48f4-8e9a-5e34cd28a6a9",
-            "requestUserId": "pratul",
-            "status": "NEW",
-            "requestId": "f705c6d0-3c01-4c44-bd83-263305267806",
-            "requestUserName":"Pratul",
-            "review":0,
-            "location":"Tokyo",
-            "experience":2
-        },
-        {
-            "postId": "9fc615e0-ef2f-48f4-8e9a-5e34cd28a6a9",
-            "requestUserId": "nitin",
-            "status": "NEW",
-            "requestId": "f705c6d0-3c01-4c44-bd83-263305267806",
-            "requestUserName":"Nitin",
-            "review":0,
-            "location":"Pune",
-            "experience":6
-        },
-        {
-            "postId": "9fc615e0-ef2f-48f4-8e9a-5e34cd28a6a9",
-            "requestUserId": "nitin2",
-            "status": "NEW",
-            "requestId": "f705c6d0-3c01-4c44-bd83-263305267806",
-            "requestUserName":"Nitin2",
-            "review":0,
-            "experience":1
-        }
-    ];
+    const {requests} = this.state;
   return (
   <>
     <View>
@@ -160,9 +180,6 @@ render() {
         onPress={(props) => { this.props.navigation.navigate('Dashboard') }}
         style={[globalStyles.icon],{marginTop:5}}
       />
-    </View>
-    <View>
-        <Text style={[globalStyles.textPage]}>{translateMsg('myRequest')}</Text>
     </View>
     <View>
       <Animatable.View animation="fadeInUpBig" style={globalStyles.footer}>

@@ -29,3 +29,10 @@ INSERT INTO "M_VEHICLE_TYPE"("ID","TYPE","NAME","CATEGORY","DISP_ORD","DEL_FLG",
 INSERT INTO "M_CTL_CONFIG" VALUES('WS-VS-06','CONNON_CONFIG', 0, 'Get All Vehicle Types From Master Cat Wise', '{}', 0, 0, CURRENT_TIMESTAMP, 'ATUL', null, null);
 
 --2021-08-18 END
+
+
+--2021-08-20 start
+INSERT INTO public."T_USER_VEHICLE_IMG"(
+	"ID", "USER_VEHICLE_ID", "USER_ID", "IMG_URL", "DEL_FLG", "INS_DT", "INS_BY")
+	VALUES ('1', 'ec4fdd86-599a-4052-9ea5-d6dd4e4f0f97', 'atul.raut1', '../../assets/download.jpeg', 0, CURRENT_TIMESTAMP, 'Atul');
+--2020-08-20 end

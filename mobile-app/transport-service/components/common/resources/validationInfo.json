@@ -46,7 +46,12 @@
                  "name" : "vehicleName",
                  "validate" : {"required": true},
                  "msgId" : "vehicleNameMandatory"
-             }
+             },
+             {
+                  "name" : "vehicleType",
+                  "validate" : {"required": true},
+                  "msgId" : "vehicleIdMandatory"
+              }
          ]
     },
     "SCR-DSH-03":{

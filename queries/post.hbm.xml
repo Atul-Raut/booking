@@ -160,12 +160,29 @@
   </sql-query>
   <sql-query name="app.post.get.request">
     <![CDATA[
-      SELECT *
+      SELECT
+        postReq."POST_ID" AS "postId",
+        postReq."STATUS" AS "status",
+        postReq."INS_DT" AS "requestTime",
+        postReq."ID" AS "requestID",
+        postReq."REQUEST_USER_ID" AS "requestUserId",
+        mUser."FIRST_NAME" || ' ' || "LAST_NAME" AS "requestUserName",
+        3 AS "review",
+        'Pune' AS "location",
+        '3' AS "experience",
+        mUser."MOBILE" AS "phone",
+        mUser."EMAIL" AS "email",
+        null AS "images"
       FROM
-        "T_POST_REQUEST"
+        "T_POST_REQUEST" AS postReq
+      JOIN "M_USER" AS mUser
+        ON (
+          mUser."USER_ID" = postReq."REQUEST_USER_ID"
+        )
       WHERE
-        "POST_ID" = :postId
-        AND "DEL_FLG" = 0
+        postReq."POST_ID" = :postId
+        AND postReq."DEL_FLG" = 0
+        AND mUser."DEL_FLG" = 0
     ]]>
   </sql-query>
 </hibernate-mapping>
