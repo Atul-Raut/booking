@@ -26,6 +26,14 @@ export const globalStyles = StyleSheet.create({
     paddingLeft:5,
     marginTop:5
   },
+  cartContent:{
+    fontSize: 12,
+    color: "#333",
+    fontWeight: "bold",
+    letterSpacing: 1,
+    paddingLeft:5,
+    marginTop:5
+  },
   input: {
     height: 40,
     margin: 12,
@@ -106,7 +114,6 @@ export const globalStyles = StyleSheet.create({
     height: 40,
     color: "#05375a",
     fontSize: 14,
-
     margin: 12,
     borderWidth: 1,
     padding: 10,
@@ -140,6 +147,13 @@ export const globalStyles = StyleSheet.create({
   icon: {
     position: "absolute",
     left: 16,
+  },
+  iconStart: {
+    left: 16
+  },
+  iconEnd: {
+    left: 16,
+    alignItems:'flex-end'
   },
   header: {
     width: "100%",
@@ -183,6 +197,18 @@ export const globalStyles = StyleSheet.create({
     marginVertical: 5,
     height:200
   },
+  cardProfile: {
+    borderRadius: 0,
+    elevation: 0,
+    backgroundColor: "#C5CBE3",
+    shadowOffset: { width: 1, height: 1 },
+    shadowColor: "#333",
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    marginHorizontal: 2,
+    marginVertical: 2,
+    height:200
+  },
   cardConsent: {
     marginHorizontal: 10,
     marginVertical: 20,
@@ -191,5 +217,13 @@ export const globalStyles = StyleSheet.create({
     width: height_logo,
     height: height_logo,
     borderColor: "black",
-  }
+  },
+  signIn: {
+    width: 150,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    flexDirection: "row",
+  },
 });

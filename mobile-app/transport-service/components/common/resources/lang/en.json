@@ -75,5 +75,8 @@
     "chooseVehicleType":"Choose Vehicle Types...",
     "vehicleTypeMandatory":"Please select at least onle vehicle type.",
     "myRequest":"My Request",
-    "vehicleIdMandatory":"Please select vehicle type."
+    "vehicleIdMandatory":"Please select vehicle type.",
+    "contact":"Contact",
+    "birthDay":"Birthday",
+    "account":"Account"
 }

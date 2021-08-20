@@ -57,9 +57,9 @@ export default class GetStarted extends Component {
           </View>
           <View style={styles.button}>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("MyRequest")}
+              onPress={() => this.props.navigation.navigate("ProfileScreen")}
             >
-              <Text style={styles.textSign}>My Request</Text>
+              <Text style={styles.textSign}>Profile</Text>
             </TouchableOpacity>
           </View>
         </Animatable.View>
