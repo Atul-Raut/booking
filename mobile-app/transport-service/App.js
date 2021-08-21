@@ -20,6 +20,7 @@ import Dashboard from "./components/common/Dashboard";
 import AddVehicleScreen from './components/transport-service/AddVehicleScreen'
 import CreatePost from "./components/common/CreatePost";
 import MyRequest from "./components/common/MyRequest";
+import ProfileUpdateScreen from "./components/common/ProfileUpdateScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -182,6 +183,16 @@ export default function App() {
               options={({ navigation }) => ({
                 header: (props) => <Header navigation={navigation} 
                 name={'MyRequest'} />,
+                headerLeft: null,
+                headerTitleStyle: { alignSelf: "center" },
+              })}
+          />
+          <Drawer.Screen
+              name="ProfileUpdateScreen"
+              component={ProfileUpdateScreen}
+              options={({ navigation }) => ({
+                header: (props) => <Header navigation={navigation} 
+                name={'Update Profile'} />,
                 headerLeft: null,
                 headerTitleStyle: { alignSelf: "center" },
               })}

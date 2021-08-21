@@ -35,4 +35,15 @@ INSERT INTO "M_CTL_CONFIG" VALUES('WS-VS-06','CONNON_CONFIG', 0, 'Get All Vehicl
 INSERT INTO public."T_USER_VEHICLE_IMG"(
 	"ID", "USER_VEHICLE_ID", "USER_ID", "IMG_URL", "DEL_FLG", "INS_DT", "INS_BY")
 	VALUES ('1', 'ec4fdd86-599a-4052-9ea5-d6dd4e4f0f97', 'atul.raut1', '../../assets/download.jpeg', 0, CURRENT_TIMESTAMP, 'Atul');
+INSERT INTO "M_CTL_CONFIG" VALUES('WS-UP-10','CONNON_CONFIG', 0, 'Profile', '{}', 0, 0, CURRENT_TIMESTAMP, 'ATUL', null, null);
+ALTER TABLE "M_USER" ADD COLUMN "BIRTH_DATE" VARCHAR(10);
+INSERT INTO "T_POST_REQUEST" VALUES ('7','9fc615e0-ef2f-48f4-8e9a-5e34cd28a6a9','a','NEW',0, CURRENT_TIMESTAMP, 'ATUL', null,null);
+INSERT INTO "T_POST_REQUEST" VALUES ('7','9fc615e0-ef2f-48f4-8e9a-5e34cd28a6a9','b','NEW',0, CURRENT_TIMESTAMP, 'ATUL', null,null);
+INSERT INTO "T_POST_REQUEST" VALUES ('7','9fc615e0-ef2f-48f4-8e9a-5e34cd28a6a9','atul.raut2','NEW',0, CURRENT_TIMESTAMP, 'ATUL', null,null);
+INSERT INTO public."T_USER_VEHICLE_IMG" VALUES ('2', 'ec4fdd86-599a-4052-9ea5-d6dd4e4f0f97', 'atul.raut1', 'download1.jpeg', 0, CURRENT_TIMESTAMP, 'ATUL');
+INSERT INTO public."T_USER_VEHICLE_IMG" VALUES ('2', 'ec4fdd86-599a-4052-9ea5-d6dd4e4f0f97', 'atul.raut1', 'download1.jpeg', 0, CURRENT_TIMESTAMP, 'ATUL');
+INSERT INTO public."T_USER_VEHICLE_IMG" VALUES ('3', 'ec4fdd86-599a-4052-9ea5-d6dd4e4f0f97', 'atul.raut1', 'download3.jpeg', 0, CURRENT_TIMESTAMP, 'ATUL');
+INSERT INTO public."T_USER_VEHICLE_IMG" VALUES ('4', '30f12dca-e372-44c1-afe5-6a834db36241', 'b', 'download3.jpeg', 0, CURRENT_TIMESTAMP, 'ATUL');
+INSERT INTO public."T_USER_VEHICLE_IMG" VALUES ('5', '30f12dca-e372-44c1-afe5-6a834db36241', 'b', 'download2.jpeg', 0, CURRENT_TIMESTAMP, 'ATUL');
+
 --2020-08-20 end

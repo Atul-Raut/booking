@@ -78,5 +78,9 @@
     "vehicleIdMandatory":"Please select vehicle type.",
     "contact":"Contact",
     "birthDay":"Birthday",
-    "account":"Account"
+    "account":"Account",
+    "mobileNumber":"Mobile Number",
+    "save":"Save",
+    "transportService":"Transport Service"
+
 }

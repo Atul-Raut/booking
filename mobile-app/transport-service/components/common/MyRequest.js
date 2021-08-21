@@ -119,7 +119,7 @@ export default class MyRequest extends AppBaseComponent {
                     numColumns={3}
                     renderItem={({ item }) => (
                     <Image
-                        source={item}
+                        source={require('../../assets/'+ item)}
                         style={{
                         width: 100,
                         height: 120,

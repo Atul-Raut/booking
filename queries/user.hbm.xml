@@ -88,7 +88,7 @@
         "FIRST_NAME" AS "firstName",
         "LAST_NAME" AS "lastName"
       FROM
-        "M_USER" 
+        "M_USER"
       WHERE
         "DEL_FLG" = 0
     ]]>
@@ -157,12 +157,12 @@
         SELECT
 	       count(*) as "count"
 	      FROM
-	        "T_USER_PASSWORD_HIST" 
+	        "T_USER_PASSWORD_HIST"
 	      WHERE
 	      	"USER_ID" = :userId
 	      	AND "AC_TYP" = :acType
 	      	AND "PASSWORD" = :newPassword
-	      	
+
       ]]>
   </sql-query>
   <sql-query name="app.user.password.hist.save">
@@ -182,7 +182,7 @@
 	      		CURRENT_TIMESTAMP,
 	      		:serviceCode
 	      	)
-	      	
+
       ]]>
   </sql-query>
   <sql-query name="app.user.otp.save">
@@ -206,14 +206,14 @@
   </sql-query>
   <sql-query name="app.user.get.for.otp">
     <![CDATA[
-	    SELECT 
+	    SELECT
 	      "USER_ID",
 	      "AC_TYP",
 	      "EMAIL",
 	      "MOBILE",
 	      "FIRST_NAME",
 	      "LAST_NAME"
-	     FROM 
+	     FROM
 	     	"M_USER"
 	     WHERE
 	        "USER_ID" = :userId
@@ -221,6 +221,35 @@
 	        AND "DEL_FLG" = 0
     ]]>
   </sql-query>
-  
-  
+  <sql-query name="app.user.profile.get">
+    <![CDATA[
+    select
+       "FIRST_NAME" || ' ' || "LAST_NAME" AS "userName",
+       "EMAIL" AS "email",
+       "MOBILE" AS "mobile",
+       "ADDRESS_LINE_1" AS "location1",
+       "ADDRESS_LINE_2" AS "location2",
+       "BIRTH_DATE" AS "birthday"
+
+        from "M_USER"
+        where
+          "USER_ID" = :userId
+          AND "AC_TYP" = :acType
+          AND "DEL_FLG" = 0
+        ORDER BY "AC_TYP"
+    ]]>
+  </sql-query>
+  <sql-query name="app.user.profile.update">
+    <![CDATA[
+      UPDATE "M_USER" SET
+        "MOBILE" = :mobile,
+        "ADDRESS_LINE_1" = :location1,
+        "ADDRESS_LINE_2" = :location2,
+        "BIRTH_DATE" = :birthday
+      WHERE
+          "USER_ID" = :userId
+          AND "AC_TYP" = :acType
+          AND "DEL_FLG" = 0
+    ]]>
+  </sql-query>
 </hibernate-mapping>

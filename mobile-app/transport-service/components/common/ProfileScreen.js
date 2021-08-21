@@ -9,6 +9,7 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { MaterialIcons } from "@expo/vector-icons";
+import ProfileUpdateScreen from "./ProfileUpdateScreen";
 
 export default class ProfileScreen extends AppBaseComponent {
   constructor(props){
@@ -20,18 +21,22 @@ export default class ProfileScreen extends AppBaseComponent {
 }
 
 componentDidMount() {
-  //this.getVehicleTypes();
+  this.getVehicleTypes();
 }
 
 getVehicleTypes = async () => {
+  //TODO Remove Username and acType
   let param = {
-    'serviceId': 'WS-VS-06',
-    'body': {}
+    'serviceId': 'WS-UP-10',
+    'body': {
+      "userId":"a",
+      "acType":1
+    }
   }
 
   let response = await callApi(param);
     if(response && response.retCode == this.SUCCESS_RET_CODE){
-      if(response.result.length > 0){
+      if(response.result){
         this.setState({
           profile: response.result
         });
@@ -50,16 +55,7 @@ getVehicleTypes = async () => {
   }
 
 render() {
-  //const {profile} = this.state;
-
-  let profile = {
-    "userName":"Atul Raut",
-    "mobile":"+91 7588605579",
-    "location":"Pune, Maharshtra",
-    "email":"atul@mail.com",
-    "birthday":"August 23"
-  }
-
+  const {profile} = this.state;
   return (
     <View style={globalStyles.container}>
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
@@ -71,21 +67,22 @@ render() {
                   {profile.userName}
               </Text>
             </View>
-            <View style={{flex:1}}>
+            <View>
               <Text style={globalStyles.cartHeader}>
                   {translateMsg('contact')}
               </Text>
 
-              <View style={{alignItems:'flex-end', paddingRight:10}}>
+              <View style={{alignItems:'flex-end', paddingRight:30}}>
                 <MaterialIcons
                   name="mode-edit"
                   size={20}
-                  onPress={(props) => { this.props.navigation.navigate('MyVehiclesScreen') }}
+                  onPress={(props) => { this.props.navigation.reset({index: 0,
+                    routes: [{name:'ProfileUpdateScreen', profile:profile}]}); }}
                   style={globalStyles.iconEnd}
                 />
               </View>
             </View>
-            <View style={{flex:1, flexDirection:'row'}}>
+            <View style={{flexDirection:'row'}}>
               <View>
                 <MaterialIcons
                   name="local-phone"
@@ -93,11 +90,11 @@ render() {
                   style={globalStyles.iconStart}
                 />
               </View>
-              <Text style={[globalStyles.cartContent],{marginLeft:10}}>
+              <Text style={[globalStyles.cartContent],{marginLeft:20}}>
                   {profile.mobile}
               </Text>
             </View>
-            <View style={{flex:1, flexDirection:'row'}}>
+            <View style={{flexDirection:'row'}}>
               <View>
                 <MaterialIcons
                   name="place"
@@ -105,11 +102,12 @@ render() {
                   style={globalStyles.iconStart}
                 />
               </View>
-              <Text style={[globalStyles.cartContent],{marginLeft:10}}>
-                  {profile.location}
+              <Text style={[globalStyles.cartContent],{marginLeft:20}}>
+                  {profile.location1}
+                  {profile.location2}
               </Text>
             </View>
-            <View style={{flex:1, flexDirection:'row'}}>
+            <View style={{flexDirection:'row'}}>
               <View>
                 <MaterialIcons
                   name="mail"
@@ -117,11 +115,11 @@ render() {
                   style={globalStyles.iconStart}
                 />
               </View>
-              <Text style={[globalStyles.cartContent],{marginLeft:10}}>
+              <Text style={[globalStyles.cartContent],{marginLeft:20}}>
                   {profile.email}
               </Text>
             </View>
-            <View style={{flex:1, flexDirection:'row'}}>
+            <View style={{flexDirection:'row'}}>
               <View>
                 <MaterialIcons
                   name="cake"
@@ -130,10 +128,10 @@ render() {
                 />
               </View>
               <View>
-                <Text style={[globalStyles.cartContent],{marginLeft:10, fontWeight:'bold'}}>
+                <Text style={[globalStyles.cartContent],{marginLeft:20, fontWeight:'bold'}}>
                   {translateMsg('birthDay')}
                 </Text>
-                <Text style={[globalStyles.cartContent],{marginLeft:10}}>
+                <Text style={[globalStyles.cartContent],{marginLeft:20}}>
                   {profile.birthday}
                 </Text>
               </View>
@@ -150,7 +148,7 @@ render() {
                   {getAcountTypeName()|| 'Service Provider/Customer'}
               </Text>
             </View>
-            <View style={{flex:1, flexDirection:'row', marginTop:20}}>
+            <View style={{flexDirection:'row', marginTop:20}}>
               <Text style={globalStyles.cartContent}>
                   {'Free Trial'}
               </Text>
@@ -170,12 +168,11 @@ render() {
                   </Text>
               </TouchableOpacity>
             </View>
+            <View>
+              <Text></Text>
+              <Text></Text>
+            </View>
           </View>
-         
-          
-        
-         
-         
         </ScrollView>
       </Animatable.View>
     </View>

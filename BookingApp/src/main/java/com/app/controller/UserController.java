@@ -344,6 +344,49 @@ public class UserController extends UserControllerBase {
 		}
 		return result;
 	}
+	
+	@PostMapping("/profile")	
+	@ServiceInfo(serviceCode = "WS-UP-10", serviceName = "Profile", queryId = "app.user.profile.get", logActivity =false)
+	private ResponseDTO getProfile(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo,
+							@RequestAttribute("requestId") String requestId) throws Exception {
+		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
+		requestInfo.putAll(input);
+		ResponseDTO result = null;
+		try {
+			result = validate(requestInfo);
+			if(null != result) {
+				return result;
+			}
+
+			result = createSuccessResponse(requestInfo,service.getDataObject(requestInfo));
+
+		}catch(Exception e) {
+			result = createErrorResponse(requestInfo, null, e);
+		}
+		return result;
+	}
+	
+	@PutMapping("/profile")	
+	@ServiceInfo(serviceCode = "WS-UP-11", serviceName = "Profile Update", queryId = "app.user.profile.update", logActivity =false)
+	private ResponseDTO updateProfile(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo,
+							@RequestAttribute("requestId") String requestId) throws Exception {
+		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
+		requestInfo.putAll(input);
+		ResponseDTO result = null;
+		try {
+			result = validate(requestInfo);
+			if(null != result) {
+				return result;
+			}
+
+			service.executeUpdate(requestInfo);
+			result = createSuccessResponse(requestInfo,null);
+
+		}catch(Exception e) {
+			result = createErrorResponse(requestInfo, null, e);
+		}
+		return result;
+	}
 
 
 }

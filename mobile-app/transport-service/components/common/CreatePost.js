@@ -236,12 +236,14 @@ render() {
             <DateTimePickerModal
               isVisible={isDatePickerVisibleFrom}
               mode="datetime"
+              minimumDate={new Date()}
               onConfirm={handleConfirmFrom}
               onCancel={hideDatePickerFrom}
             />
              <DateTimePickerModal
               isVisible={isDatePickerVisibleTo}
               mode="datetime"
+              minimumDate={new Date()}
               onConfirm={handleConfirmTo}
               onCancel={hideDatePickerTo}
             />

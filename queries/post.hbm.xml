@@ -183,6 +183,7 @@
         postReq."POST_ID" = :postId
         AND postReq."DEL_FLG" = 0
         AND mUser."DEL_FLG" = 0
+        AND mUser."AC_TYP" = 2
     ]]>
   </sql-query>
 </hibernate-mapping>

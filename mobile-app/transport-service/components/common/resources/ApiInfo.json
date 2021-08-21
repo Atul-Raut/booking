@@ -1,5 +1,5 @@
 {
-    "baseUrl":"http://192.168.1.5:8080/",
+    "baseUrl":"http://127.0.0.1:8080/",
     "apiInfo":{
         "WS-UP-04":{
             "name":"Login Service",
@@ -10,6 +10,11 @@
             "name":"Change Password",
             "type":"PUT",
             "path":"user/passwordupdate"
+        },
+        "WS-UP-10":{
+            "name":"Get User profile",
+            "type":"POST",
+            "path":"user/profile"
         },
         "WS-VS-01":{
             "name":"Get All Vehicle Types From Master",

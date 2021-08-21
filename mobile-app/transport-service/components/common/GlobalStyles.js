@@ -206,8 +206,7 @@ export const globalStyles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 2,
     marginHorizontal: 2,
-    marginVertical: 2,
-    height:200
+    marginVertical: 2
   },
   cardConsent: {
     marginHorizontal: 10,
@@ -225,5 +224,14 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 50,
     flexDirection: "row",
+  },
+  profileInput: {
+    height: 30,
+    margin: 1,
+    borderWidth: 0.5,
+    padding: 5,
+    color: "#05375a",
+    width:200,
+    marginLeft:30
   },
 });

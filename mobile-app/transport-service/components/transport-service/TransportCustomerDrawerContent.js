@@ -22,7 +22,7 @@ export function TransportCustomerDrawerContent({props}) {
       <View style={{ flex: 1 }}>
         <DrawerContentScrollView {...props}>
             <View>
-              <Drawer.Section title={translateMsg('CreatePost')}>
+              <Drawer.Section title={translateMsg('transportService')}>
                 <DrawerItem
                   icon={({ color, size }) => (
                     <Icon name="car" color={color} size={size} />
@@ -30,6 +30,15 @@ export function TransportCustomerDrawerContent({props}) {
                   label={translateMsg('CreatePost')}
                   onPress={() => {
                     props.navigation.navigate("CreatePost");
+                  }}
+                />
+                <DrawerItem
+                  icon={({ color, size }) => (
+                    <Icon name="view-list" color={color} size={size} />
+                  )}
+                  label={translateMsg('myRequest')}
+                  onPress={() => {
+                    props.navigation.navigate("MyRequest");
                   }}
                 />
               </Drawer.Section>
