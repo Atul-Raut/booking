@@ -4,6 +4,7 @@ import { Button, View, Text } from 'react-native';
 import {translateMsg} from '../common/Translation'
 import ValidationComponent from 'react-native-form-validator';
 import validationInfo from '../common/resources/validationInfo.json'
+import apiInformaton from "../common/resources/ApiInfo.json";
 
 export default class AppBaseComponent extends ValidationComponent {
   constructor(props) {
@@ -141,5 +142,9 @@ export const getSelectedServiceName=()=>{
 
 export const clearLocalStorage=()=>{
   global.APP_GLOBAL_Data = {};
+}
+
+export const baseUrl=()=>{
+  return apiInformaton.baseUrl;
 }
 

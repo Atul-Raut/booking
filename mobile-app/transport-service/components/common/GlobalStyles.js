@@ -155,6 +155,7 @@ export const globalStyles = StyleSheet.create({
     left: 16,
     alignItems:'flex-end'
   },
+
   header: {
     width: "100%",
     height: 60,
@@ -162,6 +163,7 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#009387",
+    marginTop:20
   },
   headerText: {
     fontWeight: "bold",

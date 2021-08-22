@@ -44,7 +44,7 @@ export default class Homescreen extends AppBaseComponent {
               style={styles.logo}
               resizeMode="stretch"
             />
-            <Text>Transport Service</Text>
+            <Text style={{color:'white', fontWeight:'bold'}}>Transport Service</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -1,6 +1,6 @@
 import React from "react";
 import {  View,Text, StyleSheet, ScrollView,FlatList, TouchableOpacity,Image } from 'react-native';
-import AppBaseComponent,{getServiceID, getUserId} from "../common/AppBaseComponent";
+import AppBaseComponent,{getServiceID, getUserId, baseUrl} from "../common/AppBaseComponent";
 import { callApi } from "../common/AppService";
 import {translateMsg} from '../common/Translation';
 import AccordionCustome from "./AccordionList/AccordionCustome";
@@ -119,7 +119,7 @@ export default class MyRequest extends AppBaseComponent {
                     numColumns={3}
                     renderItem={({ item }) => (
                     <Image
-                        source={require('../../assets/'+ item)}
+                        source={item && {uri: item}}
                         style={{
                         width: 100,
                         height: 120,

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.core.annotation.ServiceInfo;
+import com.app.core.common.ApplicationContext;
 import com.app.core.common.ApplicationDBServiceIF;
 import com.app.core.common.CommonConstants;
 import com.app.core.dto.RequestInfo;
@@ -294,6 +295,7 @@ public class PostController extends ControllerBase {
 			requestInfo.setQueryId("app.vehicle.get.uservehicleimage");
 			List<Map<String, Object>> images = service.getData(requestInfo);
 			
+			String baseUrl = ApplicationContext.getProperty("app.baseurl");
 			
 			//group images request wise
 			Map<String, List<String>> requestWiseImages = new HashMap<String, List<String>>();
@@ -304,7 +306,7 @@ public class PostController extends ControllerBase {
 				}
 				
 				List<String> vImages = requestWiseImages.get(postRequestId);
-				vImages.add(image.get("url").toString());
+				vImages.add(baseUrl + "image/" + image.get("url").toString());
 				
 				requestWiseImages.put(postRequestId, vImages);
 			});

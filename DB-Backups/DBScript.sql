@@ -45,5 +45,8 @@ INSERT INTO public."T_USER_VEHICLE_IMG" VALUES ('2', 'ec4fdd86-599a-4052-9ea5-d6
 INSERT INTO public."T_USER_VEHICLE_IMG" VALUES ('3', 'ec4fdd86-599a-4052-9ea5-d6dd4e4f0f97', 'atul.raut1', 'download3.jpeg', 0, CURRENT_TIMESTAMP, 'ATUL');
 INSERT INTO public."T_USER_VEHICLE_IMG" VALUES ('4', '30f12dca-e372-44c1-afe5-6a834db36241', 'b', 'download3.jpeg', 0, CURRENT_TIMESTAMP, 'ATUL');
 INSERT INTO public."T_USER_VEHICLE_IMG" VALUES ('5', '30f12dca-e372-44c1-afe5-6a834db36241', 'b', 'download2.jpeg', 0, CURRENT_TIMESTAMP, 'ATUL');
-
 --2020-08-20 end
+
+--2021-08-22 Start
+ALTER TABLE "T_USER_VEHICLE_IMG"  ADD CONSTRAINT user_vehicle_img_pk PRIMARY KEY ("ID");
+--2021-08-22 end
