@@ -1,6 +1,7 @@
 package com.app.datasource.sql.common;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,8 +12,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.Parameter;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 import javax.transaction.Transactional;
 
+import org.hibernate.sql.Template;
 import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,7 +116,12 @@ public class SQLDBServiceImpl extends ApplicationDBService{
 		
 		
 		for (String parameter : queryParameters) {
-			query.setParameter(parameter, input.get(parameter));
+			Object value = input.get(parameter);
+			if(value instanceof Date) {
+				query.setParameter(parameter, (Date)value, TemporalType.TIMESTAMP);
+			}else {
+				query.setParameter(parameter, value);
+			}
 		}
 		
 		query.unwrap(org.hibernate.query.Query.class)

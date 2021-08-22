@@ -53,7 +53,7 @@ export const globalStyles = StyleSheet.create({
     paddingLeft: 10,
     color: "#05375a",
     borderBottomWidth: 1,
-    height:50
+    height:40
   },
   gridView: {
     flex: 1,
@@ -117,9 +117,6 @@ export const globalStyles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
-  },
-  text_footer:{
-
   },
   text_comp:{ 
     marginTop: 30 
@@ -235,5 +232,37 @@ export const globalStyles = StyleSheet.create({
     color: "#05375a",
     width:200,
     marginLeft:30
+  },
+  signupContainer: {
+    flex: 1,
+    backgroundColor: "#009387",
+  },
+  text_header: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 25,
+    textAlign: "center",
+  },
+  footer: {
+    flex: Platform.OS === "ios" ? 3 : 5,
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 30,
+  },
+  text_footer: {
+    color: "#05375a",
+    fontSize: 16,
+  },
+  action: {
+    flexDirection: "row",
+  },
+  checkbox: {
+    alignSelf: "center",
+  },
+  button: {
+    alignItems: "center",
+    marginTop: 20,
   },
 });

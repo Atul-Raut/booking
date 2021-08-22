@@ -81,6 +81,18 @@
     "account":"Account",
     "mobileNumber":"Mobile Number",
     "save":"Save",
-    "transportService":"Transport Service"
+    "transportService":"Transport Service",
+    "accountType":"Account",
+    "customer":"Customer",
+    "serviceProvider":"Service Provider",
+    "name":"Name",
+    "firstName":"First Name",
+    "lastName":"Last Name",
+    "mobile":"Mobile",
+    "iAgree":"I agree to the application ",
+    "termandcond":"terms and conditions.",
+    "readprivacy":"I have also read and agree to the",
+    "freeprivacy":" free trial terms.",
+    "SignUp":"Sign Up"
 
 }

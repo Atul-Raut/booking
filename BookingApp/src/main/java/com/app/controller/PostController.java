@@ -1,7 +1,9 @@
 package com.app.controller;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +32,8 @@ import com.app.dto.ResponseDTO;
 @RestController
 @RequestMapping("post")
 public class PostController extends ControllerBase {
+	
+	private static final SimpleDateFormat sd = new SimpleDateFormat("yyyyMMddHHmmss");
 	
 	public static final List<String> PATH_SERVICE_PATHS = new ArrayList<String>(){
 		private static final long serialVersionUID = 1L;
@@ -98,6 +102,24 @@ public class PostController extends ControllerBase {
 			vehicleId = vehicleId.replace("[", "");
 			vehicleId = vehicleId.replace("]", "");
 			requestInfo.put("vehicleId", vehicleId);
+			
+			String fromDateString = Objects.toString(requestInfo.get("activityFromDate"), null);
+			String toDateString = Objects.toString(requestInfo.get("activityToDate"), null);
+			
+			if(null != fromDateString && !fromDateString.isEmpty()) {
+				Date d = sd.parse(fromDateString);
+				requestInfo.put("activityFromDate", d);
+			}else {
+				requestInfo.put("activityFromDate", null);
+			}
+			
+			if(null != toDateString && !toDateString.isEmpty()) {
+				Date d = sd.parse(toDateString);
+				requestInfo.put("activityToDate", d);
+			}else {
+				requestInfo.put("activityToDate", null);
+			}
+			
 			
 			service.executeUpdate(requestInfo);
 			result = createSuccessResponse(requestInfo,null);

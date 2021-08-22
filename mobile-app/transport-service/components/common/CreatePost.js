@@ -8,7 +8,7 @@ import * as Animatable from "react-native-animatable";
 import {globalStyles} from '../common/GlobalStyles';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { format } from "date-fns";
+import { format,  } from "date-fns";
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import { MaterialIcons } from "@expo/vector-icons";

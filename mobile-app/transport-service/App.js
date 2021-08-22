@@ -21,6 +21,8 @@ import AddVehicleScreen from './components/transport-service/AddVehicleScreen'
 import CreatePost from "./components/common/CreatePost";
 import MyRequest from "./components/common/MyRequest";
 import ProfileUpdateScreen from "./components/common/ProfileUpdateScreen";
+import PrivacyPolicyScreen from "./components/common/PrivacyPolicy";
+import FreeTrialPolicyScreen from "./components/common/FreeTrialPolicyScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -197,6 +199,19 @@ export default function App() {
                 headerTitleStyle: { alignSelf: "center" },
               })}
           />
+          <Drawer.Screen
+            name="PrivacyPolicyScreen"
+            component={PrivacyPolicyScreen}
+            options={({ navigation }) => ({ headerShown: false })}
+          />
+           <Drawer.Screen
+            name="FreeTrialPolicyScreen"
+            component={FreeTrialPolicyScreen}
+            options={({ navigation }) => ({ headerShown: false })}
+          />
+
+
+
         </Drawer.Navigator>
       </NavigationContainer>
     </View>
