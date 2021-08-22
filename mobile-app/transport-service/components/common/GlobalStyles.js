@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, Dimensions} from "react-native";
+import { StyleSheet, Platform, Dimensions } from "react-native";
 
 const { height } = Dimensions.get("screen");
 const height_logo = height * 0.09;
@@ -12,27 +12,27 @@ export const globalStyles = StyleSheet.create({
     fontSize: 18,
     color: "#333",
   },
-  textPage:{
+  textPage: {
     fontSize: 16,
     color: "#333",
     fontWeight: "bold",
     letterSpacing: 1,
   },
-  cartHeader:{
+  cartHeader: {
     fontSize: 14,
     color: "#333",
     fontWeight: "bold",
     letterSpacing: 1,
-    paddingLeft:5,
-    marginTop:5
+    paddingLeft: 5,
+    marginTop: 5,
   },
-  cartContent:{
+  cartContent: {
     fontSize: 12,
     color: "#333",
     fontWeight: "bold",
     letterSpacing: 1,
-    paddingLeft:5,
-    marginTop:5
+    paddingLeft: 5,
+    marginTop: 5,
   },
   input: {
     height: 40,
@@ -53,7 +53,7 @@ export const globalStyles = StyleSheet.create({
     paddingLeft: 10,
     color: "#05375a",
     borderBottomWidth: 1,
-    height:40
+    height: 40,
   },
   gridView: {
     flex: 1,
@@ -65,14 +65,14 @@ export const globalStyles = StyleSheet.create({
   },
   itemName: {
     fontSize: 16,
-    color: '#FFF',
-    fontWeight: '600',
+    color: "#FFF",
+    fontWeight: "600",
   },
   itemCode: {
-    fontWeight: '600',
+    fontWeight: "600",
     fontSize: 12,
-    color: '#FFF',
-    marginTop:5
+    color: "#FFF",
+    marginTop: 5,
   },
   editbutton: {
     color: "white",
@@ -95,16 +95,16 @@ export const globalStyles = StyleSheet.create({
     padding: 6,
   },
   buttenContainer: {
-    flex:1,
-    flexDirection:'row',
-    width:'100%',
-    alignItems:'flex-end',
-    justifyContent:'space-between',
-    textAlign:'center'
+    flex: 1,
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+    textAlign: "center",
   },
   addButton: {
-    right: 20, 
-    alignItems: 'flex-end'
+    right: 20,
+    alignItems: "flex-end",
   },
   dropDownItemStyle: {
     fontSize: 14,
@@ -118,39 +118,39 @@ export const globalStyles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
   },
-  text_comp:{ 
-    marginTop: 30 
+  text_comp: {
+    marginTop: 30,
   },
-  validation_text_msg:{ 
-    color: 'red', 
-    marginTop: 2, 
-    position: "absolute", 
-    justifyContent:'flex-end', 
-    flexDirection: "row", 
-    textAlign:"right"
+  validation_text_msg: {
+    color: "red",
+    marginTop: 2,
+    position: "absolute",
+    justifyContent: "flex-end",
+    flexDirection: "row",
+    textAlign: "right",
   },
   submitButton: {
     height: 50,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
-    borderColor: "#009387",  
-    borderWidth: 1, 
-    backgroundColor: "#009387", 
+    borderColor: "#009387",
+    borderWidth: 1,
+    backgroundColor: "#009387",
     marginTop: 15,
-    margin:12,
-    padding:10
+    margin: 12,
+    padding: 10,
   },
   icon: {
     position: "absolute",
     left: 16,
   },
   iconStart: {
-    left: 16
+    left: 16,
   },
   iconEnd: {
     left: 16,
-    alignItems:'flex-end'
+    alignItems: "flex-end",
   },
 
   header: {
@@ -160,7 +160,7 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#009387",
-    marginTop:20
+    marginTop: 20,
   },
   headerText: {
     fontWeight: "bold",
@@ -176,13 +176,13 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "flex-end",
     flexDirection: "row",
     textAlign: "right",
-    marginTop:30,
+    marginTop: 30,
   },
   serviceNameText2: {
     fontSize: 10,
     color: "#333",
     letterSpacing: 1,
-    letterSpacing:0,
+    letterSpacing: 0,
   },
   cardMyRequest: {
     borderRadius: 6,
@@ -194,7 +194,7 @@ export const globalStyles = StyleSheet.create({
     shadowRadius: 2,
     marginHorizontal: 5,
     marginVertical: 5,
-    height:200
+    height: 200,
   },
   cardProfile: {
     borderRadius: 0,
@@ -205,7 +205,7 @@ export const globalStyles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 2,
     marginHorizontal: 2,
-    marginVertical: 2
+    marginVertical: 2,
   },
   cardConsent: {
     marginHorizontal: 10,
@@ -216,53 +216,53 @@ export const globalStyles = StyleSheet.create({
     height: height_logo,
     borderColor: "black",
   },
-  signIn: {
-    width: 150,
-    height: 40,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 50,
-    flexDirection: "row",
-  },
-  profileInput: {
-    height: 30,
-    margin: 1,
-    borderWidth: 0.5,
-    padding: 5,
-    color: "#05375a",
-    width:200,
-    marginLeft:30
-  },
-  signupContainer: {
-    flex: 1,
-    backgroundColor: "#009387",
-  },
-  text_header: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 25,
-    textAlign: "center",
-  },
-  footer: {
-    flex: Platform.OS === "ios" ? 3 : 5,
-    backgroundColor: "#fff",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingHorizontal: 20,
-    paddingVertical: 30,
-  },
-  text_footer: {
-    color: "#05375a",
-    fontSize: 16,
-  },
-  action: {
-    flexDirection: "row",
-  },
-  checkbox: {
-    alignSelf: "center",
-  },
-  button: {
-    alignItems: "center",
-    marginTop: 20,
-  },
+  // signIn: {
+  //   width: 150,
+  //   height: 40,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   borderRadius: 50,
+  //   flexDirection: "row",
+  // },
+  // profileInput: {
+  //   height: 30,
+  //   margin: 1,
+  //   borderWidth: 0.5,
+  //   padding: 5,
+  //   color: "#05375a",
+  //   width:200,
+  //   marginLeft:30
+  // },
+  // signupContainer: {
+  //   flex: 1,
+  //   backgroundColor: "#009387",
+  // },
+  // text_header: {
+  //   color: "#fff",
+  //   fontWeight: "bold",
+  //   fontSize: 25,
+  //   textAlign: "center",
+  // },
+  // footer: {
+  //   flex: Platform.OS === "ios" ? 3 : 5,
+  //   backgroundColor: "#fff",
+  //   borderTopLeftRadius: 20,
+  //   borderTopRightRadius: 20,
+  //   paddingHorizontal: 20,
+  //   paddingVertical: 30,
+  // },
+  // text_footer: {
+  //   color: "#05375a",
+  //   fontSize: 16,
+  // },
+  // action: {
+  //   flexDirection: "row",
+  // },
+  // checkbox: {
+  //   alignSelf: "center",
+  // },
+  // button: {
+  //   alignItems: "center",
+  //   marginTop: 20,
+  // },
 });

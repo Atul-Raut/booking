@@ -23,8 +23,8 @@ import * as Animatable from "react-native-animatable";
 import Card from "./Card";
 
 export default class PostDetails extends AppBaseComponent {
-  constructor(props, params) {
-    super(props, params);
+  constructor(props) {
+    super(props);
   }
 
   // componentDidMount() {

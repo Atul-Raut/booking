@@ -12,7 +12,7 @@ import AppBaseComponent, {
   getServiceID,
   getUserId,
 } from "../common/AppBaseComponent";
-import { format } from "date-fns";
+import { format, parse, parseISO } from "date-fns";
 import { SpeedDial } from "react-native-elements";
 import { callApi } from "../common/AppService";
 import { translateMsg } from "../common/Translation";
@@ -100,12 +100,13 @@ export default class Dashboard extends AppBaseComponent {
                       <View style={{ flexDirection: "row" }}>
                         <View
                           style={{
-                            marginRight: 100,
+                            // marginRight: 100,
+                            width: "50%",
                           }}
                         >
                           <View style={{ marginBottom: 10 }}>
-                            <Text style={styles.text_footer}>Service </Text>
-                            <Text>{item.serviceDesc}</Text>
+                            <Text style={styles.text_footer}>Post Desc </Text>
+                            <Text>{item.otherInfo}</Text>
                           </View>
                           <View style={{ marginBottom: 10 }}>
                             <Text style={styles.text_footer}>Source </Text>
@@ -116,19 +117,16 @@ export default class Dashboard extends AppBaseComponent {
                             <Text>{item.destination}</Text>
                           </View>
                         </View>
-                        <View>
-                          {/* <View style={{ marginBottom: 10 }}>
-                            <Text style={styles.text_footer}>
-                              Post Description
-                            </Text>
-                            <Text>{item.postDescription}</Text>
-                          </View> */}
+                        <View style={{ width: "50%" }}>
                           <View style={{ marginBottom: 10 }}>
                             <Text style={styles.text_footer}>
                               Activity From Date
                             </Text>
                             <Text>
-                              {format(item.from, "dd-MM-yyyy hh:mm:ss")}
+                              {format(
+                                item.activityFromDate,
+                                "dd-MM-yyyy hh:mm"
+                              )}
                             </Text>
                           </View>
                           <View>
@@ -136,9 +134,35 @@ export default class Dashboard extends AppBaseComponent {
                               Activity To Date
                             </Text>
                             <Text>
-                              {format(item.from, "dd-MM-yyyy hh:mm:ss")}
+                              {/* {format(item.activityToDate, "dd-MM-yyyy hh:mm")} */}
                             </Text>
                           </View>
+                        </View>
+                      </View>
+                      <View style={{ flexDirection: "row" }}>
+                        <View>
+                          <Text
+                            style={{ color: "blue", marginTop: 15 }}
+                            onPress={() =>
+                              this.props.navigation.navigate("MyRequest", item)
+                            }
+                          >
+                            {item.requestCount} requests
+                          </Text>
+                        </View>
+                        <View>
+                          <MaterialIcons
+                            key={"delete"}
+                            name="delete"
+                            size={20}
+                            color={"maroon"}
+                            style={{
+                              marginTop: 15,
+                              // marginRight: -20,
+                              // zIndex: 1,
+                              marginLeft: 60,
+                            }}
+                          />
                         </View>
                       </View>
                     </Card>
