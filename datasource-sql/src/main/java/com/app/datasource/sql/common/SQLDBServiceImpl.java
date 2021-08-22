@@ -15,7 +15,6 @@ import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import javax.transaction.Transactional;
 
-import org.hibernate.sql.Template;
 import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
