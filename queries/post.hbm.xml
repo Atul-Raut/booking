@@ -16,9 +16,7 @@
         "DESTINATION" AS "destination",
         "OTHER" AS "otherInfo",
         "STATUS" AS "status",
-		"SERVICE_DESC" AS "serviceDesc",
-		"POST_DESCRIPTION" AS "postDescription",
-		"FROM" AS "from",
+		    "POST_TITLE" AS "postTitle",
         COALESCE(p2."requestCount",0) AS "requestCount"
       from "T_POST"
       LEFT JOIN (

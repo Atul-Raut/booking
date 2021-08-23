@@ -14,6 +14,7 @@ import com.app.core.common.CommonConstants;
 import com.app.core.dto.RequestInfo;
 import com.app.core.exceptions.ValidationError;
 import com.app.core.util.CoreUtils;
+import com.app.core.utils.LogUtils;
 import com.app.core.validator.ValidatorIF;
 import com.app.core.validator.ValidatorInfo;
 import com.app.dto.ResponseDTO;
@@ -62,6 +63,8 @@ public class ControllerBase {
 	 * Validate
 	 */
 	public ResponseDTO validate(RequestInfo requestInfo) throws Exception {
+		System.out.println(CoreUtils.getJsonStringFromObject(requestInfo));
+		
 		requestInfo.updatePreValidator();
 		Map<String, Object> dbConfig = getCommonConfigAndValidators(requestInfo.getServiceCode());
 		if(!dbConfig.containsKey("CONNON_CONFIG")) {

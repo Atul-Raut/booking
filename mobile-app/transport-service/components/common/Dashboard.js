@@ -40,8 +40,8 @@ export default class Dashboard extends AppBaseComponent {
     let param = {
       serviceId: "WS-PS-11",
       body: {
-        userId: "atul.raut9",
-        acType: 1,
+       // userId: "atul.raut9",
+       // acType: 1,
         // postId: "9fc615e0-ef2f-48f4-8e9a-5e34cd28a6a9",
       },
     };
@@ -106,7 +106,7 @@ export default class Dashboard extends AppBaseComponent {
                         >
                           <View style={{ marginBottom: 10 }}>
                             <Text style={styles.text_footer}>Post Desc </Text>
-                            <Text>{item.otherInfo}</Text>
+                            <Text>{item.postTitle}</Text>
                           </View>
                           <View style={{ marginBottom: 10 }}>
                             <Text style={styles.text_footer}>Source </Text>
@@ -122,12 +122,13 @@ export default class Dashboard extends AppBaseComponent {
                             <Text style={styles.text_footer}>
                               Activity From Date
                             </Text>
-                            <Text>
+                          {/*  <Text>
                               {format(
                                 item.activityFromDate,
                                 "dd-MM-yyyy hh:mm"
                               )}
                             </Text>
+                              */}
                           </View>
                           <View>
                             <Text style={styles.text_footer}>

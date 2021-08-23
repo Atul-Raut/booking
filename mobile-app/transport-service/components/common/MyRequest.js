@@ -35,12 +35,13 @@ export default class MyRequest extends AppBaseComponent {
   makeRemoteRequest = async () => {
     //TODO remove userID and account type from body
     const { postId } = this.props.route.params;
+
     let param = {
       serviceId: "WS-PS-09",
       body: {
         // "userId":"atul.raut",
         // "acType":1,
-        postId: "9fc615e0-ef2f-48f4-8e9a-5e34cd28a6a9",
+        postId: postId,
       },
     };
 
