@@ -41,6 +41,8 @@ export default class CreatePost extends AppBaseComponent {
       isDatePickerVisibleTo:false,
       selectedItems: [],
       items:[],
+      postTitle:"",
+      postTitleVal:"",
     };
 }
 
@@ -99,7 +101,8 @@ async onSubmit(event) {
       activityToDate  : this.state.toDate,
       source          : this.state.locationFrom,
       destination     : this.state.locationTo,
-      otherInfo       : this.state.details
+      otherInfo       : this.state.details,
+      postTitle       : this.state.postTitle
     };
   
     let param = {
@@ -158,7 +161,7 @@ async onValueChangeVehicleType(value) {
 
 render() {
   const {activityDateFrom,activityDateTo, activityDateFromVal, activityDateToVal,vehicleTypeVal,
-    locationFrom,locationTo,details,items,
+    locationFrom,locationTo,details,items,postTitle,postTitleVal,
     successMsg, errorMsg, showAlert, showSuccess, isDatePickerVisibleFrom
   ,isDatePickerVisibleTo} = this.state;
 
@@ -191,15 +194,15 @@ render() {
 
   return (
     <View style={globalStyles.container}>
-      <Animatable.View animation="fadeInUpBig" style={globalStyles.footer}>
-        <ScrollView>
-          <MaterialIcons
+      <MaterialIcons
             name="arrow-back"
             size={20}
             onPress={(props) => { this.props.navigation.navigate('Dashboard') }}
             style={[globalStyles.icon],{marginTop:5}}
           />
-          <View style={[globalStyles.action]}>
+      <Animatable.View animation="fadeInUpBig" style={globalStyles.footer}>
+        <ScrollView>
+          <View>
             <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>{translateMsg('vehicleType')}</Text>
             <SectionedMultiSelect
               items={items}
@@ -218,6 +221,21 @@ render() {
           <View>
             <Text style={globalStyles.validation_text_msg}>
                   {vehicleTypeVal}
+            </Text>
+          </View>
+          <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>{translateMsg('postTitle')}</Text>
+          <View>
+            <TextInput
+              maxLength={250}
+              placeholder={translateMsg('postTitleEx')}
+              value={postTitle}
+              style={[globalStyles.input]}
+              onChangeText={(val) => this.setState({postTitle:val})}
+            />
+          </View>
+          <View>
+            <Text style={globalStyles.validation_text_msg}>
+                  {postTitleVal}
             </Text>
           </View>
           <View>
@@ -294,6 +312,7 @@ render() {
               onChangeText={(val) => this.setState({details:val})}
             />
           </View>
+          <View>
           <TouchableOpacity
             onPress={this.onSubmit}
             style={[globalStyles.submitButton, {marginTop:10}]}>
@@ -301,6 +320,10 @@ render() {
               translateMsg('createPost')
             }</Text>
           </TouchableOpacity>
+          </View>
+          <View>
+            <Text></Text>
+          </View>
         </ScrollView>
       </Animatable.View>
       <AwesomeAlert

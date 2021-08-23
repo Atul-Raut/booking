@@ -93,6 +93,9 @@
     "termandcond":"terms and conditions.",
     "readprivacy":"I have also read and agree to the",
     "freeprivacy":" free trial terms.",
-    "SignUp":"Sign Up"
+    "SignUp":"Sign Up",
+    "postTitle":"Title",
+    "postTitleEx":"Home shifting. Day trip. etc",
+    "postTitleMandatory":"Please enter title."
 
 }

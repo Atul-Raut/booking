@@ -71,6 +71,11 @@
                  "name" : "vehicleType",
                  "validate" : {"required": true},
                  "msgId" : "vehicleTypeMandatory"
+             },
+             {
+                 "name" : "postTitle",
+                 "validate" : {"required": true},
+                 "msgId" : "postTitleMandatory"
              }
         ]
     }
