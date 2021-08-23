@@ -17,12 +17,13 @@ import Settings from "./components/common/Settings";
 import MyVehicleScreen from "./components/transport-service/MyVehicleScreen";
 import PostDetails from "./components/common/PostDetails";
 import Dashboard from "./components/common/Dashboard";
-import AddVehicleScreen from './components/transport-service/AddVehicleScreen'
+import AddVehicleScreen from "./components/transport-service/AddVehicleScreen";
 import CreatePost from "./components/common/CreatePost";
 import MyRequest from "./components/common/MyRequest";
 import ProfileUpdateScreen from "./components/common/ProfileUpdateScreen";
 import PrivacyPolicyScreen from "./components/common/PrivacyPolicy";
 import FreeTrialPolicyScreen from "./components/common/FreeTrialPolicyScreen";
+import CustomerDashboard from "./components/transport-service/TransportCustomerDashboard";
 
 const Drawer = createDrawerNavigator();
 
@@ -149,14 +150,18 @@ export default function App() {
             })}
           />
           <Drawer.Screen
-              name="CreatePost"
-              component={CreatePost}
-              options={({ navigation }) => ({
-                header: (props) => <Header navigation={navigation} 
-                name={translateMsg('CreatePost')} />,
-                headerLeft: null,
-                headerTitleStyle: { alignSelf: "center" },
-              })}
+            name="CreatePost"
+            component={CreatePost}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header
+                  navigation={navigation}
+                  name={translateMsg("CreatePost")}
+                />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
           />
           <Drawer.Screen
             name="PostDetails"
@@ -170,48 +175,62 @@ export default function App() {
             })}
           />
           <Drawer.Screen
-              name="AddVehicleScreen"
-              component={AddVehicleScreen}
-              options={({ navigation }) => ({
-                header: (props) => <Header navigation={navigation} 
-                name={translateMsg('AddVehicleScreen')} />,
-                headerLeft: null,
-                headerTitleStyle: { alignSelf: "center" },
-              })}
+            name="AddVehicleScreen"
+            component={AddVehicleScreen}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header
+                  navigation={navigation}
+                  name={translateMsg("AddVehicleScreen")}
+                />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
           />
           <Drawer.Screen
-              name="MyRequest"
-              component={MyRequest}
-              options={({ navigation }) => ({
-                header: (props) => <Header navigation={navigation} 
-                name={'MyRequest'} />,
-                headerLeft: null,
-                headerTitleStyle: { alignSelf: "center" },
-              })}
+            name="MyRequest"
+            component={MyRequest}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header navigation={navigation} name={"MyRequest"} />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
           />
           <Drawer.Screen
-              name="ProfileUpdateScreen"
-              component={ProfileUpdateScreen}
-              options={({ navigation }) => ({
-                header: (props) => <Header navigation={navigation} 
-                name={'Update Profile'} />,
-                headerLeft: null,
-                headerTitleStyle: { alignSelf: "center" },
-              })}
+            name="CustomerDashboard"
+            component={CustomerDashboard}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header navigation={navigation} name={"CustomerDashboard"} />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
+          />
+          <Drawer.Screen
+            name="ProfileUpdateScreen"
+            component={ProfileUpdateScreen}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header navigation={navigation} name={"Update Profile"} />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
           />
           <Drawer.Screen
             name="PrivacyPolicyScreen"
             component={PrivacyPolicyScreen}
             options={({ navigation }) => ({ headerShown: false })}
           />
-           <Drawer.Screen
+          <Drawer.Screen
             name="FreeTrialPolicyScreen"
             component={FreeTrialPolicyScreen}
             options={({ navigation }) => ({ headerShown: false })}
           />
-
-
-
         </Drawer.Navigator>
       </NavigationContainer>
     </View>

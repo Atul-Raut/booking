@@ -60,7 +60,12 @@
             "name":"Get Post ",
             "type":"POST",
             "path":"post/search"
+        },
+         "WS-PS-12":{
+            "name":"Create Request ",
+            "type":"POST",
+            "path":"post/createrequest"
         }
-
+        
       }
 }
