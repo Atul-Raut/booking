@@ -23,7 +23,9 @@ export default class MyVehicleScreen extends AppBaseComponent {
 }
 
 componentDidMount() {
+  
   this.makeRemoteRequest();
+  
 }
  makeRemoteRequest = async () => {
   //TODO remove userID and account type from body
@@ -50,6 +52,12 @@ componentDidMount() {
         data: []
       });
     }
+    this.setState({
+      showDeleteConfirmation:false,
+        deleteSuccess:false,
+        selectedItem:null,
+        deleteFailed:false,
+    });
   }
 
   updateVehicle =(item)=>{
@@ -165,12 +173,7 @@ render() {
             cancelText={translateMsg('ok')}
             
             onCancelPressed={() => {
-              this.setState({
-                deleteSuccess:false
-              }
-              );
-              this.props.navigation.reset({index: 0,
-                routes: [{name:'MyVehiclesScreen'}]});
+              this.componentDidMount();
             }}
           />
 
