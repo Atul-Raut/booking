@@ -36,7 +36,8 @@ export default class PostDetails extends AppBaseComponent {
       serviceDesc,
       source,
       destination,
-      from,
+      activityFromDate,
+      activityToDate,
       requestCount,
     } = this.props.route.params;
 
@@ -93,11 +94,11 @@ export default class PostDetails extends AppBaseComponent {
                           </View> */}
                     <View style={{ marginBottom: 10 }}>
                       <Text style={styles.text_footer}>Activity From Date</Text>
-                      <Text>{format(from, "dd-MM-yyyy hh:mm:ss")}</Text>
+                      <Text>{activityFromDate ? format(activityFromDate, "dd-MM-yyyy hh:mm:ss") : ''}</Text>
                     </View>
                     <View>
                       <Text style={styles.text_footer}>Activity To Date</Text>
-                      <Text>{format(from, "dd-MM-yyyy hh:mm:ss")}</Text>
+                      <Text>{activityToDate ? format(activityToDate, "dd-MM-yyyy hh:mm:ss") : ''}</Text>
                     </View>
                   </View>
                 </View>

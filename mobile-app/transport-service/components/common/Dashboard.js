@@ -122,13 +122,17 @@ export default class Dashboard extends AppBaseComponent {
                             <Text style={styles.text_footer}>
                               Activity From Date
                             </Text>
-                          {/*  <Text>
-                              {format(
+                            <Text>
+                              { 
+                              item.activityFromDate ? 
+                              format(
                                 item.activityFromDate,
                                 "dd-MM-yyyy hh:mm"
-                              )}
+                              )
+                              : ''
+                            }
                             </Text>
-                              */}
+                              
                           </View>
                           <View>
                             <Text style={styles.text_footer}>
