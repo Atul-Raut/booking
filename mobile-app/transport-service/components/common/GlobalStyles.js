@@ -155,12 +155,11 @@ export const globalStyles = StyleSheet.create({
 
   header: {
     width: "100%",
-    height: 60,
+    height: 80,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#009387",
-    marginTop: 20,
   },
   headerText: {
     fontWeight: "bold",
@@ -216,6 +215,15 @@ export const globalStyles = StyleSheet.create({
     height: height_logo,
     borderColor: "black",
   },
+   profileInput: {
+     height: 30,
+     margin: 1,
+     borderWidth: 0.5,
+     padding: 5,
+     color: "#05375a",
+     width:200,
+     marginLeft:30
+   },
   // signIn: {
   //   width: 150,
   //   height: 40,
@@ -224,15 +232,7 @@ export const globalStyles = StyleSheet.create({
   //   borderRadius: 50,
   //   flexDirection: "row",
   // },
-  // profileInput: {
-  //   height: 30,
-  //   margin: 1,
-  //   borderWidth: 0.5,
-  //   padding: 5,
-  //   color: "#05375a",
-  //   width:200,
-  //   marginLeft:30
-  // },
+
   // signupContainer: {
   //   flex: 1,
   //   backgroundColor: "#009387",

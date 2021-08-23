@@ -90,7 +90,7 @@ render() {
                   style={globalStyles.iconStart}
                 />
               </View>
-              <Text style={[globalStyles.cartContent],{marginLeft:20}}>
+              <Text style={[globalStyles.cartContent],{marginLeft:30}}>
                   {profile.mobile}
               </Text>
             </View>
@@ -102,7 +102,7 @@ render() {
                   style={globalStyles.iconStart}
                 />
               </View>
-              <Text style={[globalStyles.cartContent],{marginLeft:20}}>
+              <Text style={[globalStyles.cartContent],{marginLeft:30}}>
                   {profile.location1}
                   {profile.location2}
               </Text>
@@ -115,7 +115,7 @@ render() {
                   style={globalStyles.iconStart}
                 />
               </View>
-              <Text style={[globalStyles.cartContent],{marginLeft:20}}>
+              <Text style={[globalStyles.cartContent],{marginLeft:30}}>
                   {profile.email}
               </Text>
             </View>
@@ -128,10 +128,10 @@ render() {
                 />
               </View>
               <View>
-                <Text style={[globalStyles.cartContent],{marginLeft:20, fontWeight:'bold'}}>
+                <Text style={[globalStyles.cartContent],{marginLeft:30, fontWeight:'bold'}}>
                   {translateMsg('birthDay')}
                 </Text>
-                <Text style={[globalStyles.cartContent],{marginLeft:20}}>
+                <Text style={[globalStyles.cartContent],{marginLeft:30}}>
                   {profile.birthday}
                 </Text>
               </View>
