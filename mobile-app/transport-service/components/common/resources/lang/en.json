@@ -96,6 +96,9 @@
     "SignUp":"Sign Up",
     "postTitle":"Title",
     "postTitleEx":"Home shifting. Day trip. etc",
-    "postTitleMandatory":"Please enter title."
+    "postTitleMandatory":"Please enter title.",
+    "accountCreateSuccess":"Account created successfully.",
+    "alreadyExistError":"Email already in use, Please try different email or use  forgot password.",
+    "createAccountTitle":"Create Account"
 
 }

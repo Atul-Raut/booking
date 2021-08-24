@@ -78,5 +78,35 @@
                  "msgId" : "postTitleMandatory"
              }
         ]
+    },
+    "WS-UP-03":{
+        "name":"Create Account",
+        "validations":[
+            {
+                 "name" : "email",
+                 "validate" : {"required": true},
+                 "msgId" : "emailMandatory"
+            },
+            {
+                 "name" : "firstName",
+                 "validate" : {"required": true},
+                 "msgId" : "firstNameMandatory"
+             },
+             {
+                 "name" : "lastName",
+                 "validate" : {"required": true},
+                 "msgId" : "lastNameMandatory"
+             },
+             {
+                 "name" : "password",
+                 "validate" : {"required": true},
+                 "msgId" : "passwordMandatory"
+             },
+             {
+                 "name" : "confirm_password",
+                 "validate" : {"required": true},
+                 "msgId" : "confirm_passwordMandatory"
+             }
+        ]
     }
 }

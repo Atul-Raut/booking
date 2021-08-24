@@ -13,7 +13,7 @@ export default class AppBaseComponent extends ValidationComponent {
     this.data = {}
   }
 
-  SUCCESS_RET_CODE = "WS-S-CM-0000";
+  SUCCESS_RET_CODE = SUCCESS_RET_CODE();
   
   translate = (key) => {
     return translateMsg(key)
@@ -147,4 +147,9 @@ export const clearLocalStorage=()=>{
 export const baseUrl=()=>{
   return apiInformaton.baseUrl;
 }
+
+
+  export const SUCCESS_RET_CODE=()=>{
+    return "WS-S-CM-0000";
+  }
 

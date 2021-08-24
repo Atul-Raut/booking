@@ -1,6 +1,11 @@
 {
-    "baseUrl":"http://192.168.1.66:8080/",
+    "baseUrl":"http://192.168.1.5:8080/",
     "apiInfo":{
+        "WS-UP-03":{
+            "name":"Create Account",
+            "type":"POST",
+            "path":"user/registor"
+        },
         "WS-UP-04":{
             "name":"Login Service",
             "type":"POST",

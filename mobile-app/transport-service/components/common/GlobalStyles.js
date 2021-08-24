@@ -54,6 +54,7 @@ export const globalStyles = StyleSheet.create({
     color: "#05375a",
     borderBottomWidth: 1,
     height: 40,
+    borderColor:'green'
   },
   gridView: {
     flex: 1,
@@ -224,45 +225,44 @@ export const globalStyles = StyleSheet.create({
      width:200,
      marginLeft:30
    },
-  // signIn: {
-  //   width: 150,
-  //   height: 40,
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  //   borderRadius: 50,
-  //   flexDirection: "row",
-  // },
-
-  // signupContainer: {
-  //   flex: 1,
-  //   backgroundColor: "#009387",
-  // },
-  // text_header: {
-  //   color: "#fff",
-  //   fontWeight: "bold",
-  //   fontSize: 25,
-  //   textAlign: "center",
-  // },
-  // footer: {
-  //   flex: Platform.OS === "ios" ? 3 : 5,
-  //   backgroundColor: "#fff",
-  //   borderTopLeftRadius: 20,
-  //   borderTopRightRadius: 20,
-  //   paddingHorizontal: 20,
-  //   paddingVertical: 30,
-  // },
-  // text_footer: {
-  //   color: "#05375a",
-  //   fontSize: 16,
-  // },
-  // action: {
-  //   flexDirection: "row",
-  // },
-  // checkbox: {
-  //   alignSelf: "center",
-  // },
-  // button: {
-  //   alignItems: "center",
-  //   marginTop: 20,
-  // },
+   signIn: {
+     width: 150,
+     height: 40,
+     justifyContent: "center",
+     alignItems: "center",
+     borderRadius: 50,
+     flexDirection: "row",
+   },
+   signupContainer: {
+     flex: 1,
+     backgroundColor: "#009387",
+   },
+   text_header: {
+     color: "#fff",
+     fontWeight: "bold",
+     fontSize: 25,
+     textAlign: "center",
+   },
+   footerSignUp: {
+    // flex: Platform.OS === "ios" ? 3 : 5,
+     backgroundColor: "#fff",
+     borderTopLeftRadius: 20,
+     borderTopRightRadius: 20,
+     paddingHorizontal: 20,
+     paddingVertical: 30,
+   },
+   text_footer: {
+     color: "#05375a",
+     fontSize: 16,
+   },
+   action: {
+     flexDirection: "row",
+   },
+   checkbox: {
+     alignSelf: "center",
+   },
+   button: {
+     alignItems: "center",
+     marginTop: 20,
+   },
 });
