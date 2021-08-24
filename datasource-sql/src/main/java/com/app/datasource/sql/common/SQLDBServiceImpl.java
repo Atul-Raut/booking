@@ -101,6 +101,8 @@ public class SQLDBServiceImpl extends ApplicationDBService{
 		String queryString = SqlUtils.getQuery(input);
 		List<String> queryParameters = ApplicationContext.getQueryParameters(queryID);
 		
+		System.out.println(queryString);
+		
 		Query query = entityManager.createNativeQuery(queryString);
 		
 		if(null == queryParameters) {
@@ -116,6 +118,7 @@ public class SQLDBServiceImpl extends ApplicationDBService{
 		
 		for (String parameter : queryParameters) {
 			Object value = input.get(parameter);
+			System.out.println( parameter + " : " + value);
 			if(value instanceof Date) {
 				query.setParameter(parameter, (Date)value, TemporalType.TIMESTAMP);
 			}else {

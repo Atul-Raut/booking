@@ -52,9 +52,30 @@ public class PostController extends ControllerBase {
 	public PostController() {
 	}
 	
-	@PostMapping("/search")
-	@ServiceInfo(serviceCode = "WS-PS-01", serviceName = "Search post", queryId = "app.post.search")
-	private ResponseDTO getAll(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
+	@PostMapping("/search-customer")
+	@ServiceInfo(serviceCode = "WS-PS-01", serviceName = "Search post for customer", queryId = "app.post.search.customer")
+	private ResponseDTO getCustomerAll(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
+			@RequestAttribute("requestId") String requestId) throws Exception {
+		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
+		ResponseDTO result = null;
+		try {
+			requestInfo.putAll(input);
+			result = validate(requestInfo);
+
+			if(null != result) {
+				return result;
+			}
+			
+			result = createSuccessResponse(requestInfo,service.getData(requestInfo));
+		}catch(Exception e) {
+			result = createErrorResponse(requestInfo, null, e);
+		}
+		return result;
+	}
+	
+	@PostMapping("/search-provider")
+	@ServiceInfo(serviceCode = "WS-PS-01-2", serviceName = "Search post for provider", queryId = "app.post.search.provider")
+	private ResponseDTO getProviderAll(@RequestBody Map<String,Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
 			@RequestAttribute("requestId") String requestId) throws Exception {
 		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
 		ResponseDTO result = null;

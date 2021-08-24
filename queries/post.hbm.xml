@@ -4,7 +4,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-  <sql-query name="app.post.search">
+  <sql-query name="app.post.search.customer">
     <![CDATA[
       select
         "ID" AS "postId",
@@ -33,7 +33,44 @@
     	  )
       where
         "DEL_FLG" = 0
-        AND "USER_ID" = CASE WHEN (1 = :acType) THEN :userId ELSE "USER_ID" END
+        AND "USER_ID" = :userId
+        AND "SERVICE_ID" = COALESCE(CAST(:serviceId AS TEXT),"SERVICE_ID")
+        AND "VEHICLE_ID" = COALESCE(CAST(:vehicleId AS TEXT),"VEHICLE_ID")
+        AND ("SOURCE" ilike CONCAT('%',COALESCE(CAST(:source AS TEXT),"SOURCE"),'%')
+            OR "DESTINATION" ilike CONCAT('%',COALESCE(CAST(:destination AS TEXT),"DESTINATION"),'%')
+        )
+    ]]>
+  </sql-query>
+  <sql-query name="app.post.search.provider">
+    <![CDATA[
+      select
+        "ID" AS "postId",
+        "SERVICE_ID" AS "serviceId",
+        "VEHICLE_ID" AS "vehicleId",
+        "ACTIVITY_DATE_TIME_FROM" AS "activityFromDate",
+        "ACTIVITY_DATE_TIME_TO" AS "activityToDate",
+        "SOURCE" AS "source",
+        "DESTINATION" AS "destination",
+        "OTHER" AS "otherInfo",
+        "STATUS" AS "status",
+        "POST_TITLE" AS "postTitle",
+        COALESCE(p2."requestCount",0) AS "requestCount"
+      from "T_POST"
+      LEFT JOIN (
+            SELECT
+              count(*) AS "requestCount",
+              "POST_ID" as "postId"
+          FROM "T_POST_REQUEST"
+          WHERE
+          "DEL_FLG" = 0
+          GROUP BY "POST_ID"
+        ) p2
+        ON(
+          "ID" = p2."postId"
+        )
+      where
+        "DEL_FLG" = 0
+        AND "STATUS" in ('NEW')
         AND "SERVICE_ID" = COALESCE(CAST(:serviceId AS TEXT),"SERVICE_ID")
         AND "VEHICLE_ID" = COALESCE(CAST(:vehicleId AS TEXT),"VEHICLE_ID")
         AND ("SOURCE" ilike CONCAT('%',COALESCE(CAST(:source AS TEXT),"SOURCE"),'%')
