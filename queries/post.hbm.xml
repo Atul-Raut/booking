@@ -62,7 +62,8 @@
               "POST_ID" as "postId"
           FROM "T_POST_REQUEST"
           WHERE
-          "DEL_FLG" = 0
+          "DEL_FLG" = 0 
+		  AND "REQUEST_USER_ID" = :requestUserId
           GROUP BY "POST_ID"
         ) p2
         ON(

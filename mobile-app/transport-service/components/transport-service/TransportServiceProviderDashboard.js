@@ -31,7 +31,7 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
   }
   componentDidMount() {
     this.setState({
-      // showSuccess: false,
+      showSuccess: false,
       requestSent: false,
     });
     this.makeRemoteRequest();
@@ -41,8 +41,8 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
     //  alert("okok");
     //TODO remove userID and account type from body
     let param = {
-      serviceId: "WS-PS-11",
-      body: {},
+      serviceId: "WS-PS-13",
+      body: { requestUserId: getUserId() },
     };
 
     let response = await callApi(param);
@@ -73,10 +73,6 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
   hideSuccess = () => {
     this.setState({
       showSuccess: false,
-    });
-    this.props.navigation.reset({
-      index: 0,
-      routes: [{ name: "MyVehiclesScreen" }],
     });
   };
 
@@ -133,9 +129,9 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                 data={requests}
                 renderItem={({ item }) => (
                   <TouchableOpacity
-                    onPress={() =>
-                      this.props.navigation.navigate("PostDetails", item)
-                    }
+                  // onPress={() =>
+                  //   this.props.navigation.navigate("PostDetails", item)
+                  // }
                   >
                     <Card>
                       <View style={{ flexDirection: "row" }}>
@@ -188,7 +184,7 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                         </View>
                       </View>
                       <View style={{ flexDirection: "row" }}>
-                        {requestSent ? (
+                        {item.requestCount > 0 ? (
                           <View>
                             <Text
                               style={{ color: "blue", marginTop: 15 }}
@@ -239,7 +235,7 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
             showCancelButton={true}
             cancelText="ok"
             onCancelPressed={() => {
-              this.hideSuccess();
+              this.componentDidMount();
             }}
           />
         </View>
