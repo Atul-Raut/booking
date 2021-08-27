@@ -30,10 +30,6 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
     });
   }
   componentDidMount() {
-    this.setState({
-      showSuccess: false,
-      requestSent: false,
-    });
     this.makeRemoteRequest();
   }
 
@@ -62,6 +58,10 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
         requests: [],
       });
     }
+    this.setState({
+      showSuccess: false,
+      requestSent: false,
+    });
   };
 
   showSuccess = () => {
@@ -229,7 +229,7 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
             show={showSuccess}
             showProgress={false}
             title="Send Post Request"
-            message="Your interest for the post"
+            message="Your interest sent for post"
             closeOnTouchOutside={false}
             closeOnHardwareBackPress={false}
             showCancelButton={true}

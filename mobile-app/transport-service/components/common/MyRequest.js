@@ -24,6 +24,8 @@ export default class MyRequest extends AppBaseComponent {
   constructor(props) {
     super(props);
     this.state = {
+      didUpdateFlag: false,
+      postId: "",
       requests: [],
     };
   }
@@ -32,9 +34,19 @@ export default class MyRequest extends AppBaseComponent {
     this.makeRemoteRequest();
   }
 
+  componentDidUpdate() {
+    this.makeRemoteRequest();
+  }
+
   makeRemoteRequest = async () => {
     //TODO remove userID and account type from body
     const { postId } = this.props.route.params;
+    if (this.state.postId == postId) {
+      return;
+    }
+    this.setState({
+      postId: postId,
+    });
 
     let param = {
       serviceId: "WS-PS-09",
@@ -61,6 +73,9 @@ export default class MyRequest extends AppBaseComponent {
         requests: [],
       });
     }
+    this.setState({
+      didUpdateFlag: true,
+    });
   };
 
   _renderView(collapse, item) {
