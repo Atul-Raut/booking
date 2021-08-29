@@ -13,7 +13,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import { MaterialIcons } from "@expo/vector-icons";
 
-
 export default class CreatePost extends AppBaseComponent {
   constructor(props){
     super(props);
@@ -49,6 +48,7 @@ export default class CreatePost extends AppBaseComponent {
 componentDidMount() {
   this.getVehicleTypes();
 }
+
 
 getVehicleTypes = async () => {
   let param = {
@@ -353,7 +353,6 @@ render() {
           }}
         />
     </View>
-    
   );
 }
 }

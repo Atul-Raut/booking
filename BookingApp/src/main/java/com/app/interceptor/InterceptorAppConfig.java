@@ -9,6 +9,7 @@ import com.app.controller.ApplicationController;
 import com.app.controller.FileController;
 import com.app.controller.PostController;
 import com.app.controller.ServiceController;
+import com.app.controller.UploadController;
 import com.app.controller.UserController;
 import com.app.controller.VehicleController;
 
@@ -40,5 +41,10 @@ public class InterceptorAppConfig implements WebMvcConfigurer {
 		
 		//File Controller
 		registry.addInterceptor(serviceInterceptor).addPathPatterns(FileController.PATH_SERVICE_PATHS);
+		
+		//Upload Controller
+		registry.addInterceptor(serviceInterceptor).addPathPatterns(UploadController.PATH_SERVICE_PATHS);
+		
+		
 	}
 }

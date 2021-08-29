@@ -1,6 +1,8 @@
 import React from "react";
-import { View, Text,TouchableOpacity,TextInput,Platform,StyleSheet, ScrollView,StatusBar, Alert,Picker} from "react-native";
-import AppBaseComponent,{getUserId} from "../common/AppBaseComponent";
+import { Image,
+  View, Text,TouchableOpacity,TextInput,
+  ScrollView,StatusBar} from "react-native";
+import AppBaseComponent,{getUserId,getAcountType} from "../common/AppBaseComponent";
 import { callApi } from "../common/AppService";
 import {translateMsg} from '../common/Translation';
 import * as Animatable from "react-native-animatable";
@@ -9,11 +11,14 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { MaterialIcons } from "@expo/vector-icons";
+import * as ImagePicker from 'expo-image-picker';
 
 export default class AddVehicleScreen extends AppBaseComponent {
   constructor(props){
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.UPLOAD_IMAGE= "WS-IMG-01";
+
     if(props.route && props.route.item){
       this.selectedItem = props.route.item;
       this.mode = "UPDATE";
@@ -36,7 +41,7 @@ export default class AddVehicleScreen extends AppBaseComponent {
       vehicleNo:this.selectedItem.vehicleNo || "",
       vehicleNoVal:"",
       vehicleNameVal:"",
-      vehicleType: this.selectedItem.vehicleId || [],
+      vehicleType: [this.selectedItem.vehicleId] || [],
       vehicleName:this.selectedItem.vehicleName || "",
       vehicleTypes: [],
       successMsg:"",
@@ -45,11 +50,97 @@ export default class AddVehicleScreen extends AppBaseComponent {
       showAlert:false,
       showSuccess:false,
       items:[],
+      image1:this.selectedItem.image1 || null,
+      image2:this.selectedItem.image2 || null,
+      image3:this.selectedItem.image3 || null,
+      imageChange1:false,
+      imageChange2:false,
+      imageChange3:false,
     };
 }
 
 componentDidMount() {
   this.getVehicleTypes();
+}
+
+componentDidUpdate(){
+
+  let selectedItem = this.props.route.item;
+
+  if(!selectedItem && !this.selectedItems){
+    return;
+  }
+
+  if(selectedItem){
+    if(this.selectedItem && selectedItem.vehicleId  == this.selectedItem.vehicleId){
+      return;
+    }else{
+      this.selectedItem = props.route.item;
+      this.mode = "UPDATE";
+      this.OnSubmitServiceID= "WS-VS-05";
+      this.setState({
+          vehicleNo:selectedItem.vehicleNo || "",
+          vehicleNoVal:"",
+          vehicleNameVal:"",
+          vehicleType: [selectedItem.vehicleId] || [],
+          vehicleName:selectedItem.vehicleName || "",
+          vehicleTypes: [],
+          successMsg:"",
+          title:"",
+          errorMsg:"",
+          showAlert:false,
+          showSuccess:false,
+          items:[],
+          image1:selectedItem.image1 || null,
+          image2:selectedItem.image2 || null,
+          image3:selectedItem.image3 || null,
+          imageChange1:false,
+          imageChange2:false,
+          imageChange3:false,
+        }
+      );
+    }
+  }else{
+    if(this.selectedItem){
+      if(selectedItem && selectedItem.vehicleId  == this.selectedItem.vehicleId){
+        return;
+      }
+      this.mode = "NEW";
+      this.OnSubmitServiceID= "WS-VS-02";
+      let selectedItem = {
+        userVehicleId:"",
+        vehicleNo:"",
+        vehicleName:"",
+        vehicleId:"",
+        vehicleType:"",
+        vehicleTypeVal:"",
+      };
+
+      this.selectedItem=selectedItem;
+
+      this.setState({
+        vehicleNo:selectedItem.vehicleNo || "",
+        vehicleNoVal:"",
+        vehicleNameVal:"",
+        vehicleType: [selectedItem.vehicleId] || [],
+        vehicleName:selectedItem.vehicleName || "",
+        vehicleTypes: [],
+        successMsg:"",
+        title:"",
+        errorMsg:"",
+        showAlert:false,
+        showSuccess:false,
+        items:[],
+        image1:selectedItem.image1 || null,
+        image2:selectedItem.image2 || null,
+        image3:selectedItem.image3 || null,
+        imageChange1:false,
+        imageChange2:false,
+        imageChange3:false,
+      }
+    );
+    }
+  }
 }
 
 getVehicleTypes = async () => {
@@ -125,19 +216,62 @@ async onSubmit(event) {
     }
     return;
   }else {
-    let body = {
+
+    let input = {
       userId          :   getUserId(),
       vehicleNo       : this.state.vehicleNo,
       vehicleName     : this.state.vehicleName,
       vehicleId       : this.state.vehicleType,
       userVehicleId   : this.selectedItem.userVehicleId,
+      acType          : getAcountType()
     };
-  
+
+    let images = [this.state.image1,this.state.image2,this.state.image3];
+    if(this.mode == 'UPDATE'){
+      images = [];
+      for (let i = 0; i < 3; i++) {
+        if(this.state["imageChange" + (i+1)]){
+          images.push(this.state["image" + (i+1)]);
+        }else{
+          images.push(null);
+        }
+      }
+    }
+
+    let promises = [];
+    // all promises will be added to array in order
+    for (let i = 0; i < images.length; i++) {
+      promises.push(this.uploadImage(input, images[i], i+1));
+    }
+
+    const results = await Promise.all(promises);
+    let imagesList = [];
+
+    for (let i = 0; i < results.length; i++) {
+      let result = results[i];
+      if(result){
+        if(result =='<NA>'){}
+        else{
+          input['image' + result.imageNo] = result.imgPath;
+          let img = {
+              'imgPath': result.imgPath,
+              'imgNo'  : result.imageNo
+          };
+          imagesList.push(img);
+        }
+      }
+      else{
+        alert('image ' + result.imageNo + ' upload error.')
+      }
+    }
+
+    input['images'] = imagesList;
+
     let param = {
         'serviceId': this.OnSubmitServiceID,
-        'body':body
+        'body':input,
     }
-  
+
     let response = await callApi(param);
     if(response && response.retCode == this.SUCCESS_RET_CODE){
       this.state.successMsg = 
@@ -154,6 +288,44 @@ async onSubmit(event) {
       this.state.errorMsg = this.translate("unExpectedError")
       this.showAlert();
     }
+  }
+}
+
+uploadImage = async (input, image, imageNo) =>{
+  if(!image){
+    return '<NA>';
+  }
+
+  let headers = {
+    'Content-Type': 'multipart/form-data',
+    Accept: "application/json"
+  }
+
+  let parts = image.split('.');
+  let extension = parts[parts.length-1];
+  const data = new FormData();
+  data.append('image', {
+    uri: image,
+    name:'image' + imageNo + '.' + extension,
+    type:'image/' + extension
+  });
+
+  input['imageNo'] = imageNo;
+  data.append('input', JSON.stringify(input));
+
+  let param = {
+    'serviceId': this.UPLOAD_IMAGE,
+    'body':data,
+    'headers':headers,
+    isFormdata:true
+  }
+
+  let response = await callApi(param);
+  if(response && response.retCode == this.SUCCESS_RET_CODE){
+    return response.result;
+  }
+  else{
+    return null;
   }
 }
 
@@ -186,15 +358,35 @@ hideSuccess = () => {
 async onValueChangeVehicleType(value) {
   this.setState({ vehicleType: value });
 }
- 
+
 render() {
   const {vehicleNo, vehicleName, vehicleNoVal, vehicleNameVal, vehicleType,vehicleTypeVal,
-    successMsg, errorMsg, showAlert, showSuccess, items} = this.state;
+    successMsg, errorMsg, showAlert, showSuccess, items, image1, image2, image3,
+  } = this.state;
 
     const onSelectedItemsChange = (selectedItems) => {
       this.setState({ vehicleType : selectedItems});
     };
 
+  const  pickImage = async (id) => {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: false,
+        aspect: [4, 3],
+        quality: 1,
+        base64:false
+      });
+      if (!result.cancelled) {
+        this.setState({
+          ["image"+id]:result.uri,
+          ["imageChange"+id]:true,
+        });
+        console.log(result.uri);
+        let parts = result.uri.split('.');
+        console.log(parts[parts.length-1]);
+        console.log(result)
+      }
+    };
   return (
     <View style={globalStyles.container}>
       <View>
@@ -208,7 +400,7 @@ render() {
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
       <Animatable.View animation="fadeInUpBig" style={globalStyles.footer}>
         <ScrollView>
-          <View style={[globalStyles.action]}>
+          <View>
               <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>{translateMsg('vehicleType')}</Text>
               <SectionedMultiSelect
                 items={items}
@@ -261,6 +453,75 @@ render() {
                   {vehicleNoVal}
               </Text>
           </View>
+          <View style={{flexDirection: "row", marginTop:20}}>
+            <TouchableOpacity onPress={() => pickImage(1)}>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                {image1 && 
+                <Image source={{ uri: image1 }}  style={{
+                      width: 100,
+                      height: 100,
+                      borderWidth: 1,
+                      borderColor: "#c35547",
+                      resizeMode: "contain",
+                      margin: 6,
+                    }} />}
+                {image1 ==null && 
+                <Image source={require('../../assets/default-car-logo.jpeg') }  style={{
+                      width: 100,
+                      height: 100,
+                      borderWidth: 1,
+                      borderColor: "#c35547",
+                      resizeMode: "contain",
+                      margin: 6,
+                    }} />}
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => pickImage(2)}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                {image2 && 
+                <Image source={{ uri: image2 }}  style={{
+                      width: 100,
+                      height: 100,
+                      borderWidth: 1,
+                      borderColor: "#c35547",
+                      resizeMode: "contain",
+                      margin: 6,
+                    }} />}
+                {image2 ==null && 
+                <Image source={require('../../assets/default-car-logo.jpeg')}  style={{
+                      width: 100,
+                      height: 100,
+                      borderWidth: 1,
+                      borderColor: "#c35547",
+                      resizeMode: "contain",
+                      margin: 6,
+                    }} />}
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => pickImage(3)}>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                {image3 && 
+                <Image source={{ uri: image3 }}  style={{
+                      width: 100,
+                      height: 100,
+                      borderWidth: 1,
+                      borderColor: "#c35547",
+                      resizeMode: "contain",
+                      margin: 6,
+                    }} />}
+                {image3 ==null && 
+                <Image source={require('../../assets/default-car-logo.jpeg') }  style={{
+                      width: 100,
+                      height: 100,
+                      borderWidth: 1,
+                      borderColor: "#c35547",
+                      resizeMode: "contain",
+                      margin: 6,
+                    }} />}
+              </View>
+            </TouchableOpacity>
+
+          </View>
           <TouchableOpacity
             onPress={this.onSubmit}
             style={[globalStyles.submitButton, {marginTop:30}]}>
@@ -297,7 +558,6 @@ render() {
           }}
         />
     </View>
-    
   );
 }
 }

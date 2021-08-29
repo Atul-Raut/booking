@@ -20,14 +20,31 @@ export const callApi = (param) => {
     body.acType = getAcountType();
   }
 
-  async function sendRequest(type, body, url) {
+  let headers= {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  }
+
+  if(param.headers){
+    headers= param.headers;
+  }
+
+  let isFormdata = false;
+  if(param.isFormdata){
+    isFormdata = param.isFormdata;
+  }
+
+  async function sendRequest(type, body, url, headers, isFormdata) {
+    let apiBody = "";
+    if(isFormdata){
+      apiBody = body;
+    }else{
+      apiBody = JSON.stringify(body);
+    }
     const requestOptions = {
       method: type,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(body),
+      'headers': headers,
+      body: apiBody,
     };
     let response = await fetch(url, requestOptions)
       .then(async (response) => {
@@ -46,7 +63,7 @@ export const callApi = (param) => {
     return response;
   }
 
-  return sendRequest(apiInfo.type, body, baseUrl() + apiInfo.path);
+  return sendRequest(apiInfo.type, body, baseUrl() + apiInfo.path, headers, isFormdata);
 };
 
 const baseUrl = () => {

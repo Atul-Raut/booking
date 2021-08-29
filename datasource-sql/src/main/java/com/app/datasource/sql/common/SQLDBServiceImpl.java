@@ -93,7 +93,12 @@ public class SQLDBServiceImpl extends ApplicationDBService{
 
 		return result;
 	}
-
+	@Override
+	@Transactional
+	public Map<String, Object> executeUpdateBulk(List<RequestInfo> input) throws Exception {
+		
+		return null;
+	}
 	
 	@SuppressWarnings("deprecation")
 	private Query getQuery(RequestInfo input){

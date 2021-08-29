@@ -60,6 +60,11 @@ componentDidMount() {
     });
   }
 
+  addVehicle =()=>{
+    this.props.navigation.reset({index: 0,
+      routes: [{name:'AddVehicleScreen'}]});
+  }
+
   updateVehicle =(item)=>{
     this.props.navigation.reset({index: 0,
       routes: [{name:'AddVehicleScreen', item:item.item}]});
@@ -111,7 +116,7 @@ componentDidMount() {
   }
 
 render() {
-  const {deleteSuccess, showDeleteConfirmation, deleteFailed} =this.state
+  const {deleteSuccess, showDeleteConfirmation, deleteFailed} =this.state;
   return (
     <View style={globalStyles.container}>
       <Animatable.View animation="fadeInUpBig" style={globalStyles.footer}>
@@ -119,7 +124,7 @@ render() {
           <SpeedDial.Action
             icon={{ name: 'add', color: '#fff' }}
             style={{marginBottom:0}}
-            onPress={() => this.props.navigation.navigate("AddVehicleScreen")}
+            onPress={() => this.addVehicle()}
           />
           <FlatGrid
             itemDimension={130}
@@ -143,7 +148,9 @@ render() {
               </View>
             )}
           />
-          <AwesomeAlert
+        </ScrollView>
+        </Animatable.View>
+        <AwesomeAlert
             show={showDeleteConfirmation}
             showProgress={false}
             title={translateMsg('deleteConfTitle')}
@@ -193,8 +200,6 @@ render() {
               );
             }}
           />
-        </ScrollView>
-        </Animatable.View>
         </View>
       );
   }

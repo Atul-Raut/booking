@@ -83,6 +83,40 @@
           AND uservehicle."USER_ID" = :userId
     ]]>
   </sql-query>
+  <sql-query name="app.vehicle.get.uservehicleImages">
+    <![CDATA[
+        select
+            img."ID" AS "imageId",
+            img."USER_VEHICLE_ID" AS "vehicleId",
+            "img"."IMG_NO" AS "imgNo",
+            "img"."IMG_URL" AS "imgUrl"
+          from "T_USER_VEHICLE_IMG" as img
+          JOIN "T_USER_VEHICLE" as vehicle
+          ON (
+            img."USER_VEHICLE_ID" = vehicle."ID"
+          )
+          where
+            img."DEL_FLG" = 0
+            AND vehicle."DEL_FLG" = 0
+            AND vehicle."USER_ID" = :userId
+    ]]>
+  </sql-query>
+  <sql-query name="app.vehicle.get.uservehiclelatestone">
+    <![CDATA[
+        select
+          uservehicle."ID" AS "userVehicleId",
+          uservehicle."VEHICLE_ID" AS "vehicleId",
+          uservehicle."VEHICLE_NO" AS "vehicleNo",
+          uservehicle."NAME" AS "vehicleName"
+        from "T_USER_VEHICLE" as uservehicle
+        where
+          uservehicle."DEL_FLG" = 0
+          AND uservehicle."USER_ID" = :userId
+          AND uservehicle."VEHICLE_NO" = :vehicleNo
+        ORDER BY "INS_DT" desc
+        LIMIT 1
+    ]]>
+  </sql-query>
   <sql-query name="app.vehicle.delete.uservehicle">
       <![CDATA[
         UPDATE "T_USER_VEHICLE"
@@ -106,6 +140,35 @@
         WHERE
          "ID" = :userVehicleId
       ]]>
+  </sql-query>
+  <sql-query name="app.vehicle.save.uservehicleimage">
+    <![CDATA[
+      INSERT INTO
+        "T_USER_VEHICLE_IMG"
+        (
+          "ID",
+          "USER_VEHICLE_ID",
+          "USER_ID",
+          "IMG_URL",
+          "DEL_FLG",
+          "INS_DT",
+          "INS_BY",
+          "IMG_NO"
+        )
+        VALUES(
+          :id,
+          :vehicleID,
+          :userId,
+          :imgPath,
+          0,
+          CURRENT_TIMESTAMP,
+          :serviceCode,
+          :imgNo
+        )
+      ON CONFLICT ("USER_VEHICLE_ID","USER_ID","IMG_NO","DEL_FLG")
+      DO
+        UPDATE SET "IMG_URL" = :imgPath
+    ]]>
   </sql-query>
   <sql-query name="app.vehicle.get.uservehicleimage">
     <![CDATA[
