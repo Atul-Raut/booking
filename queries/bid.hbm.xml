@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <sql-query name="app.bid.post.insert">
+    <![CDATA[
+      INSERT INTO "T_POST_BID"(
+      	"ID",
+      	"POST_ID",
+      	"REQUEST_USER_ID",
+        "AMOUNT",
+      	"DEL_FLG",
+      	"INS_DT",
+      	"INS_BY"
+      )
+      VALUES (
+      	:id,
+      	:postId,
+      	:userId,
+        :amount,
+      	0,
+      	CURRENT_TIMESTAMP,
+      	:serviceCode
+      )
+    ]]>
+  </sql-query>
+</hibernate-mapping>
