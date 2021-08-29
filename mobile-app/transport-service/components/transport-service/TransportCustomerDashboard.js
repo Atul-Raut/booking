@@ -17,6 +17,7 @@ import { callApi } from "../common/AppService";
 import { MaterialIcons } from "@expo/vector-icons";
 import { globalStyles } from "../common/GlobalStyles";
 import * as Animatable from "react-native-animatable";
+import AwesomeAlert from "react-native-awesome-alerts";
 import Card from "../common/Card";
 
 export default class TransportCustomerDashbord extends AppBaseComponent {
@@ -26,6 +27,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
     super(props);
     this.state = {
       requests: [],
+      showSuccess: false,
     };
   }
 
@@ -58,10 +60,41 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
         requests: [],
       });
     }
+    this.setState({
+      showSuccess: false,
+    });
+  };
+
+  deletePost = async (item) => {
+    // alert(item.postId);
+    let param = {
+      serviceId: "WS-PS-14",
+      body: {
+        postId: item.postId,
+      },
+    };
+
+    let response = await callApi(param);
+    //alert(JSON.stringify(response.result));
+    if (response && response.retCode == this.SUCCESS_RET_CODE) {
+      this.showSuccess();
+    }
+  };
+
+  showSuccess = () => {
+    this.setState({
+      showSuccess: true,
+    });
+  };
+
+  hideSuccess = () => {
+    this.setState({
+      showSuccess: false,
+    });
   };
 
   render() {
-    const { requests } = this.state;
+    const { requests, showSuccess } = this.state;
     return (
       <>
         <View>
@@ -92,7 +125,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                           }}
                         >
                           <View style={{ marginBottom: 10 }}>
-                            <Text style={styles.text_footer}>Post Desc </Text>
+                            <Text style={styles.text_footer}>Post Title </Text>
                             <Text>{item.postTitle}</Text>
                           </View>
                           <View style={{ marginBottom: 10 }}>
@@ -105,6 +138,10 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                           </View>
                         </View>
                         <View style={{ width: "50%" }}>
+                          <View style={{ marginBottom: 10 }}>
+                            <Text style={styles.text_footer}>Post Desc</Text>
+                            <Text>{item.otherInfo}</Text>
+                          </View>
                           <View style={{ marginBottom: 10 }}>
                             <Text style={styles.text_footer}>
                               Activity From Date
@@ -134,7 +171,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                         </View>
                       </View>
                       <View style={{ flexDirection: "row" }}>
-                        <View>
+                        <View style={{ width: "50%" }}>
                           <Text
                             style={{ color: "blue", marginTop: 15 }}
                             onPress={() => {
@@ -144,19 +181,45 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                             {item.requestCount} requests
                           </Text>
                         </View>
-                        <View>
-                          <MaterialIcons
-                            key={"delete"}
-                            name="delete"
-                            size={20}
-                            color={"maroon"}
-                            style={{
-                              marginTop: 15,
-                              // marginRight: -20,
-                              // zIndex: 1,
-                              marginLeft: 60,
+                        <View
+                          style={{ width: "50%", marginTop: 10 }}
+                          key={"new"}
+                        >
+                          <TouchableOpacity
+                            key={"new"}
+                            style={{ flexDirection: "row" }}
+                            onPress={() => {
+                              this.deletePost(item);
                             }}
-                          />
+                          >
+                            <MaterialIcons
+                              key={"delete"}
+                              name="delete"
+                              size={15}
+                              color={"white"}
+                              style={{
+                                marginTop: 8,
+                                marginRight: -20,
+                                zIndex: 1,
+                              }}
+                            />
+                            <Text
+                              style={[
+                                {
+                                  color: "white",
+                                  fontWeight: "bold",
+                                  backgroundColor: "#FF0000",
+                                  height: 30,
+                                  borderRadius: 5,
+                                  width: 100,
+                                  textAlign: "right",
+                                  padding: 5,
+                                },
+                              ]}
+                            >
+                              {"Delete Post"}
+                            </Text>
+                          </TouchableOpacity>
                         </View>
                       </View>
                     </Card>
@@ -169,6 +232,19 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
               </View>
             </ScrollView>
           </Animatable.View>
+          <AwesomeAlert
+            show={showSuccess}
+            showProgress={false}
+            title="Delete Post Request"
+            message="Post Deleted "
+            closeOnTouchOutside={false}
+            closeOnHardwareBackPress={false}
+            showCancelButton={true}
+            cancelText="ok"
+            onCancelPressed={() => {
+              this.componentDidMount();
+            }}
+          />
         </View>
       </>
     );
