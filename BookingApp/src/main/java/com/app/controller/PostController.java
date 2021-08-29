@@ -123,10 +123,10 @@ public class PostController extends PostBaseControlerImpl {
 			vehicleId = vehicleId.replace("]", "");
 			requestInfo.put("vehicleId", vehicleId);
 
-			convertStringToDateAdd("activityFromDate",requestInfo);
-			convertStringToDateAdd("activityToDate",requestInfo);
-			convertStringToDateAdd("bidFromDate",requestInfo);
-			convertStringToDateAdd("bidToDate",requestInfo);
+			convertStringToDateAdd("activityFromDate",requestInfo, "ACTIVITY_DATE_TIME_FROM");
+			convertStringToDateAdd("activityToDate",requestInfo, "ACTIVITY_DATE_TIME_TO");
+			convertStringToDateAdd("bidFromDate",requestInfo, "BID_DATE_TIME_FROM");
+			convertStringToDateAdd("bidToDate",requestInfo, "BID_DATE_TIME_TO");
 			
 			service.executeUpdate(requestInfo);
 			result = createSuccessResponse(requestInfo,null);

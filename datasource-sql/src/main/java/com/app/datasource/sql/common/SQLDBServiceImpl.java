@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
 
@@ -105,6 +106,13 @@ public class SQLDBServiceImpl extends ApplicationDBService{
 		String queryID = SqlUtils.getQueryId(input);
 		String queryString = SqlUtils.getQuery(input);
 		List<String> queryParameters = ApplicationContext.getQueryParameters(queryID);
+		
+		
+		if(input.containsKey("{SQL_PART}") && queryString.contains("{SQL_PART}")) {
+			queryString = queryString.replace("{SQL_PART}", Objects.toString(input.get("{SQL_PART}"),""));
+			queryParameters = null;
+		}
+		
 		
 		System.out.println(queryString);
 		

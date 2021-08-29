@@ -86,8 +86,6 @@
         "USER_ID",
         "SERVICE_ID",
         "VEHICLE_ID",
-        "ACTIVITY_DATE_TIME_FROM",
-        "ACTIVITY_DATE_TIME_TO",
         "SOURCE",
         "DESTINATION",
         "OTHER",
@@ -96,6 +94,8 @@
         "DEL_FLG",
         "INS_DT",
         "INS_BY",
+        "ACTIVITY_DATE_TIME_FROM",
+        "ACTIVITY_DATE_TIME_TO",
         "BID_DATE_TIME_FROM",
         "BID_DATE_TIME_TO",
         "BID"
@@ -105,8 +105,6 @@
         :userId,
         :serviceId,
         concat(',', :vehicleId, ','),
-        :activityFromDate,
-        :activityToDate,
         :source,
         :destination,
         :otherInfo,
@@ -115,8 +113,7 @@
         0,
         CURRENT_TIMESTAMP,
         :serviceCode,
-        :bidFromDate,
-        :bidToDate,
+        {SQL_PART}
         :bid
       )
     ]]>
