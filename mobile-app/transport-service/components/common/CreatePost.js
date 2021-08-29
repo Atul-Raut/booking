@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text,TouchableOpacity,
+import { View, Text,TouchableOpacity, Switch,
   TextInput, ScrollView} from "react-native";
 import AppBaseComponent,{getServiceID, getUserId} from "../common/AppBaseComponent";
 import { callApi } from "../common/AppService";
@@ -24,6 +24,10 @@ export default class CreatePost extends AppBaseComponent {
       activityDateTo:"",
       fromDate:"",
       toDate:"",
+      fromBidDate:"",
+      toBidDate:"",
+      bidDateFrom:"",
+      bidDateTo:"",
       vehicleType:[],
       successMsg:"",
       title:"",
@@ -32,16 +36,21 @@ export default class CreatePost extends AppBaseComponent {
       showSuccess:false,
       activityDateFromVal:"",
       activityDateToVal:"",
+      bidDateFromVal:"",
+      bidDateToVal:"",
       vehicleTypeVal:"",
       locationFrom:"",
       locationTo:"",
       details:"",
       isDatePickerVisibleFrom:false,
       isDatePickerVisibleTo:false,
+      isBidDatePickerVisibleFrom:false,
+      isBidDatePickerVisibleTo:false,
       selectedItems: [],
       items:[],
       postTitle:"",
       postTitleVal:"",
+      bid:false
     };
 }
 
@@ -80,7 +89,12 @@ async onSubmit(event) {
   event.preventDefault();
   this.setState({activityDateFromVal:'',activityDateToVal:'', vehicleTypeVal:''})
 
-  let validationResult = await this.validateFields(this.screenID, null);
+  //TODO add validations
+  let bidValidation = [
+
+  ];
+
+  let validationResult = await this.validateFields(this.screenID, bidValidation);
   if(!validationResult || !(validationResult.length == 0)){
     for(let i = 0; i < validationResult.length; i++){
       let err = validationResult[i];
@@ -99,10 +113,13 @@ async onSubmit(event) {
       vehicleId       : this.state.vehicleType,
       activityFromDate: this.state.fromDate,
       activityToDate  : this.state.toDate,
+      bidFromDate     : this.state.fromBidDate,
+      bidToDate       : this.state.toBidDate,
       source          : this.state.locationFrom,
       destination     : this.state.locationTo,
       otherInfo       : this.state.details,
-      postTitle       : this.state.postTitle
+      postTitle       : this.state.postTitle,
+      bid             : this.state.bid ? 1 : 0,
     };
   
     let param = {
@@ -158,10 +175,10 @@ async onValueChangeVehicleType(value) {
   this.setState({ vehicleType: value });
 }
 
-
 render() {
   const {activityDateFrom,activityDateTo, activityDateFromVal, activityDateToVal,vehicleTypeVal,
-    locationFrom,locationTo,details,items,postTitle,postTitleVal,
+    locationFrom,locationTo,details,items,postTitle,postTitleVal,bid,
+    bidDateFromVal,bidDateToVal,bidDateTo,isBidDatePickerVisibleTo,isBidDatePickerVisibleFrom,bidDateFrom,
     successMsg, errorMsg, showAlert, showSuccess, isDatePickerVisibleFrom
   ,isDatePickerVisibleTo} = this.state;
 
@@ -171,12 +188,26 @@ render() {
     const showDatePickerTo = () => {
       this.setState({isDatePickerVisibleTo:true})
     };
+
+    const showDatePickerBidFrom = () => {
+      this.setState({isBidDatePickerVisibleFrom:true})
+    };
+    const showDatePickerBidTo = () => {
+      this.setState({isBidDatePickerVisibleTo:true})
+    };
   
     const hideDatePickerFrom = () => {
       this.setState({isDatePickerVisibleFrom:false})
     };
     const hideDatePickerTo = () => {
       this.setState({isDatePickerVisibleTo:false})
+    };
+
+    const hideDatePickerBidFrom = () => {
+      this.setState({isBidDatePickerVisibleFrom:false})
+    };
+    const hideDatePickerBidTo = () => {
+      this.setState({isBidDatePickerVisibleTo:false})
     };
   
     const handleConfirmFrom = (date) => {
@@ -188,9 +219,24 @@ render() {
       hideDatePickerTo();
     };
 
+    const handleConfirmBidFrom = (date) => {
+      this.setState({bidDateFrom: format(date, "yyyy-MM-dd HH"), fromBidDate : format(date, "yyyyMMddHHmmss")});
+      hideDatePickerFrom();
+    };
+    const handleConfirmBidTo = (date) => {
+      this.setState({bidDateTo:format(date, "yyyy-MM-dd HH"), toBidDate : format(date, "yyyyMMddHHmmss")});
+      hideDatePickerTo();
+    };
+
     const onSelectedItemsChange = (selectedItems) => {
       this.setState({ vehicleType : selectedItems});
     };
+
+    const toggleSwitch = () => {
+      this.setState({
+        bid: !this.state.bid
+      });
+    }
 
   return (
     <View style={globalStyles.container}>
@@ -299,6 +345,66 @@ render() {
               onChangeText={(val) => this.setState({locationTo:val})}
             />
           </View>
+          <View style={{flexDirection:'row'}}>
+            <Text style={globalStyles.text_footer}>{translateMsg('bid')}</Text>
+            <Switch
+              trackColor={{ false: "#767577", true: "#81b0ff" }}
+              thumbColor={bid ? "#f5dd4b" : "#f4f3f4"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch}
+              value={bid}
+            />
+            <Text>{bid ? translateMsg('bidOptionDetailsTrue') : translateMsg('bidOptionDetailsFalse')}</Text>
+          </View>
+
+          {bid==true &&
+            <View>
+              <View>
+                <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>{translateMsg('bidingPeriod')}</Text>
+                </View>
+                <View style={[globalStyles.action,{flexDirection:'row'}]}>
+                <TouchableOpacity onPress={showDatePickerBidFrom}>
+                  <TextInput
+                    editable={false}
+                    placeholder={translateMsg('bidDateFrom')}
+                    value={bidDateFrom}
+                    style={[globalStyles.input,{width:110}]}
+                    autoCapitalize="characters"
+                  />
+                  </TouchableOpacity>
+                  <DateTimePickerModal
+                    isVisible={isBidDatePickerVisibleFrom}
+                    mode="datetime"
+                    minimumDate={new Date()}
+                    onConfirm={handleConfirmBidFrom}
+                    onCancel={hideDatePickerBidFrom}
+                  />
+                  <DateTimePickerModal
+                    isVisible={isBidDatePickerVisibleTo}
+                    mode="datetime"
+                    minimumDate={new Date()}
+                    onConfirm={handleConfirmBidTo}
+                    onCancel={hideDatePickerBidTo}
+                  />
+                  <TouchableOpacity onPress={showDatePickerBidTo}>
+                    <TextInput
+                      editable={false}
+                      placeholder={translateMsg('bidDateTo')}
+                      value={bidDateTo}
+                      style={[globalStyles.input,{width:110}]}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View>
+                  <Text style={globalStyles.validation_text_msg}>
+                        {bidDateFromVal || bidDateToVal}
+                  </Text>
+                </View>
+            </View>
+          }
+
+
+
           <Text>{translateMsg('details')}</Text>
           <View>
             <TextInput

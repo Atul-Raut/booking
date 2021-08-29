@@ -99,6 +99,12 @@
     "postTitleMandatory":"Please enter title.",
     "accountCreateSuccess":"Account created successfully.",
     "alreadyExistError":"Email already in use, Please try different email or use  forgot password.",
-    "createAccountTitle":"Create Account"
+    "createAccountTitle":"Create Account",
+    "bid":"Bid",
+    "bidOptionDetailsFalse":"Biding not enabled.",
+    "bidOptionDetailsTrue":"Select biding period.",
+    "bidingPeriod":"Biding period",
+    "bidDateFrom":"From",
+    "bidDateTo":"To"
 
 }

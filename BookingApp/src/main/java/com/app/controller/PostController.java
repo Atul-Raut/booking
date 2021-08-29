@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.controller.impl.PostBaseControlerImpl;
 import com.app.core.annotation.ServiceInfo;
 import com.app.core.common.ApplicationContext;
 import com.app.core.common.ApplicationDBServiceIF;
@@ -31,9 +32,7 @@ import com.app.dto.ResponseDTO;
 
 @RestController
 @RequestMapping("post")
-public class PostController extends ControllerBase {
-	
-	private static final SimpleDateFormat sd = new SimpleDateFormat("yyyyMMddHHmmss");
+public class PostController extends PostBaseControlerImpl {
 	
 	public static final List<String> PATH_SERVICE_PATHS = new ArrayList<String>(){
 		private static final long serialVersionUID = 1L;
@@ -123,24 +122,11 @@ public class PostController extends ControllerBase {
 			vehicleId = vehicleId.replace("[", "");
 			vehicleId = vehicleId.replace("]", "");
 			requestInfo.put("vehicleId", vehicleId);
-			
-			String fromDateString = Objects.toString(requestInfo.get("activityFromDate"), null);
-			String toDateString = Objects.toString(requestInfo.get("activityToDate"), null);
-			
-			if(null != fromDateString && !fromDateString.isEmpty()) {
-				Date d = sd.parse(fromDateString);
-				requestInfo.put("activityFromDate", d);
-			}else {
-				requestInfo.put("activityFromDate", null);
-			}
-			
-			if(null != toDateString && !toDateString.isEmpty()) {
-				Date d = sd.parse(toDateString);
-				requestInfo.put("activityToDate", d);
-			}else {
-				requestInfo.put("activityToDate", null);
-			}
-			
+
+			convertStringToDateAdd("activityFromDate",requestInfo);
+			convertStringToDateAdd("activityToDate",requestInfo);
+			convertStringToDateAdd("bidFromDate",requestInfo);
+			convertStringToDateAdd("bidToDate",requestInfo);
 			
 			service.executeUpdate(requestInfo);
 			result = createSuccessResponse(requestInfo,null);
@@ -150,7 +136,8 @@ public class PostController extends ControllerBase {
 		}
 		return result;
 	}
-	
+
+
 	@PutMapping("/update")
 	@ServiceInfo(serviceCode = "WS-PS-03", serviceName = "Update Post", queryId = "app.post.update", logActivity = true)
 	private ResponseDTO update(@RequestBody Map<String, Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo, 
