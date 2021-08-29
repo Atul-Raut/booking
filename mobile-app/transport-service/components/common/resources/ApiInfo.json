@@ -80,7 +80,12 @@
            "name":"Upload Image",
            "type":"POST",
            "path":"upload/image"
-       }
+       },
+        "WS-PS-14":{
+            "name":"Delete Post",
+            "type":"DELETE",
+            "path":"post/delete"
+        }
         
       }
 }

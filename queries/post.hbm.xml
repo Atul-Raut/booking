@@ -17,7 +17,10 @@
         "OTHER" AS "otherInfo",
         "STATUS" AS "status",
 		    "POST_TITLE" AS "postTitle",
-        COALESCE(p2."requestCount",0) AS "requestCount"
+			"BID" AS bid,
+			"BID_DATE_TIME_TO" AS bidEndDate,
+        COALESCE(p2."requestCount",0) AS "requestCount",
+		COALESCE(p3."amount",0) AS "amount"
       from "T_POST"
       LEFT JOIN (
     		  	SELECT
@@ -31,6 +34,16 @@
     	  ON(
     		  "ID" = p2."postId"
     	  )
+		  LEFT JOIN( 
+			  SELECT "POST_ID" as "postId", "AMOUNT" as "amount" FROM "T_POST_BID" 
+			  WHERE 
+			 "DEL_FLG" = 0 
+			  GROUP BY "POST_ID","AMOUNT")
+			  p3
+			  ON (
+			  "ID" = p3."postId"
+			  )
+			  
       where
         "DEL_FLG" = 0
         AND "USER_ID" = :userId

@@ -49,6 +49,7 @@
     "vehicleDeleted":"Vehicle Deleted successfully.",
     "ok":"OK",
     "vehicleDeletedFailed":"Vehicle delete operation failed.",
+    "PostDeletedFailed":"Post delete operation failed.",
     "addVehicle":"Add Vehicle",
     "updateVehicle":"Update Vehicle",
     "vehicleNo":"Vehicle Number",
@@ -105,6 +106,7 @@
     "bidOptionDetailsTrue":"Select biding period.",
     "bidingPeriod":"Biding period",
     "bidDateFrom":"From",
-    "bidDateTo":"To"
+    "bidDateTo":"To",
+    "deletePostConfirmation": "Are you sure want to delete selected post?"
 
 }

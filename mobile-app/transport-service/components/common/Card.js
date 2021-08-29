@@ -19,11 +19,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 2,
     marginHorizontal: 5,
-    marginVertical: 5,
-    // height: "20%",
+    marginVertical: 2,
+
+    // height: "100%",
   },
   cardConsent: {
     marginHorizontal: 10,
-    marginVertical: 20,
+    marginVertical: 10,
+    // marginBottom: 20,
+    //height: @,
   },
 });
