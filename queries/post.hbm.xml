@@ -224,7 +224,7 @@
           mUser."USER_ID" = postReq."REQUEST_USER_ID"
         )
       WHERE
-        postReq."POST_ID" = :postId
+        postReq."POST_ID" = CASE WHEN :postId in ('<NA>') THEN "POST_ID" ELSE :postId END
         AND postReq."DEL_FLG" = 0
         AND mUser."DEL_FLG" = 0
         AND mUser."AC_TYP" = 2

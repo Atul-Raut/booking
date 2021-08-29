@@ -39,21 +39,33 @@ export default class MyRequest extends AppBaseComponent {
   }
 
   makeRemoteRequest = async () => {
-    //TODO remove userID and account type from body
-    const { postId } = this.props.route.params;
-    if (this.state.postId == postId) {
-      return;
+    let tempPostId = '<NA>';
+    if(this.props.route.params){
+      const { postId } = this.props.route.params;
+      if (this.state.postId == postId) {
+        return;
+      }
+      this.setState({
+        postId: postId,
+        tempPostId:postId
+      });
+      tempPostId = postId;
+    }else{
+      if (this.state.tempPostId == tempPostId) {
+        return;
+      }
+
+      this.setState({
+        tempPostId: tempPostId,
+        postId: null,
+      });
+      tempPostId = '<NA>';
     }
-    this.setState({
-      postId: postId,
-    });
 
     let param = {
       serviceId: "WS-PS-09",
       body: {
-        // "userId":"atul.raut",
-        // "acType":1,
-        postId: postId,
+        postId: tempPostId,
       },
     };
 
