@@ -6,6 +6,8 @@ import {
   ScrollView,
   FlatList,
   TouchableOpacity,
+  Modal,
+  TextInput,
 } from "react-native";
 import AppBaseComponent, {
   getServiceID,
@@ -18,15 +20,19 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { globalStyles } from "../common/GlobalStyles";
 import * as Animatable from "react-native-animatable";
 import AwesomeAlert from "react-native-awesome-alerts";
+import { translateMsg } from "../common/Translation";
 import Card from "../common/Card";
 
 export default class TransportServiceProviderDashbord extends AppBaseComponent {
   constructor(props) {
     super(props);
     this.onSubmit = this.sendPostRequest.bind(this);
+    this.openModal = this.openModal.bind(this);
     this.setState({
       showSuccess: false,
       //requestSent: false,
+      openBidModal: false,
+      postTitle: "",
     });
   }
   componentDidMount() {
@@ -61,6 +67,7 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
     this.setState({
       showSuccess: false,
       requestSent: false,
+      openBidModal: false,
     });
   };
 
@@ -73,6 +80,12 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
   hideSuccess = () => {
     this.setState({
       showSuccess: false,
+    });
+  };
+
+  openModal = () => {
+    this.setState({
+      openBidModal: true,
     });
   };
 
@@ -110,19 +123,69 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
   };
 
   render() {
-    const { requests, showSuccess, requestSent } = this.state;
+    const {
+      requests,
+      showSuccess,
+      requestSent,
+      openBidModal,
+      postTitle,
+    } = this.state;
 
     return (
       <>
-        {/* <View style={{ flexDirection: "row" }}>
-          <SpeedDial.Action
-            icon={{ name: "add", color: "#fff" }}
-            style={{ marginBottom: -10, marginTop: 5 }}
-            onPress={() => this.props.navigation.navigate("CreatePost")}
-          />
-        </View>
-        <View></View> */}
         <View>
+          <Modal
+            visible={openBidModal}
+            style={{ flex: 1, width: 80, height: 80, padding: 10 }}
+          >
+            <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>
+              Bid Amount
+            </Text>
+            <View>
+              <TextInput
+                maxLength={250}
+                placeholder="Enter Bid"
+                value={postTitle}
+                style={[globalStyles.input]}
+                onChangeText={(val) => this.setState({ postTitle: val })}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                width: "100%",
+                alignItems: "center",
+              }}
+            >
+              <TouchableOpacity
+                onPress={() =>
+                  // this.setState({
+                  //   openBidModal: false,
+                  // })
+                  alert("submit")
+                }
+                style={globalStyles.modalButton}
+              >
+                <Text style={{ color: "white", fontWeight: "bold" }}>
+                  {" "}
+                  Submit Bid{" "}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  this.setState({
+                    openBidModal: false,
+                  })
+                }
+                style={globalStyles.modalButton}
+              >
+                <Text style={{ color: "white", fontWeight: "bold" }}>
+                  {" "}
+                  Cancel{" "}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </Modal>
           <Animatable.View animation="fadeInUpBig" style={globalStyles.footer}>
             <ScrollView>
               <FlatList
@@ -142,22 +205,97 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                           }}
                         >
                           <View style={{ marginBottom: 10 }}>
-                            <Text style={styles.text_footer}>Post Desc </Text>
-                            <Text>{item.postTitle}</Text>
+                            {/* <Text>Post Title </Text> */}
+                            <Text style={styles.text_footer}>
+                              {item.postTitle}
+                            </Text>
                           </View>
                           <View style={{ marginBottom: 10 }}>
-                            <Text style={styles.text_footer}>Source </Text>
-                            <Text>{item.source}</Text>
+                            {/* <Text style={styles.text_footer}>Source </Text> */}
+
+                            <Text>
+                              <MaterialIcons
+                                key={"delete"}
+                                name="flight-takeoff"
+                                size={20}
+                                color={"black"}
+                                style={{
+                                  marginRight: 8,
+                                  //zIndex: 1,
+                                }}
+                              />
+
+                              {item.source}
+                            </Text>
                           </View>
-                          <View>
-                            <Text style={styles.text_footer}>Destination</Text>
-                            <Text>{item.destination}</Text>
+                          <View style={{ marginBottom: 10 }}>
+                            <Text>
+                              <MaterialIcons
+                                key={"flightLand"}
+                                name="flight-land"
+                                size={20}
+                                color={"black"}
+                                style={{
+                                  marginRight: 8,
+                                  //zIndex: 1,
+                                }}
+                              />
+
+                              {item.destination}
+                            </Text>
                           </View>
+                          {item.amount > 0 ? (
+                            <View>
+                              <Text style={styles.text_footer}>
+                                Bid Ends on
+                              </Text>
+                              <Text>
+                                {item.activityFromDate
+                                  ? format(
+                                      item.activityFromDate,
+                                      "dd-MM-yyyy hh:mm"
+                                    )
+                                  : ""}
+                              </Text>
+                            </View>
+                          ) : null}
                         </View>
                         <View style={{ width: "50%" }}>
                           <View style={{ marginBottom: 10 }}>
                             <Text style={styles.text_footer}>
-                              Activity From Date
+                              Activity From Date{"  "}
+                              {item.bid > 0 ? (
+                                <TouchableOpacity
+                                  key={"new"}
+                                  style={{ flexDirection: "row" }}
+                                  onPress={() => {
+                                    this.openModal();
+                                  }}
+                                >
+                                  <Text
+                                    style={{
+                                      backgroundColor: "black",
+                                      //  marginRight: -15,
+                                      //  height: 50,
+                                    }}
+                                  >
+                                    {" "}
+                                    <MaterialIcons
+                                      key={"gavel"}
+                                      name="gavel"
+                                      size={15}
+                                      color={"orange"}
+                                      //backgroundColor={"orange"}
+                                      style={
+                                        {
+                                          // marginRight: 8,
+                                          //zIndex: 1,
+                                        }
+                                      }
+                                    />{" "}
+                                  </Text>
+                                </TouchableOpacity>
+                              ) : null}
                             </Text>
                             <Text>
                               {item.activityFromDate
@@ -168,7 +306,7 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                                 : ""}
                             </Text>
                           </View>
-                          <View>
+                          <View style={{ marginBottom: 10 }}>
                             <Text style={styles.text_footer}>
                               Activity To Date
                             </Text>
@@ -181,6 +319,12 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                                 : ""}
                             </Text>
                           </View>
+                          {item.amount > 0 ? (
+                            <View>
+                              <Text style={styles.text_footer}>Bid Amount</Text>
+                              <Text>{item.amount}</Text>
+                            </View>
+                          ) : null}
                         </View>
                       </View>
                       <View style={{ flexDirection: "row" }}>

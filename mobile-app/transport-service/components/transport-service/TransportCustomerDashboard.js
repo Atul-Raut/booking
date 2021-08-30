@@ -221,17 +221,31 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                         <View style={{ width: "50%" }}>
                           <View style={{ marginBottom: 10 }}>
                             <Text style={styles.text_footer}>
-                              Activity From Date{" "}
-                              {item.bid > 0 ? (
+                              Activity From Date{"  "}
+                              {/* {item.bid > 0 ? (
                                 <Text
                                   style={{
-                                    backgroundColor: "yellow",
-                                    marginLeft: 10,
+                                    backgroundColor: "black",
+                                    //  marginRight: -15,
+                                    //  height: 50,
                                   }}
                                 >
-                                  Bid
+                                  {" "}
+                                  <MaterialIcons
+                                    key={"gavel"}
+                                    name="gavel"
+                                    size={15}
+                                    color={"orange"}
+                                    //backgroundColor={"orange"}
+                                    style={
+                                      {
+                                        // marginRight: 8,
+                                        //zIndex: 1,
+                                      }
+                                    }
+                                  />{" "}
                                 </Text>
-                              ) : null}
+                              ) : null} */}
                             </Text>
                             <Text>
                               {item.activityFromDate
