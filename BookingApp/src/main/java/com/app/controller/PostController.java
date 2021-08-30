@@ -336,7 +336,7 @@ public class PostController extends PostBaseControlerImpl {
 				}
 				
 				List<String> vImages = requestWiseImages.get(postRequestId);
-				vImages.add(baseUrl + "image/" + image.get("url").toString());
+				vImages.add(baseUrl + "image/thumb-" + image.get("url").toString());
 				
 				requestWiseImages.put(postRequestId, vImages);
 			});

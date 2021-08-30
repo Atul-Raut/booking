@@ -212,7 +212,7 @@ public class VehicleController extends ControllerBase {
 					vImages.put(image.get("vehicleId").toString(), new HashMap<String, String>());
 				}
 				Map<String, String> imags = vImages.get(image.get("vehicleId"));
-				imags.put("image" + image.get("imgNo"), baseUrl + "image/" + image.get("imgUrl"));
+				imags.put("image" + image.get("imgNo"), baseUrl + "image/thumb-" + image.get("imgUrl"));
 			});
 
 			userVehicles.forEach(vehicle->{

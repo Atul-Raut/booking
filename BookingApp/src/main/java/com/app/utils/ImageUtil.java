@@ -1,5 +1,6 @@
 package com.app.utils;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -27,6 +28,13 @@ public class ImageUtil {
 	public static String saveImageAtLocal(MultipartFile image, String imageBasePath, String uuid) throws IllegalStateException, IOException {
 		File newFile = new File(imageBasePath + uuid + "_" + image.getOriginalFilename());
 		image.transferTo(newFile);
+		
+		String extension = image.getOriginalFilename().toString().split("[.]")[1];
+		
+		BufferedImage img = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+		img.createGraphics().drawImage(ImageIO.read(newFile).getScaledInstance(100, 100, Image.SCALE_SMOOTH),0,0,null);
+		ImageIO.write(img, extension, new File(imageBasePath + "thumb-"+ uuid + "_" + image.getOriginalFilename()));
+		
 		return uuid + "_" + image.getOriginalFilename();
 	}
 }

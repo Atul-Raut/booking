@@ -172,26 +172,33 @@
   </sql-query>
   <sql-query name="app.vehicle.get.uservehicleimage">
     <![CDATA[
-      SELECT
-    	"img"."IMG_URL" AS "url",
-    	"img"."USER_VEHICLE_ID" AS "vehicleID",
-    	postReq."ID" AS "requestID"
-    FROM
-    	"T_POST_REQUEST" AS postReq
-    	JOIN "M_USER" AS mUser
-    	ON (
-    		mUser."USER_ID" = postReq."REQUEST_USER_ID"
-    	)
-    	JOIN
-    	"T_USER_VEHICLE_IMG" AS "img"
-    	ON(
-    		mUser."USER_ID" = "img"."USER_ID"
-    		AND "img"."DEL_FLG" = 0
-    	)
-    WHERE
-    	postReq."POST_ID" = :postId
-    	AND postReq."DEL_FLG" = 0
-    	AND mUser."DEL_FLG" = 0
+    SELECT
+    "img"."IMG_URL" AS "url",
+    "img"."USER_VEHICLE_ID" AS "vehicleID",
+    postReq."ID" AS "requestID"
+  FROM
+    "T_POST_REQUEST" AS postReq
+    JOIN "M_USER" AS mUser
+    ON (
+      mUser."USER_ID" = postReq."REQUEST_USER_ID"
+    AND mUser."DEL_FLG" = 0
+    )
+    JOIN
+    "T_USER_VEHICLE_IMG" AS "img"
+    ON(
+      mUser."USER_ID" = "img"."USER_ID"
+      AND "img"."DEL_FLG" = 0
+    )
+  JOIN
+    "T_USER_VEHICLE" AS "vehicle"
+  ON(
+    "img"."USER_VEHICLE_ID" = "vehicle"."ID"
+    AND "vehicle"."DEL_FLG" = 0
+  )
+  WHERE
+    postReq."POST_ID" = :postId
+    AND postReq."DEL_FLG" = 0
+    AND mUser."DEL_FLG" = 0
   ]]>
 </sql-query>
 
