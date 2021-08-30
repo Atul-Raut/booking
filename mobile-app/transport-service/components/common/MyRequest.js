@@ -152,6 +152,9 @@ export default class MyRequest extends AppBaseComponent {
         <View style={{ paddingLeft: 10, width: "70%" }}>
           <Text>{"Leaving at " + item.location}</Text>
         </View>
+        { item.bidAmount && <View style={{ paddingLeft: 10, width: "70%" }}>
+          <Text>{"Bid Price " + item.bidAmount}</Text>
+        </View> }
         
         <View>
         <ScrollView

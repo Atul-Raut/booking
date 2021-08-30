@@ -34,16 +34,16 @@
     	  ON(
     		  "ID" = p2."postId"
     	  )
-		  LEFT JOIN( 
-			  SELECT "POST_ID" as "postId", "AMOUNT" as "amount" FROM "T_POST_BID" 
-			  WHERE 
-			 "DEL_FLG" = 0 
+		  LEFT JOIN(
+			  SELECT "POST_ID" as "postId", "AMOUNT" as "amount" FROM "T_POST_BID"
+			  WHERE
+			 "DEL_FLG" = 0
 			  GROUP BY "POST_ID","AMOUNT")
 			  p3
 			  ON (
 			  "ID" = p3."postId"
 			  )
-			  
+
       where
         "DEL_FLG" = 0
         AND "USER_ID" = :userId
@@ -217,30 +217,48 @@
   </sql-query>
   <sql-query name="app.post.get.request">
     <![CDATA[
-      SELECT
-        postReq."POST_ID" AS "postId",
-        postReq."STATUS" AS "status",
-        postReq."INS_DT" AS "requestTime",
-        postReq."ID" AS "requestID",
-        postReq."REQUEST_USER_ID" AS "requestUserId",
-        mUser."FIRST_NAME" || ' ' || "LAST_NAME" AS "requestUserName",
-        3 AS "review",
-        'Pune' AS "location",
-        '3' AS "experience",
-        mUser."MOBILE" AS "phone",
-        mUser."EMAIL" AS "email",
-        null AS "images"
-      FROM
-        "T_POST_REQUEST" AS postReq
-      JOIN "M_USER" AS mUser
-        ON (
+        SELECT
+            postReq."POST_ID" AS "postId",
+            postReq."STATUS" AS "status",
+            postReq."INS_DT" AS "requestTime",
+            postReq."ID" AS "requestID",
+            postReq."REQUEST_USER_ID" AS "requestUserId",
+            mUser."FIRST_NAME" || ' ' || "LAST_NAME" AS "requestUserName",
+            3 AS "review",
+            'Pune' AS "location",
+            '3' AS "experience",
+            mUser."MOBILE" AS "phone",
+            mUser."EMAIL" AS "email",
+            null AS "images",
+            bid."AMOUNT" AS "bidAmount"
+          FROM
+            "T_POST_REQUEST" AS postReq
+          JOIN "M_USER" AS mUser
+            ON (
+              mUser."USER_ID" = postReq."REQUEST_USER_ID"
+            )
+        LEFT OUTER JOIN (
+          SELECT t1.*
+          FROM "T_POST_BID" AS t1
+          WHERE t1."INS_DT" = (SELECT MAX(t2."INS_DT")
+                     FROM "T_POST_BID" t2
+                     WHERE t2."REQUEST_USER_ID" = t1."REQUEST_USER_ID"
+              AND "DEL_FLG" = 0
+              AND "POST_ID" = CASE WHEN :postId in ('<NA>') THEN "POST_ID" ELSE :postId END
+           )
+        ) AS bid
+        ON(
           mUser."USER_ID" = postReq."REQUEST_USER_ID"
+          AND mUser."USER_ID" = bid."REQUEST_USER_ID"
+          AND postReq."POST_ID" = bid."POST_ID"
         )
-      WHERE
-        postReq."POST_ID" = CASE WHEN :postId in ('<NA>') THEN "POST_ID" ELSE :postId END
-        AND postReq."DEL_FLG" = 0
-        AND mUser."DEL_FLG" = 0
-        AND mUser."AC_TYP" = 2
+          WHERE
+            postReq."POST_ID" = CASE WHEN :postId in ('<NA>') THEN postReq."POST_ID" ELSE :postId END
+            AND postReq."DEL_FLG" = 0
+            AND mUser."DEL_FLG" = 0
+            AND mUser."AC_TYP" = 2
+          ORDER BY
+            bid."AMOUNT"
     ]]>
   </sql-query>
 </hibernate-mapping>
