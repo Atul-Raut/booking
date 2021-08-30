@@ -90,7 +90,7 @@ export default class MyRequest extends AppBaseComponent {
     });
   };
 
-  _renderView(collapse, item) {
+  _renderView(collapse, item, onp) {
     let rets = [];
     for (let i = 0; i < item.review; i++) {
       rets.push(
@@ -107,16 +107,17 @@ export default class MyRequest extends AppBaseComponent {
 
     if (item.status == "NEW") {
       btn.push(
-        <View key={"new"}>
+        <View key={item.id+"new"}>
           <TouchableOpacity key={"new"} style={{ flexDirection: "row" }}>
             <MaterialIcons
-              key={"acceptThumb"}
+              key={item.id+"acceptThumb"}
               name="thumb-up"
               size={15}
               color={"white"}
               style={{ marginTop: 8, marginRight: -20, zIndex: 1 }}
             />
             <Text
+              key={item.id+'Accept'}
               style={[
                 {
                   color: "white",
@@ -137,14 +138,13 @@ export default class MyRequest extends AppBaseComponent {
       );
     }
     return (
-      <View style={[globalStyles.cardMyRequest, { paddingBottom: 10 }]}>
+      <View>
+      <View style={[globalStyles.cardMyRequest, 
+        (item.images && item.images.length > 0) ? { paddingBottom: 10 } : {paddingBottom: 15, }]}>
         <View style={{ flexDirection: "row" }}>
           <Text style={[globalStyles.cartHeader]}>{item.requestUserName}</Text>
           <Text style={{ paddingLeft: 20 }}></Text>
           {rets}
-        </View>
-        <View style={{ position: "absolute", marginTop: 25, right: 10 }}>
-          {btn}
         </View>
         <View style={{ paddingLeft: 10, width: "70%" }}>
           <Text>{item.experience + " years of Driving Experience"}</Text>
@@ -152,13 +152,19 @@ export default class MyRequest extends AppBaseComponent {
         <View style={{ paddingLeft: 10, width: "70%" }}>
           <Text>{"Leaving at " + item.location}</Text>
         </View>
-
+        
+        <View>
+        <ScrollView
+          horizontal={true}
+          >
         <FlatList
           data={item.images}
-          key={"2"}
-          numColumns={3}
+          key={item.id+"2"}
+          numColumns={300}
           renderItem={({ item }) => (
+            <>
             <Image
+              key={item.id+'img'}
               source={item && { uri: item }}
               style={{
                 width: 100,
@@ -170,8 +176,22 @@ export default class MyRequest extends AppBaseComponent {
               }}
               keyExtractor={(item) => item.id}
             />
+            </>
           )}
-        />
+            /> 
+            </ScrollView>
+            </View>
+      </View>
+      <View style={[globalStyles.cardControlBarMyRequest]}>
+          <View style={{ paddingLeft: 10, marginTop:10, width: "70%" }}>
+            <TouchableOpacity key={item.id+'temp'} onPress={onp}>
+              <Text  key={item.id+'temp1'} style={{color:'blue'}}>{'Get details>>'}</Text>
+            </TouchableOpacity>
+        </View> 
+        <View style={{ position: "absolute", marginTop: 5, right: 10 }}>
+          {btn}
+        </View>
+      </View>
       </View>
     );
   }
