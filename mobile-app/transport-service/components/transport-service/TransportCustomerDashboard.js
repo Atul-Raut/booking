@@ -222,30 +222,6 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                           <View style={{ marginBottom: 10 }}>
                             <Text style={styles.text_footer}>
                               Activity From Date{"  "}
-                              {/* {item.bid > 0 ? (
-                                <Text
-                                  style={{
-                                    backgroundColor: "black",
-                                    //  marginRight: -15,
-                                    //  height: 50,
-                                  }}
-                                >
-                                  {" "}
-                                  <MaterialIcons
-                                    key={"gavel"}
-                                    name="gavel"
-                                    size={15}
-                                    color={"orange"}
-                                    //backgroundColor={"orange"}
-                                    style={
-                                      {
-                                        // marginRight: 8,
-                                        //zIndex: 1,
-                                      }
-                                    }
-                                  />{" "}
-                                </Text>
-                              ) : null} */}
                             </Text>
                             <Text>
                               {item.activityFromDate
@@ -283,83 +259,79 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                           <Text>{item.otherInfo}</Text>
                         </View>
                       </View>
-                      <View
-                        style={{
-                          borderBottomColor: "grya",
-                          borderBottomWidth: 1,
-                          width: 350,
-                          marginLeft: -10,
-                        }}
-                      />
-                      <View style={{ flexDirection: "row" }}>
-                        <View style={{ width: "50%" }}>
-                          {item.requestCount > 0 ? (
-                            <Text
-                              style={{
-                                color: "blue",
-                                marginTop: 15,
-                                height: 20,
-                              }}
-                              onPress={() => {
-                                this.props.navigation.navigate(
-                                  "MyRequest",
-                                  item
-                                );
-                              }}
-                            >
-                              {item.requestCount} requests
-                            </Text>
-                          ) : (
-                            <Text
-                              style={{
-                                color: "blue",
-                                marginTop: 15,
-                                height: 20,
-                              }}
-                            >
-                              {item.requestCount} requests
-                            </Text>
-                          )}
-                        </View>
-                        <View
-                          style={{ width: "50%", marginTop: 10 }}
-                          key={"new"}
-                        >
-                          <TouchableOpacity
+                      <View style={[globalStyles.cardControlBarDashboard]}>
+                        <View style={{ flexDirection: "row" }}>
+                          <View style={{ width: "50%" }}>
+                            {item.requestCount > 0 ? (
+                              <Text
+                                style={{
+                                  color: "blue",
+                                  marginTop: 10,
+                                  marginLeft: 10,
+                                  height: 20,
+                                }}
+                                onPress={() => {
+                                  this.props.navigation.navigate(
+                                    "MyRequest",
+                                    item
+                                  );
+                                }}
+                              >
+                                {item.requestCount} requests
+                              </Text>
+                            ) : (
+                              <Text
+                                style={{
+                                  color: "blue",
+                                  marginTop: 10,
+                                  marginLeft: 10,
+                                  height: 20,
+                                }}
+                              >
+                                {item.requestCount} requests
+                              </Text>
+                            )}
+                          </View>
+                          <View
+                            style={{ width: "50%", marginTop: 10 }}
                             key={"new"}
-                            style={{ flexDirection: "row" }}
-                            onPress={() => {
-                              this.handleDelete(item);
-                            }}
                           >
-                            <MaterialIcons
-                              key={"delete"}
-                              name="delete-forever"
-                              size={25}
-                              color={"white"}
-                              style={{
-                                marginTop: 2,
-                                marginRight: -27,
-                                zIndex: 1,
+                            <TouchableOpacity
+                              key={"new"}
+                              style={{ flexDirection: "row", marginTop: -5 }}
+                              onPress={() => {
+                                this.handleDelete(item);
                               }}
-                            />
-                            <Text
-                              style={[
-                                {
-                                  color: "white",
-                                  fontWeight: "bold",
-                                  backgroundColor: "#FF0000",
-                                  height: 30,
-                                  borderRadius: 5,
-                                  width: 30,
-                                  textAlign: "right",
-                                  padding: 2,
-                                },
-                              ]}
                             >
-                              {/* {"Delete Post"} */}
-                            </Text>
-                          </TouchableOpacity>
+                              <MaterialIcons
+                                key={"delete"}
+                                name="delete-forever"
+                                size={25}
+                                color={"white"}
+                                style={{
+                                  marginTop: 2,
+                                  marginRight: -27,
+                                  zIndex: 1,
+                                }}
+                              />
+                              <Text
+                                style={[
+                                  {
+                                    color: "white",
+                                    fontWeight: "bold",
+                                    backgroundColor: "#FF0000",
+                                    height: 30,
+                                    borderRadius: 5,
+                                    width: 30,
+                                    textAlign: "right",
+                                    padding: 2,
+                                  },
+                                ]}
+                              >
+                                {/* {"Delete Post"} */}
+                              </Text>
+                            </TouchableOpacity>
+                          </View>
                         </View>
                       </View>
                     </Card>

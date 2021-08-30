@@ -10,6 +10,7 @@ import {
   TextInput,
 } from "react-native";
 import AppBaseComponent, {
+  getAcountType,
   getServiceID,
   getUserId,
 } from "../common/AppBaseComponent";
@@ -28,11 +29,14 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
     super(props);
     this.onSubmit = this.sendPostRequest.bind(this);
     this.openModal = this.openModal.bind(this);
+    this.submitBid = this.submitBid.bind(this);
     this.setState({
       showSuccess: false,
+      bidSuccessSubmit: false,
       //requestSent: false,
       openBidModal: false,
-      postTitle: "",
+      selectedPost: null,
+      bidValue: "",
     });
   }
   componentDidMount() {
@@ -66,8 +70,11 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
     }
     this.setState({
       showSuccess: false,
+      bidSuccessSubmit: false,
       requestSent: false,
       openBidModal: false,
+      bidValue: "",
+      selectedPost: null,
     });
   };
 
@@ -77,15 +84,22 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
     });
   };
 
+  showBidSuccess = () => {
+    this.setState({
+      bidSuccessSubmit: true,
+    });
+  };
+
   hideSuccess = () => {
     this.setState({
       showSuccess: false,
     });
   };
 
-  openModal = () => {
+  openModal = (selectedPost) => {
     this.setState({
       openBidModal: true,
+      selectedPost: selectedPost,
     });
   };
 
@@ -101,25 +115,25 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
     let response = await callApi(param);
     // alert(JSON.stringify(response.result));
     if (response && response.retCode == this.SUCCESS_RET_CODE) {
-      this.setState({
-        requestSent: true,
-      });
       this.showSuccess();
     }
-    //   if (response.result.length > 0) {
-    //     this.setState({
-    //       requests: response.result,
-    //     });
-    //   } else {
-    //     this.setState({
-    //       requests: [],
-    //     });
-    //   }
-    // } else {
-    //   this.setState({
-    //     requests: [],
-    //   });
-    // }
+  };
+
+  submitBid = async () => {
+    let param = {
+      serviceId: "WS-BID-01",
+      body: {
+        userId: getAcountType(),
+        postId: this.state.selectedPost.postId,
+        amount: parseInt(this.state.bidValue),
+      },
+    };
+
+    let response = await callApi(param);
+    // alert(JSON.stringify(response.result));
+    if (response && response.retCode == this.SUCCESS_RET_CODE) {
+      this.showBidSuccess();
+    }
   };
 
   render() {
@@ -128,64 +142,13 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
       showSuccess,
       requestSent,
       openBidModal,
-      postTitle,
+      bidValue,
+      bidSuccessSubmit,
     } = this.state;
 
     return (
       <>
         <View>
-          <Modal
-            visible={openBidModal}
-            style={{ flex: 1, width: 80, height: 80, padding: 10 }}
-          >
-            <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>
-              Bid Amount
-            </Text>
-            <View>
-              <TextInput
-                maxLength={250}
-                placeholder="Enter Bid"
-                value={postTitle}
-                style={[globalStyles.input]}
-                onChangeText={(val) => this.setState({ postTitle: val })}
-              />
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                width: "100%",
-                alignItems: "center",
-              }}
-            >
-              <TouchableOpacity
-                onPress={() =>
-                  // this.setState({
-                  //   openBidModal: false,
-                  // })
-                  alert("submit")
-                }
-                style={globalStyles.modalButton}
-              >
-                <Text style={{ color: "white", fontWeight: "bold" }}>
-                  {" "}
-                  Submit Bid{" "}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() =>
-                  this.setState({
-                    openBidModal: false,
-                  })
-                }
-                style={globalStyles.modalButton}
-              >
-                <Text style={{ color: "white", fontWeight: "bold" }}>
-                  {" "}
-                  Cancel{" "}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </Modal>
           <Animatable.View animation="fadeInUpBig" style={globalStyles.footer}>
             <ScrollView>
               <FlatList
@@ -269,7 +232,7 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                                   key={"new"}
                                   style={{ flexDirection: "row" }}
                                   onPress={() => {
-                                    this.openModal();
+                                    this.openModal(item);
                                   }}
                                 >
                                   <Text
@@ -327,37 +290,53 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                           ) : null}
                         </View>
                       </View>
-                      <View style={{ flexDirection: "row" }}>
-                        {item.requestCount > 0 ? (
-                          <View>
-                            <Text
-                              style={{ color: "blue", marginTop: 15 }}
-                              // onPress={() => this.sendPostRequest(item)}
-                            >
-                              Interest Sent{" "}
-                              <MaterialIcons
-                                key={"done"}
-                                name="done"
-                                size={15}
-                                color={"green"}
+                      <View style={{ flexDirection: "row", marginTop: 10 }}>
+                        <View style={{ marginBottom: 15 }}>
+                          <Text style={styles.text_footer}>Post Desc</Text>
+                          <Text>{item.otherInfo}</Text>
+                        </View>
+                      </View>
+                      <View style={[globalStyles.cardControlBarDashboard]}>
+                        <View style={{ flexDirection: "row" }}>
+                          {item.requestCount > 0 ? (
+                            <View>
+                              <Text
                                 style={{
-                                  marginTop: 8,
-                                  //  marginRight: -20,
-                                  //zIndex: 1,
+                                  color: "blue",
+                                  marginTop: 10,
+                                  marginLeft: 10,
                                 }}
-                              />
-                            </Text>
-                          </View>
-                        ) : (
-                          <View>
-                            <Text
-                              style={{ color: "blue", marginTop: 15 }}
-                              onPress={() => this.sendPostRequest(item)}
-                            >
-                              Send Interest
-                            </Text>
-                          </View>
-                        )}
+                                // onPress={() => this.sendPostRequest(item)}
+                              >
+                                Interest Sent{" "}
+                                <MaterialIcons
+                                  key={"done"}
+                                  name="done"
+                                  size={15}
+                                  color={"green"}
+                                  style={{
+                                    marginTop: 15,
+                                    //  marginRight: -20,
+                                    //zIndex: 1,
+                                  }}
+                                />
+                              </Text>
+                            </View>
+                          ) : (
+                            <View>
+                              <Text
+                                style={{
+                                  color: "blue",
+                                  marginTop: 10,
+                                  marginLeft: 10,
+                                }}
+                                onPress={() => this.sendPostRequest(item)}
+                              >
+                                Send Interest
+                              </Text>
+                            </View>
+                          )}
+                        </View>
                       </View>
                     </Card>
                   </TouchableOpacity>
@@ -382,6 +361,68 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
               this.componentDidMount();
             }}
           />
+          <AwesomeAlert
+            show={bidSuccessSubmit}
+            showProgress={false}
+            title="Bid Submit"
+            message="Your bid has been sumbitted"
+            closeOnTouchOutside={false}
+            closeOnHardwareBackPress={false}
+            showCancelButton={true}
+            cancelText="ok"
+            onCancelPressed={() => {
+              this.componentDidMount();
+            }}
+          />
+          {openBidModal ? (
+            <Modal
+              visible={openBidModal}
+              style={{ flex: 1, width: 80, height: 80, padding: 10 }}
+            >
+              <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>
+                Bid Amount
+              </Text>
+              <View>
+                <TextInput
+                  maxLength={250}
+                  placeholder="Enter Bid"
+                  value={bidValue}
+                  style={[globalStyles.input]}
+                  onChangeText={(val) => this.setState({ bidValue: val })}
+                />
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  width: "100%",
+                  alignItems: "center",
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => this.submitBid()}
+                  style={globalStyles.modalButton}
+                >
+                  <Text style={{ color: "white", fontWeight: "bold" }}>
+                    {" "}
+                    Submit Bid{" "}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    this.setState({
+                      openBidModal: false,
+                    })
+                  }
+                  style={globalStyles.modalButton}
+                >
+                  <Text style={{ color: "white", fontWeight: "bold" }}>
+                    {" "}
+                    Cancel{" "}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </Modal>
+          ) : null}
         </View>
       </>
     );

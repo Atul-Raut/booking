@@ -37,7 +37,7 @@
 		  LEFT JOIN( 
 			  SELECT "POST_ID" as "postId", "AMOUNT" as "amount" FROM "T_POST_BID" 
 			  WHERE 
-			 "DEL_FLG" = 0 
+			 "DEL_FLG" = 0 AND "AMOUNT" = (SELECT MIN("AMOUNT") FROM "T_POST_BID") 
 			  GROUP BY "POST_ID","AMOUNT")
 			  p3
 			  ON (
@@ -88,7 +88,7 @@
 		LEFT JOIN( 
 			  SELECT "POST_ID" as "postId", "AMOUNT" as "amount" FROM "T_POST_BID" 
 			  WHERE 
-			 "DEL_FLG" = 0 
+			 "DEL_FLG" = 0 AND "AMOUNT" = (SELECT MIN("AMOUNT") FROM "T_POST_BID") 
 			  GROUP BY "POST_ID","AMOUNT")
 			  p3
 			  ON (
