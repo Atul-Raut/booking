@@ -6,7 +6,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 import {translateMsg} from '../common/Translation'
 import AppBaseComponent,{clearLocalStorage, setDataintoLocalStorage,
-   setSelectedService} from "../common/AppBaseComponent";
+   setSelectedService, setSignedIn} from "../common/AppBaseComponent";
 import { callApi } from "./AppService";
 import AwesomeAlert from 'react-native-awesome-alerts';
 
@@ -110,6 +110,7 @@ onSelectedService = () => {
 setUserInfoAndNavigateToHomePage =(userInfo) =>{
   setDataintoLocalStorage("userInfo", userInfo);
   this.onSelectedService();
+  setSignedIn();
   this.props.navigation.reset({index: 0,
     routes: [{name:'Dashboard'}]});
    

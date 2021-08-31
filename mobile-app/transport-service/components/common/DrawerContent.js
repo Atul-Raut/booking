@@ -12,10 +12,10 @@ import {
   Switch,
 } from "react-native-paper";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
-
+import { MaterialIcons } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {translateMsg} from '../common/Translation'
-import {getUserInfo, getServiceID, getAcountTypeName, clearLocalStorage} from "./AppBaseComponent"
+import {getUserInfo, getServiceID, getAcountTypeName, clearLocalStorage, setSignedOut} from "./AppBaseComponent"
 import { TransportDrawerContent } from "../transport-service/TransportDrawerContent";
 
 export function DrawerContent(props) {
@@ -25,6 +25,7 @@ export function DrawerContent(props) {
 
   function signOut() {
     //TODO call signout Api
+    setSignedOut();
     clearLocalStorage();
     props.navigation.reset({index: 0,
       routes: [{name:'LoginScreen'}]});
@@ -56,7 +57,21 @@ export function DrawerContent(props) {
               )}
               label="Home"
               onPress={() => {
-                props.navigation.navigate("HomeScreen");
+                props.navigation.navigate("Dashboard");
+              }}
+            />
+             <DrawerItem
+              icon={({ color, size }) => (
+                <MaterialIcons
+                  key={"notifications"}
+                  name="notifications"
+                  color={color} 
+                  size={size}
+                />
+              )}
+              label="Notification"
+              onPress={() => {
+                props.navigation.navigate("Notifications");
               }}
             />
             <DrawerItem

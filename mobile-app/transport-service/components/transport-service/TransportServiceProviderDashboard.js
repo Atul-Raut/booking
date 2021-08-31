@@ -33,7 +33,6 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
     this.setState({
       showSuccess: false,
       bidSuccessSubmit: false,
-      //requestSent: false,
       openBidModal: false,
       selectedPost: null,
       bidValue: "",
@@ -44,15 +43,12 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
   }
 
   makeRemoteRequest = async () => {
-    //  alert("okok");
-    //TODO remove userID and account type from body
     let param = {
       serviceId: "WS-PS-13",
       body: { requestUserId: getUserId() },
     };
 
     let response = await callApi(param);
-    //alert(JSON.stringify(response.result));
     if (response && response.retCode == this.SUCCESS_RET_CODE) {
       if (response.result.length > 0) {
         this.setState({

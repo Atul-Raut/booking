@@ -34,16 +34,16 @@
     	  ON(
     		  "ID" = p2."postId"
     	  )
-		  LEFT JOIN( 
-			  SELECT "POST_ID" as "postId", "AMOUNT" as "amount" FROM "T_POST_BID" 
-			  WHERE 
-			 "DEL_FLG" = 0 AND "AMOUNT" = (SELECT MIN("AMOUNT") FROM "T_POST_BID") 
+		  LEFT JOIN(
+			  SELECT "POST_ID" as "postId", "AMOUNT" as "amount" FROM "T_POST_BID"
+			  WHERE
+			 "DEL_FLG" = 0 AND "AMOUNT" = (SELECT MIN("AMOUNT") FROM "T_POST_BID")
 			  GROUP BY "POST_ID","AMOUNT")
 			  p3
 			  ON (
 			  "ID" = p3."postId"
 			  )
-			  
+
       where
         "DEL_FLG" = 0
         AND "USER_ID" = :userId
@@ -52,6 +52,7 @@
         AND ("SOURCE" ilike CONCAT('%',COALESCE(CAST(:source AS TEXT),"SOURCE"),'%')
             OR "DESTINATION" ilike CONCAT('%',COALESCE(CAST(:destination AS TEXT),"DESTINATION"),'%')
         )
+      ORDER BY "ACTIVITY_DATE_TIME_TO" DESC
     ]]>
   </sql-query>
   <sql-query name="app.post.search.provider">
@@ -85,10 +86,10 @@
         ON(
           "ID" = p2."postId"
         )
-		LEFT JOIN( 
-			  SELECT "POST_ID" as "postId", "AMOUNT" as "amount" FROM "T_POST_BID" 
-			  WHERE 
-			 "DEL_FLG" = 0 AND "AMOUNT" = (SELECT MIN("AMOUNT") FROM "T_POST_BID") 
+		LEFT JOIN(
+			  SELECT "POST_ID" as "postId", "AMOUNT" as "amount" FROM "T_POST_BID"
+			  WHERE
+			 "DEL_FLG" = 0 AND "AMOUNT" = (SELECT MIN("AMOUNT") FROM "T_POST_BID")
 			  GROUP BY "POST_ID","AMOUNT")
 			  p3
 			  ON (
@@ -102,6 +103,7 @@
         AND ("SOURCE" ilike CONCAT('%',COALESCE(CAST(:source AS TEXT),"SOURCE"),'%')
             OR "DESTINATION" ilike CONCAT('%',COALESCE(CAST(:destination AS TEXT),"DESTINATION"),'%')
         )
+      ORDER BY "ACTIVITY_DATE_TIME_TO" DESC
     ]]>
   </sql-query>
   <sql-query name="app.post.create">

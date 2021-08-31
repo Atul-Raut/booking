@@ -24,6 +24,7 @@ import ProfileUpdateScreen from "./components/common/ProfileUpdateScreen";
 import PrivacyPolicyScreen from "./components/common/PrivacyPolicy";
 import FreeTrialPolicyScreen from "./components/common/FreeTrialPolicyScreen";
 import CustomerDashboard from "./components/transport-service/TransportCustomerDashboard";
+import Notifications from "./components/common/Notifications"
 
 const Drawer = createDrawerNavigator();
 
@@ -199,6 +200,19 @@ export default function App() {
               headerTitleStyle: { alignSelf: "center" },
             })}
           />
+          <Drawer.Screen
+            name="Notifications"
+            component={Notifications}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header navigation={navigation} name={"Notifications"} />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
+          />
+
+
           <Drawer.Screen
             name="CustomerDashboard"
             component={CustomerDashboard}

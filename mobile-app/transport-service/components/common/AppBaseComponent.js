@@ -153,3 +153,20 @@ export const baseUrl=()=>{
     return "WS-S-CM-0000";
   }
 
+  export const isSignedIn = () => {
+    let signInFlg = getDataFromLocalStorage('signIn');
+    if(signInFlg){
+      return signInFlg;
+    }else{
+      return false;
+    }
+  }
+
+  export const setSignedIn = () => {
+    setDataintoLocalStorage("signIn", true);
+  }
+
+  export const setSignedOut = () => {
+    setDataintoLocalStorage("signIn", false);
+  }
+
