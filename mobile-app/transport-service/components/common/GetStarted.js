@@ -50,7 +50,10 @@ export default class GetStarted extends Component {
           <Text style={styles.text}>Sign in with account</Text>
           <View style={styles.button}>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("LoginScreen")}
+              onPress={() => 
+                this.props.navigation.reset({index: 0,
+                  routes: [{name:'LoginScreen'}]})
+              }
             >
               <Text style={styles.textSign}>Get Started</Text>
             </TouchableOpacity>

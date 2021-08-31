@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text,TouchableOpacity,TextInput,Platform,StyleSheet, ScrollView,StatusBar, Alert,} from "react-native";
+import { View, Text,TouchableOpacity,TextInput,Platform,StyleSheet, ScrollView,StatusBar, Alert,
+} from "react-native";
 import * as Animatable from "react-native-animatable";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
@@ -8,6 +9,7 @@ import AppBaseComponent,{clearLocalStorage, setDataintoLocalStorage,
    setSelectedService} from "../common/AppBaseComponent";
 import { callApi } from "./AppService";
 import AwesomeAlert from 'react-native-awesome-alerts';
+
 
 export default class LoginScreen extends AppBaseComponent {
   constructor(props){
@@ -109,7 +111,9 @@ setUserInfoAndNavigateToHomePage =(userInfo) =>{
   setDataintoLocalStorage("userInfo", userInfo);
   this.onSelectedService();
   this.props.navigation.reset({index: 0,
-    routes: [{name:'HomeScreen'}]});
+    routes: [{name:'Dashboard'}]});
+   
+
 }
 showAlert = () => {
   this.setState({
