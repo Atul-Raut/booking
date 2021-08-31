@@ -30,6 +30,8 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
     this.onSubmit = this.sendPostRequest.bind(this);
     this.openModal = this.openModal.bind(this);
     this.submitBid = this.submitBid.bind(this);
+  }
+  componentDidMount() {
     this.setState({
       showSuccess: false,
       bidSuccessSubmit: false,
@@ -37,8 +39,6 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
       selectedPost: null,
       bidValue: "",
     });
-  }
-  componentDidMount() {
     this.makeRemoteRequest();
   }
 
