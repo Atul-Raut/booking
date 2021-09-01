@@ -63,6 +63,7 @@ export default class ForgetPassword extends Component {
             <TextInput
               placeholder="ex : 10 digit mobile number"
               keyboardType="numeric"
+              maxLength={10}
               style={styles.textInput}
               autoCapitalize="none"
               onChangeText={(val) => setMobile(val)}

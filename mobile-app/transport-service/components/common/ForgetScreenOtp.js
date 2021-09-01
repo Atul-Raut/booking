@@ -46,6 +46,7 @@ export default class ForgetScreenOtp extends Component {
         </View>
         <View style={styles.action}>
             <TextInput
+                keyboardType="numeric"
                 onChangeText={(pin1)=> {
                   this.setState({pin1:pin1})
                   if(pin1 != ""){
@@ -58,6 +59,7 @@ export default class ForgetScreenOtp extends Component {
                 ref="first"
             />
             <TextInput 
+                keyboardType="numeric"
                 onChangeText={(pin2)=> {
                   this.setState({pin2:pin2})
                   if(pin2 != ""){
@@ -74,6 +76,7 @@ export default class ForgetScreenOtp extends Component {
                autoCapitalize="none"
             />
             <TextInput 
+              keyboardType="numeric"
               onChangeText={(pin3)=> {
                 this.setState({pin3:pin3})
                 if(pin3 != ""){
@@ -89,6 +92,7 @@ export default class ForgetScreenOtp extends Component {
               autoCapitalize="none"
             />
             <TextInput 
+              keyboardType="numeric"
               onChangeText={(pin4)=> {
                 this.setState({pin4:pin4})
                 if(pin4 != ""){
@@ -104,6 +108,7 @@ export default class ForgetScreenOtp extends Component {
               autoCapitalize="none"
             />
             <TextInput 
+              keyboardType="numeric"
               onChangeText={(pin5)=> {
                 this.setState({pin5:pin5})
                 if(pin5 != ""){
@@ -119,6 +124,7 @@ export default class ForgetScreenOtp extends Component {
               autoCapitalize="none"
             />
             <TextInput 
+              keyboardType="numeric"
               onChangeText={(pin6)=>{
                 this.setState({pin6:pin6})
                 if(pin6 == ""){
@@ -185,7 +191,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     flexDirection: 'row',
     textAlign:'center',
-    keyboardType:"numeric",
   },
   itemStyle: {
     flex: 1,

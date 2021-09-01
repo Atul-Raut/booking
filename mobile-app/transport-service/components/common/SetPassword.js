@@ -102,7 +102,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     flexDirection: 'row',
     textAlign:'center',
-    keyboardType:"numeric",
   },
   itemStyle: {
     flex: 1,
