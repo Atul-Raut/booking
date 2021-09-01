@@ -30,7 +30,7 @@
     "logIn":"Login",
     "signUp":"Sign Up",
     "createAccount":"Create an account",
-    "forgotPassword":"Forgot Password?",
+    "ForgetPassword":"Forgot Password?",
     "userNameMandatory":"Please enter your email Id.",
     "passwordMandatory":"Please enter your password.",
     "loginFailed":"Login Failed.",
@@ -107,6 +107,9 @@
     "bidingPeriod":"Biding period",
     "bidDateFrom":"From",
     "bidDateTo":"To",
-    "deletePostConfirmation": "Are you sure want to delete selected post?"
+    "deletePostConfirmation": "Are you sure want to delete selected post?",
+    "submitButton":"Submit",
+    "verifyButton":"Verify",
+    "resendOtpButton":"Resend OTP"
 
 }

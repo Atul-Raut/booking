@@ -24,7 +24,10 @@ import ProfileUpdateScreen from "./components/common/ProfileUpdateScreen";
 import PrivacyPolicyScreen from "./components/common/PrivacyPolicy";
 import FreeTrialPolicyScreen from "./components/common/FreeTrialPolicyScreen";
 import CustomerDashboard from "./components/transport-service/TransportCustomerDashboard";
-import Notifications from "./components/common/Notifications"
+import Notifications from "./components/common/Notifications";
+import ForgetPassword from "./components/common/ForgetPassword";
+import ForgetScreenOtp from "./components/common/ForgetScreenOtp";
+import SetPassword from "./components/common/SetPassword";
 
 const Drawer = createDrawerNavigator();
 
@@ -244,6 +247,39 @@ export default function App() {
             name="FreeTrialPolicyScreen"
             component={FreeTrialPolicyScreen}
             options={({ navigation }) => ({ headerShown: false })}
+          />
+          <Drawer.Screen
+            name="ForgetPassword"
+            component={ForgetPassword}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header navigation={navigation} name={"ForgetPassword"} />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
+          />
+          <Drawer.Screen
+            name="ForgetScreenOtp"
+            component={ForgetScreenOtp}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header navigation={navigation} name={"ForgetScreenOtp"} />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
+          />
+          <Drawer.Screen
+            name="SetPassword"
+            component={SetPassword}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header navigation={navigation} name={"SetPassword"} />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
           />
         </Drawer.Navigator>
       </NavigationContainer>

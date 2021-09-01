@@ -210,11 +210,10 @@ render() {
           </View>
 
           <View>
-            <Text style={{color: 'blue', marginTop: 30, position: "absolute", 
-                justifyContent:'flex-end', flexDirection: "row", textAlign:"right"}}
-                  onPress={() => navigation.navigate("forgotPassword")}>
-                  {translateMsg('forgotPassword')}
-              </Text>
+              <Text style={{color: 'blue', marginTop: 15}}
+                onPress={() => this.props.navigation.navigate("ForgetPassword")}>
+                {translateMsg('ForgetPassword')}
+            </Text>
             </View>
           <View style={styles.button}>
             <TouchableOpacity
