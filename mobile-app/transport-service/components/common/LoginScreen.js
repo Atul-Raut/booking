@@ -17,6 +17,8 @@ export default class LoginScreen extends AppBaseComponent {
       this.onSubmit = this.onSubmit.bind(this);
       this.validate = this.validate.bind(this);
       this.translate = this.translate.bind(this);
+      this.goToForgetPass = this.goToForgetPass.bind(this);
+      this.goToCreateAccount = this.goToCreateAccount.bind(this);
       this.onSelectedService=this.onSelectedService.bind(this);
 
       this.setUserInfoAndNavigateToHomePage = this.setUserInfoAndNavigateToHomePage.bind(this);
@@ -37,10 +39,37 @@ export default class LoginScreen extends AppBaseComponent {
           type1:"",
           type2Flag:false,
           type2:"",
+          disabled:false,
       };
       this.respo=[];
 }
+
+async goToForgetPass(event){
+  if (this.state.disabled ) {
+    return;
+  }else{
+    this.setState({disabled: true});
+  }
+  this.props.navigation.navigate("ForgetPassword")
+  this.setState({disabled: false});
+}
+
+async goToCreateAccount(event){
+  if (this.state.disabled ) {
+    return;
+  }else{
+    this.setState({disabled: true});
+  }
+  this.props.navigation.navigate("SignUpScreen")
+  this.setState({disabled: false});
+}
+
 async onSubmit(event) {
+  if (this.state.disabled ) {
+    return;
+  }else{
+    this.setState({disabled: true});
+  }
   event.preventDefault();
   this.state.userIdVal = "";
   this.state.passwordVal = "";
@@ -48,6 +77,7 @@ async onSubmit(event) {
 
   let validationResult = this.validateFields(this.screenID, null);
   if(!validationResult || !(validationResult.length == 0)){
+    this.setState({disabled:false});
     for(let i = 0; i < validationResult.length; i++){
       let err = validationResult[i];
       let keys = Object.keys(err);
@@ -59,6 +89,7 @@ async onSubmit(event) {
         this.state[key1]=value;
       }
     }
+    this.setState({disabled:false});
     return;
   }
 
@@ -83,10 +114,12 @@ async onSubmit(event) {
           type1:"Customer",
           type2Flag:true,
           type2:"Service Provider",
+          disabled:false,
         });
         this.respo=response.result;
       } else{
         this.state.title = this.translate("loginFailed")
+        this.state.disabled = false;
         this.state.errorMsg = this.translate("loginFailedMsg")
         this.showAlert();
       }
@@ -94,6 +127,7 @@ async onSubmit(event) {
   else if(response && response.retCode == "WS-E-CM-0002"){
     this.state.title = this.translate("loginFailed")
     this.state.errorMsg = this.translate("loginFailedMsg")
+    this.state.disabled = false;
     this.showAlert();
   }
   else{
@@ -113,7 +147,9 @@ setUserInfoAndNavigateToHomePage =(userInfo) =>{
   setSignedIn();
   this.props.navigation.reset({index: 0,
     routes: [{name:'Dashboard'}]});
-   
+    this.setState({
+      disabled:false
+    });
 
 }
 showAlert = () => {
@@ -130,13 +166,14 @@ hideAlert = () => {
 
 handleLoginType = (type) => {
   this.setState({
-    showMultipleAccount: false
+    showMultipleAccount: false,
+    disabled:true
   });
   this.setUserInfoAndNavigateToHomePage(this.respo[type-1]);
 };
 
 render() {
-  const {check_textInputChange, secureTextEntry,showAlert, errorMsg, title, 
+  const {check_textInputChange, secureTextEntry,showAlert, errorMsg, title, disabled,
     userIdVal, passwordVal, showMultipleAccount, type1, type1Flag, type2, type2Flag} = this.state;
 
   const textInputChange = (val) => {
@@ -194,7 +231,9 @@ render() {
               autoCapitalize="none"
               onChangeText={(val) => handlePasswordChange(val)}
             />
-            <TouchableOpacity onPress={updateSecureTextEntry}>
+            <TouchableOpacity 
+              disabled={disabled}
+              onPress={updateSecureTextEntry}>
               {secureTextEntry ? (
                 <Feather name="eye-off" color="grey" size={20} />
               ) : (
@@ -210,23 +249,30 @@ render() {
           </View>
 
           <View>
-              <Text style={{color: 'blue', marginTop: 15}}
-                onPress={() => this.props.navigation.navigate("ForgetPassword")}>
+            <TouchableOpacity
+              disabled={disabled}
+              onPress={this.goToForgetPass}>
+              <Text style={{color: 'blue', marginTop: 15}}>
                 {translateMsg('ForgetPassword')}
             </Text>
+            </TouchableOpacity>
             </View>
           <View style={styles.button}>
             <TouchableOpacity
+              disabled={disabled}
               onPress={this.onSubmit}
               style={[ styles.signIn,
                 { borderColor: "#009387",  borderWidth: 1, backgroundColor: "#009387", marginTop: 15, }, ]}>
               <Text style={[styles.textSign, { color: "white" }]}>{translateMsg('logIn')}</Text>
             </TouchableOpacity>
 
-            <Text style={{color: 'blue', marginTop: 15}}
-                onPress={() => this.props.navigation.navigate("SignUpScreen")}>
-                {translateMsg('createAccount')}
-            </Text>
+            <TouchableOpacity
+              disabled={disabled}
+              onPress={this.goToCreateAccount}>
+              <Text style={{color: 'blue', marginTop: 15}}>
+                  {translateMsg('createAccount')}
+              </Text>
+              </TouchableOpacity>
           </View>
         </ScrollView>
       </Animatable.View>

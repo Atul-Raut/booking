@@ -251,35 +251,17 @@ export default function App() {
           <Drawer.Screen
             name="ForgetPassword"
             component={ForgetPassword}
-            options={({ navigation }) => ({
-              header: (props) => (
-                <Header navigation={navigation} name={"ForgetPassword"} />
-              ),
-              headerLeft: null,
-              headerTitleStyle: { alignSelf: "center" },
-            })}
+            options={({ navigation }) => ({ headerShown: false })}
           />
           <Drawer.Screen
             name="ForgetScreenOtp"
             component={ForgetScreenOtp}
-            options={({ navigation }) => ({
-              header: (props) => (
-                <Header navigation={navigation} name={"ForgetScreenOtp"} />
-              ),
-              headerLeft: null,
-              headerTitleStyle: { alignSelf: "center" },
-            })}
+            options={({ navigation }) => ({ headerShown: false })}
           />
-          <Drawer.Screen
+           <Drawer.Screen
             name="SetPassword"
             component={SetPassword}
-            options={({ navigation }) => ({
-              header: (props) => (
-                <Header navigation={navigation} name={"SetPassword"} />
-              ),
-              headerLeft: null,
-              headerTitleStyle: { alignSelf: "center" },
-            })}
+            options={({ navigation }) => ({ headerShown: false })}
           />
         </Drawer.Navigator>
       </NavigationContainer>

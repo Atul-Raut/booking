@@ -107,17 +107,17 @@ export default class MyRequest extends AppBaseComponent {
 
     if (item.status == "NEW") {
       btn.push(
-        <View key={item.id+"new"}>
+        <View key={item.requestID+"new"}>
           <TouchableOpacity key={"new"} style={{ flexDirection: "row" }}>
             <MaterialIcons
-              key={item.id+"acceptThumb"}
+              key={'acceptThumb'+Math.random().toString()+item.requestID}
               name="thumb-up"
               size={15}
               color={"white"}
               style={{ marginTop: 8, marginRight: -20, zIndex: 1 }}
             />
             <Text
-              key={item.id+'Accept'}
+              key={item.requestID+'Accept'}
               style={[
                 {
                   color: "white",
@@ -159,15 +159,18 @@ export default class MyRequest extends AppBaseComponent {
         <View>
         <ScrollView
           horizontal={true}
+          key={'imgsView'+Math.random().toString()+item.requestID}
           >
-        <FlatList
+        { (item.images) && <FlatList
           data={item.images}
-          key={item.id+"2"}
+          key={'img'+Math.random().toString()+item.requestID}
           numColumns={300}
+          style={{height:140}}
+          keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
             <>
             <Image
-              key={item.id+'img'}
+              key={'img-'+Math.random().toString()+item.requestID}
               source={item && { uri: item }}
               style={{
                 width: 100,
@@ -177,11 +180,11 @@ export default class MyRequest extends AppBaseComponent {
                 resizeMode: "contain",
                 margin: 6,
               }}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item, index) => index.toString()}
             />
             </>
           )}
-            /> 
+            /> }
             </ScrollView>
             </View>
       </View>
@@ -201,7 +204,7 @@ export default class MyRequest extends AppBaseComponent {
 
   _renderBody(collapse, item) {
     return (
-      <View>
+      <View style={[globalStyles.cardControlMyRequestBody]}>
         <View
           style={{
             flexDirection: "row",
@@ -235,7 +238,7 @@ export default class MyRequest extends AppBaseComponent {
   render() {
     const { requests } = this.state;
     return (
-      <>
+      <View style={{backgroundColor:'#C5CBE3', height:'100%'}}>
         <View>
           <MaterialIcons
             name="arrow-back"
@@ -250,6 +253,8 @@ export default class MyRequest extends AppBaseComponent {
           <Animatable.View animation="fadeInUpBig" style={globalStyles.footer}>
             <ScrollView>
               <FlatList
+                key={'FlatList'+Math.random().toString()}
+                keyExtractor={(item, index) => index.toString()}
                 data={requests}
                 renderItem={({ item }) => (
                   <View>
@@ -257,6 +262,7 @@ export default class MyRequest extends AppBaseComponent {
                       renderView={this._renderView}
                       renderCollapseView={this._renderBody}
                       item={item}
+                      key={'AccordionCustome-'+Math.random().toString()+item.requestID}
                     ></AccordionCustome>
                   </View>
                 )}
@@ -267,7 +273,7 @@ export default class MyRequest extends AppBaseComponent {
             </ScrollView>
           </Animatable.View>
         </View>
-      </>
+      </View>
     );
   }
 }
