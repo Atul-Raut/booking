@@ -143,69 +143,86 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
             onPress={() => this.props.navigation.navigate("CreatePost")}
           />
         </View>
-        <View style={{ marginBottom: "28%" }}>
+        <View>
           <Animatable.View animation="fadeInUpBig">
             <ScrollView>
               <FlatList
                 data={requests}
                 renderItem={({ item }) => (
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.props.navigation.navigate("PostDetails", item)
-                    }
-                  >
-                    <Card>
-                      <View style={{ flexDirection: "row" }}>
-                        <View
-                          style={{
-                            // marginRight: 100,
-                            width: "50%",
-                          }}
-                        >
-                          <View style={{ marginBottom: 10 }}>
-                            {/* <Text>Post Title </Text> */}
-                            <Text style={styles.text_footer}>
-                              {item.postTitle}
-                            </Text>
-                          </View>
-                          <View style={{ marginBottom: 10 }}>
-                            {/* <Text style={styles.text_footer}>Source </Text> */}
-
-                            <Text>
-                              <MaterialIcons
-                                key={"delete"}
-                                name="flight-takeoff"
-                                size={20}
-                                color={"black"}
-                                style={{
-                                  marginRight: 8,
-                                  //zIndex: 1,
-                                }}
-                              />
-
-                              {item.source}
-                            </Text>
-                          </View>
-                          <View style={{ marginBottom: 10 }}>
-                            <Text>
-                              <MaterialIcons
-                                key={"flightLand"}
-                                name="flight-land"
-                                size={20}
-                                color={"black"}
-                                style={{
-                                  marginRight: 8,
-                                  //zIndex: 1,
-                                }}
-                              />
-
-                              {item.destination}
-                            </Text>
-                          </View>
-                          {item.amount > 0 ? (
-                            <View>
+                  <View>
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.props.navigation.navigate("PostDetails", item)
+                      }
+                    >
+                      <Card>
+                        <View style={{ flexDirection: "row" }}>
+                          <View
+                            style={{
+                              // marginRight: 100,
+                              width: "50%",
+                            }}
+                          >
+                            <View style={{ marginBottom: 10 }}>
+                              {/* <Text>Post Title </Text> */}
                               <Text style={styles.text_footer}>
-                                Bid Ends on
+                                {item.postTitle}
+                              </Text>
+                            </View>
+                            <View style={{ marginBottom: 10 }}>
+                              {/* <Text style={styles.text_footer}>Source </Text> */}
+
+                              <Text>
+                                <MaterialIcons
+                                  key={"delete"}
+                                  name="flight-takeoff"
+                                  size={20}
+                                  color={"black"}
+                                  style={{
+                                    marginRight: 8,
+                                    //zIndex: 1,
+                                  }}
+                                />
+
+                                {item.source}
+                              </Text>
+                            </View>
+                            <View style={{ marginBottom: 10 }}>
+                              <Text>
+                                <MaterialIcons
+                                  key={"flightLand"}
+                                  name="flight-land"
+                                  size={20}
+                                  color={"black"}
+                                  style={{
+                                    marginRight: 8,
+                                    //zIndex: 1,
+                                  }}
+                                />
+
+                                {item.destination}
+                              </Text>
+                            </View>
+                            {item.amount > 0 ? (
+                              <View>
+                                <Text style={styles.text_footer}>
+                                  Bid Ends on
+                                </Text>
+                                <Text>
+                                  {item.activityFromDate
+                                    ? format(
+                                        item.activityFromDate,
+                                        "dd-MM-yyyy hh:mm"
+                                      )
+                                    : ""}
+                                </Text>
+                              </View>
+                            ) : null}
+                          </View>
+                          <View style={{ width: "50%" }}>
+                            <View style={{ marginBottom: 10 }}>
+                              <Text style={styles.text_footer}>
+                                Activity From Date{"  "}
                               </Text>
                               <Text>
                                 {item.activityFromDate
@@ -216,130 +233,129 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                                   : ""}
                               </Text>
                             </View>
-                          ) : null}
-                        </View>
-                        <View style={{ width: "50%" }}>
-                          <View style={{ marginBottom: 10 }}>
-                            <Text style={styles.text_footer}>
-                              Activity From Date{"  "}
-                            </Text>
-                            <Text>
-                              {item.activityFromDate
-                                ? format(
-                                    item.activityFromDate,
-                                    "dd-MM-yyyy hh:mm"
-                                  )
-                                : ""}
-                            </Text>
-                          </View>
-                          <View style={{ marginBottom: 10 }}>
-                            <Text style={styles.text_footer}>
-                              Activity To Date
-                            </Text>
-                            <Text>
-                              {item.activityToDate
-                                ? format(
-                                    item.activityToDate,
-                                    "dd-MM-yyyy hh:mm"
-                                  )
-                                : ""}
-                            </Text>
-                          </View>
-                          {item.amount > 0 ? (
-                            <View>
-                              <Text style={styles.text_footer}>Bid Amount</Text>
-                              <Text>{item.amount}</Text>
+                            <View style={{ marginBottom: 10 }}>
+                              <Text style={styles.text_footer}>
+                                Activity To Date
+                              </Text>
+                              <Text>
+                                {item.activityToDate
+                                  ? format(
+                                      item.activityToDate,
+                                      "dd-MM-yyyy hh:mm"
+                                    )
+                                  : ""}
+                              </Text>
                             </View>
-                          ) : null}
-                        </View>
-                      </View>
-                      <View style={{ flexDirection: "row", marginTop: 10 }}>
-                        <View style={{ marginBottom: 15 }}>
-                          <Text style={styles.text_footer}>Post Desc</Text>
-                          <Text>{item.otherInfo}</Text>
-                        </View>
-                      </View>
-                      <View style={[globalStyles.cardControlBarDashboard]}>
-                        <View style={{ flexDirection: "row" }}>
-                          <View style={{ width: "50%" }}>
-                            {item.requestCount > 0 ? (
-                              <Text
-                                style={{
-                                  color: "blue",
-                                  marginTop: 10,
-                                  marginLeft: 10,
-                                  height: 20,
-                                }}
-                                onPress={() => {
-                                  this.props.navigation.navigate(
-                                    "MyRequest",
-                                    item
-                                  );
-                                }}
-                              >
-                                {item.requestCount} requests
-                              </Text>
-                            ) : (
-                              <Text
-                                style={{
-                                  color: "blue",
-                                  marginTop: 10,
-                                  marginLeft: 10,
-                                  height: 20,
-                                }}
-                              >
-                                {item.requestCount} requests
-                              </Text>
-                            )}
+                            {item.amount > 0 ? (
+                              <View>
+                                <Text style={styles.text_footer}>
+                                  Bid Amount
+                                </Text>
+                                <Text>{item.amount}</Text>
+                              </View>
+                            ) : null}
                           </View>
-                          <View
-                            style={{ width: "50%", marginTop: 10 }}
-                            key={"new"}
-                          >
-                            <TouchableOpacity
-                              key={"new"}
-                              style={{ flexDirection: "row", marginTop: -5 }}
+                        </View>
+                        <View style={{ flexDirection: "row", marginTop: 10 }}>
+                          <View style={{ marginBottom: 15 }}>
+                            <Text style={styles.text_footer}>Post Desc</Text>
+                            <Text>{item.otherInfo}</Text>
+                          </View>
+                        </View>
+                      </Card>
+                    </TouchableOpacity>
+                    <View style={[globalStyles.cardControlBarDashboard]}>
+                      <View style={{ flexDirection: "row" }}>
+                        <View>
+                          {item.requestCount > 0 ? (
+                            <Text
+                              style={{
+                                color: "blue",
+                                marginTop: 10,
+                                marginLeft: 10,
+                                height: 20,
+                                fontWeight: "bold",
+                              }}
                               onPress={() => {
-                                this.handleDelete(item);
+                                this.props.navigation.navigate(
+                                  "MyRequest",
+                                  item
+                                );
                               }}
                             >
-                              <MaterialIcons
-                                key={"delete"}
-                                name="delete-forever"
-                                size={25}
-                                color={"white"}
-                                style={{
-                                  marginTop: 2,
-                                  marginRight: -27,
-                                  zIndex: 1,
-                                }}
-                              />
-                              <Text
-                                style={[
-                                  {
-                                    color: "white",
-                                    fontWeight: "bold",
-                                    backgroundColor: "#FF0000",
-                                    height: 30,
-                                    borderRadius: 5,
-                                    width: 30,
-                                    textAlign: "right",
-                                    padding: 2,
-                                  },
-                                ]}
-                              >
-                                {/* {"Delete Post"} */}
-                              </Text>
-                            </TouchableOpacity>
-                          </View>
+                              {item.requestCount} requests
+                            </Text>
+                          ) : (
+                            <Text
+                              style={{
+                                color: "blue",
+                                marginTop: 10,
+                                marginLeft: 10,
+                                height: 20,
+                                fontWeight: "bold",
+                              }}
+                            >
+                              {item.requestCount} requests
+                            </Text>
+                          )}
+                        </View>
+                        <View
+                          style={{
+                            position: "absolute",
+                            marginTop: 5,
+                            right: 10,
+                          }}
+                          key={"new"}
+                        >
+                          <TouchableOpacity
+                            key={"new"}
+                            style={{ flexDirection: "row" }}
+                            onPress={() => {
+                              this.handleDelete(item);
+                            }}
+                          >
+                            <MaterialIcons
+                              key={"delete"}
+                              name="delete-forever"
+                              size={25}
+                              color={"white"}
+                              style={{
+                                marginTop: 2,
+                                marginRight: -27,
+                                zIndex: 1,
+                              }}
+                            />
+                            <Text
+                              style={[
+                                {
+                                  color: "white",
+                                  fontWeight: "bold",
+                                  backgroundColor: "#FF0000",
+                                  height: 30,
+                                  borderRadius: 5,
+                                  width: 30,
+                                  textAlign: "right",
+                                  padding: 2,
+                                },
+                              ]}
+                            >
+                              {/* {"Delete Post"} */}
+                            </Text>
+                          </TouchableOpacity>
                         </View>
                       </View>
-                    </Card>
-                  </TouchableOpacity>
+                    </View>
+                  </View>
                 )}
                 keyExtractor={(item, index) => index.toString()}
               />
+              <View style={{ height: 50 }}>
+                <Text></Text>
+              </View>
               {/* <View>
+                <Text></Text>
+              </View>
+              <View>
                 <Text></Text>
               </View> */}
             </ScrollView>

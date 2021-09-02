@@ -119,7 +119,6 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
     let param = {
       serviceId: "WS-BID-01",
       body: {
-        userId: getAcountType(),
         postId: this.state.selectedPost.postId,
         amount: parseInt(this.state.bidValue),
       },
@@ -150,63 +149,112 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
               <FlatList
                 data={requests}
                 renderItem={({ item }) => (
-                  <TouchableOpacity
-                  // onPress={() =>
-                  //   this.props.navigation.navigate("PostDetails", item)
-                  // }
-                  >
-                    <Card>
-                      <View style={{ flexDirection: "row" }}>
-                        <View
-                          style={{
-                            // marginRight: 100,
-                            width: "50%",
-                          }}
-                        >
-                          <View style={{ marginBottom: 10 }}>
-                            {/* <Text>Post Title </Text> */}
-                            <Text style={styles.text_footer}>
-                              {item.postTitle}
-                            </Text>
-                          </View>
-                          <View style={{ marginBottom: 10 }}>
-                            {/* <Text style={styles.text_footer}>Source </Text> */}
-
-                            <Text>
-                              <MaterialIcons
-                                key={"delete"}
-                                name="flight-takeoff"
-                                size={20}
-                                color={"black"}
-                                style={{
-                                  marginRight: 8,
-                                  //zIndex: 1,
-                                }}
-                              />
-
-                              {item.source}
-                            </Text>
-                          </View>
-                          <View style={{ marginBottom: 10 }}>
-                            <Text>
-                              <MaterialIcons
-                                key={"flightLand"}
-                                name="flight-land"
-                                size={20}
-                                color={"black"}
-                                style={{
-                                  marginRight: 8,
-                                  //zIndex: 1,
-                                }}
-                              />
-
-                              {item.destination}
-                            </Text>
-                          </View>
-                          {item.amount > 0 ? (
-                            <View>
+                  <View>
+                    <TouchableOpacity
+                    // onPress={() =>
+                    //   this.props.navigation.navigate("PostDetails", item)
+                    // }
+                    >
+                      <Card>
+                        <View style={{ flexDirection: "row" }}>
+                          <View
+                            style={{
+                              // marginRight: 100,
+                              width: "50%",
+                            }}
+                          >
+                            <View style={{ marginBottom: 10 }}>
+                              {/* <Text>Post Title </Text> */}
                               <Text style={styles.text_footer}>
-                                Bid Ends on
+                                {item.postTitle}
+                              </Text>
+                            </View>
+                            <View style={{ marginBottom: 10 }}>
+                              {/* <Text style={styles.text_footer}>Source </Text> */}
+
+                              <Text>
+                                <MaterialIcons
+                                  key={"delete"}
+                                  name="flight-takeoff"
+                                  size={20}
+                                  color={"black"}
+                                  style={{
+                                    marginRight: 8,
+                                    //zIndex: 1,
+                                  }}
+                                />
+
+                                {item.source}
+                              </Text>
+                            </View>
+                            <View style={{ marginBottom: 10 }}>
+                              <Text>
+                                <MaterialIcons
+                                  key={"flightLand"}
+                                  name="flight-land"
+                                  size={20}
+                                  color={"black"}
+                                  style={{
+                                    marginRight: 8,
+                                    //zIndex: 1,
+                                  }}
+                                />
+
+                                {item.destination}
+                              </Text>
+                            </View>
+                            {item.amount > 0 ? (
+                              <View>
+                                <Text style={styles.text_footer}>
+                                  Bid Ends on
+                                </Text>
+                                <Text>
+                                  {item.activityFromDate
+                                    ? format(
+                                        item.activityFromDate,
+                                        "dd-MM-yyyy hh:mm"
+                                      )
+                                    : ""}
+                                </Text>
+                              </View>
+                            ) : null}
+                          </View>
+                          <View style={{ width: "50%" }}>
+                            <View style={{ marginBottom: 10 }}>
+                              <Text style={styles.text_footer}>
+                                Activity From Date{"  "}
+                                {item.bid > 0 ? (
+                                  <TouchableOpacity
+                                    key={"new"}
+                                    style={{ flexDirection: "row" }}
+                                    onPress={() => {
+                                      this.openModal(item);
+                                    }}
+                                  >
+                                    <Text
+                                      style={{
+                                        backgroundColor: "black",
+                                        //  marginRight: -15,
+                                        //  height: 50,
+                                      }}
+                                    >
+                                      {" "}
+                                      <MaterialIcons
+                                        key={"gavel"}
+                                        name="gavel"
+                                        size={15}
+                                        color={"orange"}
+                                        //backgroundColor={"orange"}
+                                        style={
+                                          {
+                                            // marginRight: 8,
+                                            //zIndex: 1,
+                                          }
+                                        }
+                                      />{" "}
+                                    </Text>
+                                  </TouchableOpacity>
+                                ) : null}
                               </Text>
                               <Text>
                                 {item.activityFromDate
@@ -217,131 +265,83 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                                   : ""}
                               </Text>
                             </View>
-                          ) : null}
-                        </View>
-                        <View style={{ width: "50%" }}>
-                          <View style={{ marginBottom: 10 }}>
-                            <Text style={styles.text_footer}>
-                              Activity From Date{"  "}
-                              {item.bid > 0 ? (
-                                <TouchableOpacity
-                                  key={"new"}
-                                  style={{ flexDirection: "row" }}
-                                  onPress={() => {
-                                    this.openModal(item);
-                                  }}
-                                >
-                                  <Text
-                                    style={{
-                                      backgroundColor: "black",
-                                      //  marginRight: -15,
-                                      //  height: 50,
-                                    }}
-                                  >
-                                    {" "}
-                                    <MaterialIcons
-                                      key={"gavel"}
-                                      name="gavel"
-                                      size={15}
-                                      color={"orange"}
-                                      //backgroundColor={"orange"}
-                                      style={
-                                        {
-                                          // marginRight: 8,
-                                          //zIndex: 1,
-                                        }
-                                      }
-                                    />{" "}
-                                  </Text>
-                                </TouchableOpacity>
-                              ) : null}
-                            </Text>
-                            <Text>
-                              {item.activityFromDate
-                                ? format(
-                                    item.activityFromDate,
-                                    "dd-MM-yyyy hh:mm"
-                                  )
-                                : ""}
-                            </Text>
-                          </View>
-                          <View style={{ marginBottom: 10 }}>
-                            <Text style={styles.text_footer}>
-                              Activity To Date
-                            </Text>
-                            <Text>
-                              {item.activityToDate
-                                ? format(
-                                    item.activityToDate,
-                                    "dd-MM-yyyy hh:mm"
-                                  )
-                                : ""}
-                            </Text>
-                          </View>
-                          {item.amount > 0 ? (
-                            <View>
-                              <Text style={styles.text_footer}>Bid Amount</Text>
-                              <Text>{item.amount}</Text>
-                            </View>
-                          ) : null}
-                        </View>
-                      </View>
-                      <View style={{ flexDirection: "row", marginTop: 10 }}>
-                        <View style={{ marginBottom: 15 }}>
-                          <Text style={styles.text_footer}>Post Desc</Text>
-                          <Text>{item.otherInfo}</Text>
-                        </View>
-                      </View>
-                      <View style={[globalStyles.cardControlBarDashboard]}>
-                        <View style={{ flexDirection: "row" }}>
-                          {item.requestCount > 0 ? (
-                            <View>
-                              <Text
-                                style={{
-                                  color: "blue",
-                                  marginTop: 10,
-                                  marginLeft: 10,
-                                }}
-                                // onPress={() => this.sendPostRequest(item)}
-                              >
-                                Interest Sent{" "}
-                                <MaterialIcons
-                                  key={"done"}
-                                  name="done"
-                                  size={15}
-                                  color={"green"}
-                                  style={{
-                                    marginTop: 15,
-                                    //  marginRight: -20,
-                                    //zIndex: 1,
-                                  }}
-                                />
+                            <View style={{ marginBottom: 10 }}>
+                              <Text style={styles.text_footer}>
+                                Activity To Date
+                              </Text>
+                              <Text>
+                                {item.activityToDate
+                                  ? format(
+                                      item.activityToDate,
+                                      "dd-MM-yyyy hh:mm"
+                                    )
+                                  : ""}
                               </Text>
                             </View>
-                          ) : (
-                            <View>
-                              <Text
-                                style={{
-                                  color: "blue",
-                                  marginTop: 10,
-                                  marginLeft: 10,
-                                }}
-                                onPress={() => this.sendPostRequest(item)}
-                              >
-                                Send Interest
-                              </Text>
-                            </View>
-                          )}
+                            {item.amount > 0 ? (
+                              <View>
+                                <Text style={styles.text_footer}>
+                                  Bid Amount
+                                </Text>
+                                <Text>{item.amount}</Text>
+                              </View>
+                            ) : null}
+                          </View>
                         </View>
+                        <View style={{ flexDirection: "row", marginTop: 10 }}>
+                          <View style={{ marginBottom: 15 }}>
+                            <Text style={styles.text_footer}>Post Desc</Text>
+                            <Text>{item.otherInfo}</Text>
+                          </View>
+                        </View>
+                      </Card>
+                    </TouchableOpacity>
+                    <View style={[globalStyles.cardControlBarDashboard]}>
+                      <View>
+                        {item.requestCount > 0 ? (
+                          <View>
+                            <Text
+                              style={{
+                                color: "blue",
+                                marginTop: 10,
+                                marginLeft: 10,
+                              }}
+                              // onPress={() => this.sendPostRequest(item)}
+                            >
+                              Interest Sent{" "}
+                              <MaterialIcons
+                                key={"done"}
+                                name="done"
+                                size={15}
+                                color={"green"}
+                                style={{
+                                  marginTop: 15,
+                                  //  marginRight: -20,
+                                  //zIndex: 1,
+                                }}
+                              />
+                            </Text>
+                          </View>
+                        ) : (
+                          <View>
+                            <Text
+                              style={{
+                                color: "blue",
+                                marginTop: 10,
+                                marginLeft: 10,
+                              }}
+                              onPress={() => this.sendPostRequest(item)}
+                            >
+                              Send Interest
+                            </Text>
+                          </View>
+                        )}
                       </View>
-                    </Card>
-                  </TouchableOpacity>
+                    </View>
+                  </View>
                 )}
                 keyExtractor={(item, index) => index.toString()}
               />
-              <View>
-                <Text></Text>
-              </View>
             </ScrollView>
           </Animatable.View>
           <AwesomeAlert

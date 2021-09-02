@@ -1,7 +1,5 @@
 import React from "react";
-import {
-  View,
-} from "react-native";
+import { View } from "react-native";
 import AppBaseComponent, {
   getServiceID,
   getAcountType,
@@ -23,13 +21,13 @@ export default class Dashboard extends AppBaseComponent {
     if (serviceId == "1") {
       if (acountType == "1") {
         return (
-          <View>
+          <View style={{ backgroundColor: "#C5CBE3", height: "100%" }}>
             <CustomerDasboard navigation={this.props.navigation} />
           </View>
         );
       } else if (acountType == "2") {
         return (
-          <View>
+          <View style={{ backgroundColor: "#C5CBE3", height: "100%" }}>
             <ServiceProviderDashboard />
           </View>
         );

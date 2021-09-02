@@ -34,11 +34,11 @@
     	  ON(
     		  "ID" = p2."postId"
     	  )
-		  LEFT JOIN(
-			  SELECT "POST_ID" as "postId", "AMOUNT" as "amount" FROM "T_POST_BID"
+		 LEFT JOIN(
+			  SELECT "POST_ID" as "postId",  MIN("AMOUNT") as "amount" FROM "T_POST_BID"
 			  WHERE
-			 "DEL_FLG" = 0 AND "AMOUNT" = (SELECT MIN("AMOUNT") FROM "T_POST_BID")
-			  GROUP BY "POST_ID","AMOUNT")
+			 "DEL_FLG" = 0  
+			  GROUP BY "POST_ID")
 			  p3
 			  ON (
 			  "ID" = p3."postId"
@@ -86,11 +86,11 @@
         ON(
           "ID" = p2."postId"
         )
-		LEFT JOIN(
-			  SELECT "POST_ID" as "postId", "AMOUNT" as "amount" FROM "T_POST_BID"
+	LEFT JOIN(
+			  SELECT "POST_ID" as "postId",  MIN("AMOUNT") as "amount" FROM "T_POST_BID"
 			  WHERE
-			 "DEL_FLG" = 0 AND "AMOUNT" = (SELECT MIN("AMOUNT") FROM "T_POST_BID")
-			  GROUP BY "POST_ID","AMOUNT")
+			 "DEL_FLG" = 0  
+			  GROUP BY "POST_ID")
 			  p3
 			  ON (
 			  "ID" = p3."postId"
