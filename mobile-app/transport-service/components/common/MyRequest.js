@@ -125,7 +125,7 @@ export default class MyRequest extends AppBaseComponent {
                   backgroundColor: "#079057",
                   height: 30,
                   borderRadius: 5,
-                  width: 90,
+                  width: 85,
                   textAlign: "center",
                   padding: 5,
                 },
@@ -191,7 +191,14 @@ export default class MyRequest extends AppBaseComponent {
       <View style={[globalStyles.cardControlBarMyRequest]}>
           <View style={{ paddingLeft: 10, marginTop:10, width: "70%" }}>
             <TouchableOpacity key={item.id+'temp'} onPress={onp}>
-              <Text  key={item.id+'temp1'} style={{color:'blue'}}>{'Get details>>'}</Text>
+              <Text  key={item.id+'temp1'} style={{color:'blue', fontWeight:'bold'}}>{'More Details'}</Text>
+              <MaterialIcons
+                key={"expand-more"}
+                name= {collapse? "expand-less" : "expand-more"}
+                size={25}
+                style={{marginTop:-10, marginLeft:25}} 
+                color={"blue"}
+              />
             </TouchableOpacity>
         </View> 
         <View style={{ position: "absolute", marginTop: 5, right: 10 }}>
@@ -202,7 +209,7 @@ export default class MyRequest extends AppBaseComponent {
     );
   }
 
-  _renderBody(collapse, item) {
+  _renderBody(collapse, item, onp) {
     return (
       <View style={[globalStyles.cardControlMyRequestBody]}>
         <View
@@ -230,6 +237,16 @@ export default class MyRequest extends AppBaseComponent {
             color={"black"}
           />
           <Text style={{ marginTop: 5 }}>{" " + item.email}</Text>
+        </View>
+        <View style={{alignItems:'center'}}>
+          <TouchableOpacity key={item.id+'temp'} onPress={onp}>
+            <MaterialIcons
+                key={"expand-less"}
+                name="expand-less"
+                size={25}
+                color={"black"}
+              />
+            </TouchableOpacity>
         </View>
       </View>
     );

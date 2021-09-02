@@ -68,7 +68,7 @@ class AccordionCustome extends Component {
         </View>
        
         <View onLayout={this.endpoint}>
-          {this.props.renderCollapseView(this.state.collapse, this.state.item)}
+          {this.props.renderCollapseView(this.state.collapse, this.state.item, this.collapse)}
         </View>
       </Animated.View>
     );
