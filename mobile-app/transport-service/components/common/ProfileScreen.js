@@ -7,7 +7,8 @@ import * as Animatable from "react-native-animatable";
 import {globalStyles} from '../common/GlobalStyles'
 import AwesomeAlert from 'react-native-awesome-alerts';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons';
+
 import { MaterialIcons } from "@expo/vector-icons";
 import ProfileUpdateScreen from "./ProfileUpdateScreen";
 
@@ -57,12 +58,12 @@ getVehicleTypes = async () => {
 render() {
   const {profile} = this.state;
   return (
-    <View style={globalStyles.container}>
-      <StatusBar backgroundColor="#009387" barStyle="light-content" />
-      <Animatable.View animation="fadeInUpBig" style={globalStyles.footer}>
+    <View style={[globalStyles.container,{backgroundColor:'#C5CBE3'}]}>
+      <StatusBar barStyle="light-content" />
+      <View style={globalStyles.footer}>
         <ScrollView>
-          <View style={[globalStyles.cardProfile]}>
-            <View>
+          <View style={[globalStyles.cardProfile,{marginTop:5}]}>
+            <View style={{marginTop:10}}>
               <Text style={globalStyles.textPage}>
                   {profile.userName}
               </Text>
@@ -72,7 +73,7 @@ render() {
                   {translateMsg('contact')}
               </Text>
 
-              <View style={{alignItems:'flex-end', paddingRight:30}}>
+              <View style={{alignItems:'flex-end', paddingRight:30, marginTop:-15}}>
                 <MaterialIcons
                   name="mode-edit"
                   size={20}
@@ -136,9 +137,12 @@ render() {
                 </Text>
               </View>
             </View>
+            <View>
+              <Text></Text>
+            </View>
           </View>
           <View style={[globalStyles.cardProfile]}>
-            <View>
+            <View style={{marginTop:10}}>
               <Text style={globalStyles.textPage}>
                 {translateMsg('account')}
               </Text>
@@ -148,7 +152,7 @@ render() {
                   {getAcountTypeName()|| 'Service Provider/Customer'}
               </Text>
             </View>
-            <View style={{flexDirection:'row', marginTop:20}}>
+            <View style={{flexDirection:'row', marginTop:20, marginLeft:20}}>
               <Text style={globalStyles.cartContent}>
                   {'Free Trial'}
               </Text>
@@ -174,7 +178,7 @@ render() {
             </View>
           </View>
         </ScrollView>
-      </Animatable.View>
+      </View>
     </View>
   );
 }

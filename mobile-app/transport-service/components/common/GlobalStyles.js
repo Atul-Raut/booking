@@ -17,13 +17,14 @@ export const globalStyles = StyleSheet.create({
     color: "#333",
     fontWeight: "bold",
     letterSpacing: 1,
+    paddingLeft:10
   },
   cartHeader: {
     fontSize: 14,
     color: "#333",
     fontWeight: "bold",
     letterSpacing: 1,
-    paddingLeft: 5,
+    paddingLeft: 15,
     marginTop: 5,
   },
   cartContent: {
@@ -60,39 +61,35 @@ export const globalStyles = StyleSheet.create({
     flex: 1,
   },
   itemContainer: {
-    borderRadius: 5,
+    borderRadius: 3,
     padding: 10,
     height: 150,
   },
   itemName: {
-    fontSize: 16,
+    fontSize: 18,
     color: "#FFF",
-    fontWeight: "600",
+    fontWeight: "bold",
   },
   itemCode: {
-    fontWeight: "600",
+    fontWeight: "bold",
     fontSize: 12,
     color: "#FFF",
     marginTop: 5,
   },
   editbutton: {
-    color: "white",
-    fontWeight: "bold",
     backgroundColor: "#FFBF00",
-    height: 34,
-    borderRadius: 5,
-    width: 70,
-    textAlign: "center",
+    height: 30,
+    borderRadius: 3,
+    width: 50,
+    alignItems:"center",
     padding: 6,
   },
   deletebutton: {
-    color: "white",
-    fontWeight: "bold",
     backgroundColor: "#FF7F50",
-    height: 34,
-    borderRadius: 5,
-    width: 70,
-    textAlign: "center",
+    height: 30,
+    borderRadius: 3,
+    width: 60,
+    alignItems:"center",
     padding: 6,
   },
   buttenContainer: {
@@ -156,7 +153,7 @@ export const globalStyles = StyleSheet.create({
 
   header: {
     width: "100%",
-    height: 80,
+    height: 50,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -183,6 +180,7 @@ export const globalStyles = StyleSheet.create({
     color: "#333",
     letterSpacing: 1,
     letterSpacing: 0,
+    marginTop: 30,
   },
   cardMyRequest: {
     borderTopEndRadius: 6,
@@ -226,7 +224,7 @@ export const globalStyles = StyleSheet.create({
   cardProfile: {
     borderRadius: 0,
     elevation: 0,
-    backgroundColor: "#C5CBE3",
+    backgroundColor: "white",
     shadowOffset: { width: 1, height: 1 },
     shadowColor: "#333",
     shadowOpacity: 0.3,

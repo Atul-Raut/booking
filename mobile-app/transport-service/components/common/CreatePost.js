@@ -221,11 +221,11 @@ render() {
 
     const handleConfirmBidFrom = (date) => {
       this.setState({bidDateFrom: format(date, "yyyy-MM-dd HH"), fromBidDate : format(date, "yyyyMMddHHmmss")});
-      hideDatePickerFrom();
+      hideDatePickerBidFrom();
     };
     const handleConfirmBidTo = (date) => {
       this.setState({bidDateTo:format(date, "yyyy-MM-dd HH"), toBidDate : format(date, "yyyyMMddHHmmss")});
-      hideDatePickerTo();
+      hideDatePickerBidTo();
     };
 
     const onSelectedItemsChange = (selectedItems) => {

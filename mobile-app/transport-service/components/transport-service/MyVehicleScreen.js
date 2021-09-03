@@ -119,7 +119,7 @@ render() {
   const {deleteSuccess, showDeleteConfirmation, deleteFailed} =this.state;
   return (
     <View style={globalStyles.container}>
-      <Animatable.View animation="fadeInUpBig" style={globalStyles.footer}>
+      <View style={globalStyles.footer}>
         <ScrollView>
           <SpeedDial.Action
             icon={{ name: 'add', color: '#fff' }}
@@ -127,7 +127,6 @@ render() {
             onPress={() => this.addVehicle()}
           />
           <FlatGrid
-            itemDimension={130}
             data={this.state.data}
             style={globalStyles.gridView}
             renderItem={({ item }) => (
@@ -138,18 +137,18 @@ render() {
                 <View style={globalStyles.buttenContainer}>
                     <TouchableOpacity style={globalStyles.editbutton}
                       onPress={() => this.updateVehicle({ item })}>
-                      <Text >{translateMsg('edit')}</Text>
+                      <Text style={{fontWeight: "bold", color:'#05375a', fontSize:12}} >{translateMsg('edit')}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={globalStyles.deletebutton}
                       onPress={() => this.handleDelete({ item })}>
-                      <Text>{translateMsg('delete')}</Text>
+                      <Text style={{fontWeight: "bold", color:'#05375a', fontSize:12}} >{translateMsg('delete')}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
             )}
           />
         </ScrollView>
-        </Animatable.View>
+        </View>
         <AwesomeAlert
             show={showDeleteConfirmation}
             showProgress={false}

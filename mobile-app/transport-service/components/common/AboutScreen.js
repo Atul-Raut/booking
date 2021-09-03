@@ -11,7 +11,7 @@ export default class Aboutscreen extends AppBaseComponent {
   render() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        About Screen
+          <Text>About Screen</Text>
       </View>
     );
   }

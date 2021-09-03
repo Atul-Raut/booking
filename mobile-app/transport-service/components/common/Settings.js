@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View , Text} from "react-native";
 import AppBaseComponent from "./AppBaseComponent";
 
 
@@ -10,7 +10,7 @@ export default class Settings extends AppBaseComponent {
 render() {
   return (
     <View>
-        Settings
+        <Text>Settings</Text>
     </View>
   );
 }

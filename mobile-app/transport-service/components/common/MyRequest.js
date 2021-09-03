@@ -114,7 +114,7 @@ export default class MyRequest extends AppBaseComponent {
               name="thumb-up"
               size={15}
               color={"white"}
-              style={{ marginTop: 8, marginRight: -20, zIndex: 1 }}
+              style={{ marginTop: 8, marginRight: -23, zIndex: 1 }}
             />
             <Text
               key={item.requestID+'Accept'}
@@ -128,6 +128,7 @@ export default class MyRequest extends AppBaseComponent {
                   width: 85,
                   textAlign: "center",
                   padding: 5,
+                  marginLeft:5
                 },
               ]}
             >
@@ -146,10 +147,10 @@ export default class MyRequest extends AppBaseComponent {
           <Text style={{ paddingLeft: 20 }}></Text>
           {rets}
         </View>
-        <View style={{ paddingLeft: 10, width: "70%" }}>
+        <View style={{ paddingLeft: 20, width: "70%" }}>
           <Text>{item.experience + " years of Driving Experience"}</Text>
         </View>
-        <View style={{ paddingLeft: 10, width: "70%" }}>
+        <View style={{ paddingLeft: 20, width: "70%" }}>
           <Text>{"Leaving at " + item.location}</Text>
         </View>
         { item.bidAmount && <View style={{ paddingLeft: 10, width: "70%" }}>
@@ -220,23 +221,26 @@ export default class MyRequest extends AppBaseComponent {
           <MaterialIcons
             key={"contactPhone"}
             name="phone-android"
-            size={25}
+            size={20}
             color={"black"}
+            style={{marginTop:10}}
           />
-          <Text style={{ marginTop: 5 }}>{" " + item.phone}</Text>
+          <Text style={{ marginTop: 10 }}>{" " + item.phone}</Text>
         </View>
         <View
           style={{
             flexDirection: "row",
+
           }}
         >
           <MaterialIcons
             key={"contactEmail"}
             name="email"
-            size={25}
+            size={20}
             color={"black"}
+            style={{marginTop:10}}
           />
-          <Text style={{ marginTop: 5 }}>{" " + item.email}</Text>
+          <Text style={{ marginTop: 10 }}>{" " + item.email}</Text>
         </View>
         <View style={{alignItems:'center'}}>
           <TouchableOpacity key={item.id+'temp'} onPress={onp}>
@@ -267,7 +271,7 @@ export default class MyRequest extends AppBaseComponent {
           />
         </View>
         <View>
-          <Animatable.View animation="fadeInUpBig" style={globalStyles.footer}>
+          <View style={globalStyles.footer}>
             <ScrollView>
               <FlatList
                 key={'FlatList'+Math.random().toString()}
@@ -288,7 +292,7 @@ export default class MyRequest extends AppBaseComponent {
                 <Text></Text>
               </View>
             </ScrollView>
-          </Animatable.View>
+          </View>
         </View>
       </View>
     );
