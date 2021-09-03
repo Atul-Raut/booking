@@ -50,7 +50,12 @@ export default class CreatePost extends AppBaseComponent {
       items:[],
       postTitle:"",
       postTitleVal:"",
-      bid:false
+      bid:false,
+      activityDateFromDateObj:null,
+      activityDateToDateObj:null,
+      fromBidDateObj:null,
+      toBidDateObj:null,
+      btnDisable:false
     };
 }
 
@@ -87,14 +92,10 @@ getVehicleTypes = async () => {
 
 async onSubmit(event) {
   event.preventDefault();
-  this.setState({activityDateFromVal:'',activityDateToVal:'', vehicleTypeVal:''})
+  this.setState({activityDateFromVal:'',activityDateToVal:'', vehicleTypeVal:'',btnDisable:true})
+  let isValid = true;
 
-  //TODO add validations
-  let bidValidation = [
-
-  ];
-
-  let validationResult = await this.validateFields(this.screenID, bidValidation);
+  let validationResult = await this.validateFields(this.screenID, null);
   if(!validationResult || !(validationResult.length == 0)){
     for(let i = 0; i < validationResult.length; i++){
       let err = validationResult[i];
@@ -103,10 +104,47 @@ async onSubmit(event) {
       for(let j = 0; j < keys.length; j++){
         let key = keys[j];
         this.setState({[key+"Val"]:err[key]})
+        isValid = false;
       }
     }
     return;
-  }else {
+  }
+
+  if(this.state.activityDateFromDateObj > this.state.activityDateToDateObj){
+    this.setState({activityDateFromVal:translateMsg('fromGreterThanTo')})
+    isValid = false;
+  }
+  if( this.state.bid && this.state.fromBidDateObj == null){
+    this.setState({bidDateFromVal:translateMsg('bidDateFromMandatory')})
+    isValid = false;
+  }
+
+  if( this.state.bid && this.state.toBidDateObj == null){
+    this.setState({bidDateToVal:translateMsg('bidDateToMandatory')})
+    isValid = false;
+  }
+
+  if( this.state.bid && this.state.fromBidDateObj != null 
+    && this.state.toBidDateObj != null 
+    && this.state.fromBidDateObj > this.state.toBidDateObj){
+    this.setState({bidDateFromVal:translateMsg('fromGreterThanTo')})
+    isValid = false;
+  } else{
+    if(this.state.bid && this.state.toBidDateObj > this.state.activityDateFromDateObj){
+      this.setState({
+        bidDateFromVal:translateMsg('bidEndGreterThanActivity')
+      })
+    isValid = false;
+    }
+  }
+  
+  if(!isValid){
+    this.setState({
+      btnDisable:false
+    });
+    return;
+  }
+  else {
     let body = {
       userId          :   getUserId(),
       serviceId       : getServiceID(),
@@ -147,25 +185,29 @@ async onSubmit(event) {
 
 showAlert = () => {
   this.setState({
-    showAlert: true
+    showAlert: true,
+    btnDisable:false
   });
 };
   
 hideAlert = () => {
   this.setState({
-    showAlert: false
+    showAlert: false,
+    btnDisable:false
   });
 };
 
 showSuccess = () => {
   this.setState({
-    showSuccess: true
+    showSuccess: true,
+    btnDisable:false
   });
 };
   
 hideSuccess = () => {
   this.setState({
-    showSuccess: false
+    showSuccess: false,
+    btnDisable:false
   });
   this.props.navigation.reset({index: 0,
     routes: [{name:'Dashboard'}]});
@@ -179,7 +221,8 @@ render() {
   const {activityDateFrom,activityDateTo, activityDateFromVal, activityDateToVal,vehicleTypeVal,
     locationFrom,locationTo,details,items,postTitle,postTitleVal,bid,
     bidDateFromVal,bidDateToVal,bidDateTo,isBidDatePickerVisibleTo,isBidDatePickerVisibleFrom,bidDateFrom,
-    successMsg, errorMsg, showAlert, showSuccess, isDatePickerVisibleFrom
+    successMsg, errorMsg, showAlert, showSuccess, isDatePickerVisibleFrom,
+    activityDateFromDateObj,fromBidDateObj, btnDisable
   ,isDatePickerVisibleTo} = this.state;
 
     const showDatePickerFrom = () => {
@@ -211,20 +254,36 @@ render() {
     };
   
     const handleConfirmFrom = (date) => {
-      this.setState({activityDateFrom: format(date, "yyyy-MM-dd HH"), fromDate : format(date, "yyyyMMddHHmmss")});
+      this.setState({
+          activityDateFrom: format(date, "yyyy-MM-dd HH"), 
+          fromDate : format(date, "yyyyMMddHHmmss"),
+          activityDateFromDateObj:date
+        });
       hideDatePickerFrom();
     };
     const handleConfirmTo = (date) => {
-      this.setState({activityDateTo:format(date, "yyyy-MM-dd HH"), toDate : format(date, "yyyyMMddHHmmss")});
+      this.setState({
+            activityDateTo:format(date, "yyyy-MM-dd HH"), 
+            toDate : format(date, "yyyyMMddHHmmss"),
+            activityDateToDateObj:date
+          });
       hideDatePickerTo();
     };
 
     const handleConfirmBidFrom = (date) => {
-      this.setState({bidDateFrom: format(date, "yyyy-MM-dd HH"), fromBidDate : format(date, "yyyyMMddHHmmss")});
+      this.setState({
+          bidDateFrom: format(date, "yyyy-MM-dd HH"), 
+          fromBidDate : format(date, "yyyyMMddHHmmss"),
+          fromBidDateObj:date
+        });
       hideDatePickerBidFrom();
     };
     const handleConfirmBidTo = (date) => {
-      this.setState({bidDateTo:format(date, "yyyy-MM-dd HH"), toBidDate : format(date, "yyyyMMddHHmmss")});
+      this.setState({
+          bidDateTo:format(date, "yyyy-MM-dd HH"), 
+          toBidDate : format(date, "yyyyMMddHHmmss"),
+          toBidDateObj:date
+        });
       hideDatePickerBidTo();
     };
 
@@ -306,8 +365,8 @@ render() {
             />
              <DateTimePickerModal
               isVisible={isDatePickerVisibleTo}
-              mode="datetime"
-              minimumDate={new Date()}
+              mode="datetime" 
+              minimumDate={(activityDateFromDateObj) ? activityDateFromDateObj : new Date()}
               onConfirm={handleConfirmTo}
               onCancel={hideDatePickerTo}
             />
@@ -382,7 +441,7 @@ render() {
                   <DateTimePickerModal
                     isVisible={isBidDatePickerVisibleTo}
                     mode="datetime"
-                    minimumDate={new Date()}
+                    minimumDate={(fromBidDateObj) ? fromBidDateObj : new Date()}
                     onConfirm={handleConfirmBidTo}
                     onCancel={hideDatePickerBidTo}
                   />
@@ -403,9 +462,7 @@ render() {
             </View>
           }
 
-
-
-          <Text>{translateMsg('details')}</Text>
+          <Text style={[globalStyles.text_footer, globalStyles.text_comp]}>{translateMsg('details')}</Text>
           <View>
             <TextInput
               multiline={true}
@@ -420,6 +477,7 @@ render() {
           </View>
           <View>
           <TouchableOpacity
+            disabled={btnDisable}
             onPress={this.onSubmit}
             style={[globalStyles.submitButton, {marginTop:10}]}>
             <Text style={[globalStyles.textSign, { color: "white" }]}>{
