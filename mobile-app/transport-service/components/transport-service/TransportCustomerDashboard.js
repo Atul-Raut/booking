@@ -28,10 +28,10 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
     super(props);
     this.state = {
       requests: [],
-      showSuccess: false,
       selectedItem: null,
       showDeleteConfirmation: false,
       deleteFailed: false,
+      deleteSuccess: false,
     };
   }
 
@@ -69,7 +69,6 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
       deleteSuccess: false,
       selectedItem: null,
       deleteFailed: false,
-      showSuccess: false,
     });
   };
 
@@ -87,7 +86,6 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
     let response = await callApi(param);
     //alert(JSON.stringify(response.result));
     if (response && response.retCode == this.SUCCESS_RET_CODE) {
-      this.showSuccess();
       this.setState({
         deleteSuccess: true,
       });
@@ -98,18 +96,13 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
     }
     this.setState({
       selectedItem: null,
-    });
-  };
-
-  showSuccess = () => {
-    this.setState({
-      showSuccess: true,
+      showDeleteConfirmation: false,
     });
   };
 
   hideSuccess = () => {
     this.setState({
-      showSuccess: false,
+      deleteSuccess: false,
     });
   };
 
@@ -130,8 +123,8 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
   render() {
     const {
       requests,
-      showSuccess,
       showDeleteConfirmation,
+      deleteSuccess,
       deleteFailed,
     } = this.state;
     return (
@@ -361,7 +354,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
             </ScrollView>
           </Animatable.View>
           <AwesomeAlert
-            show={showSuccess}
+            show={deleteSuccess}
             showProgress={false}
             title="Delete Post Request"
             message="Post Deleted "
