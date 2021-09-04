@@ -21,7 +21,6 @@ import { translateMsg } from "../common/Translation";
 import * as Animatable from "react-native-animatable";
 import AwesomeAlert from "react-native-awesome-alerts";
 import Card from "../common/Card";
-import { NavigationEvents } from "react-navigation-drawer";
 
 export default class TransportCustomerDashbord extends AppBaseComponent {
   constructor(props) {
