@@ -1,230 +1,257 @@
 import React from "react";
-import {
-  View,Text,
-  TouchableOpacity, TextInput,Platform,CheckBox,ScrollView,StatusBar, Switch
+import { View, Text,TouchableOpacity,TextInput,Platform,StyleSheet, ScrollView,StatusBar, Alert,
+  Switch,CheckBox,
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 import {translateMsg} from '../common/Translation'
-import {globalStyles} from '../common/GlobalStyles';
-import {callApi} from './AppService';
-import {SUCCESS_RET_CODE} from "./AppBaseComponent";
+import AppBaseComponent,{clearLocalStorage, setDataintoLocalStorage,
+   setSelectedService, setSignedIn} from "../common/AppBaseComponent";
+import { callApi } from "./AppService";
 import AwesomeAlert from 'react-native-awesome-alerts';
+import {globalStyles} from '../common/GlobalStyles';
+import {SUCCESS_RET_CODE} from "./AppBaseComponent";
 
-const SignInScreen = ({ navigation }) => {
-  console.log(JSON.stringify(navigation))
-  const [data, setData] = React.useState({
-    isCustomer:true,
-    email: "",
-    firstName: "",
-    lastName: "",
-    password: "",
-    confirm_password: "",
-    selectedValue: "",
-    mobileNo: "",
-    isPrivacySelected:false,
-    check_email:false,
-    check_FirstName:false,
-    check_LastName:false,
-    secureTextEntry: true,
-    confirm_secureTextEntry: true,
-    emailInvalid:true,
-    firstNameInvalid:true,
-    lastNameInvalid:true,
-    mobileNoInvalid:true,
-    passwordInvalid:true,
-    confirm_passwordInvalid:true,
-    emailValid:'',
-    nameValid:'',
-    mobileValid:'',
-    passwordValid:'',
-    showAlert: false,
-    title:'',
-    errorMsg:'',
-    successMsg:''
-  });
 
-  const setUserRole = (val) => {
-    setData({
-      ...data,
-      selectedValue: val
-    });
-  };
-  const setEmail = (val) => {
-    setData({
-      ...data,
-      email: val
-    });
-  };
+export default class SignUpScreen2 extends AppBaseComponent {
+  constructor(props){
+      super(props);
+      this.onSubmit = this.onSubmit.bind(this);
+      
+      this.state = {
+        isCustomer:true,
+        email: "",
+        firstName: "",
+        lastName: "",
+        password: "",
+        confirm_password: "",
+        selectedValue: "",
+        mobileNo: "",
+        isPrivacySelected:false,
+        check_email:false,
+        check_FirstName:false,
+        check_LastName:false,
+        secureTextEntry: true,
+        confirm_secureTextEntry: true,
+        emailInvalid:true,
+        firstNameInvalid:true,
+        lastNameInvalid:true,
+        mobileNoInvalid:true,
+        passwordInvalid:true,
+        confirm_passwordInvalid:true,
+        emailValid:'',
+        nameValid:'',
+        mobileValid:'',
+        passwordValid:'',
+        showAlert: false,
+        title:'',
+        errorMsg:'',
+        successMsg:'',
+        passwordTypeColor:"red",
+        confirmPasswordTypeColor:"red",
+        btnDisable:false,
+        check_mobile:false,
+        showSuccessFlg:false,
+      };
+}
 
-  const registrationSubmission = async (data) => {
-    setData({
-      ...data,
-      emailValid:''
-    });
 
-    let validate = true;
-    let emailInvalid = false;
-    let emailValid = '';
-    let nameValid = '';
-    let mobileValid = '';
-    let passwordValid = ''
-    let passwordInvalid=false;
-    let confirm_passwordInvalid= '';
+async onSubmit(event) {
+  if (this.state.btnDisable ) {
+    return;
+  }else{
+    this.setState({btnDisable: true});
+  }
+  event.preventDefault();
 
-    if(data.email.length < 1){
+
+  let validate = true;
+  let emailInvalid = false;
+  let emailValid = '';
+  let nameValid = '';
+  let mobileValid = '';
+  let passwordValid = ''
+  let passwordInvalid=false;
+  let confirm_passwordInvalid= '';
+
+  if(this.state.email.length < 1){
+      validate = false;
+      emailInvalid= true;
+      emailValid='Enter your email.';
+  }else{
+    let isValid = this.validateEmail(this.state.email);
+    if(!isValid){
         validate = false;
         emailInvalid= true;
-        emailValid='Enter your email.';
-    }else{
-      let isValid = validateEmail(data.email);
-      if(!isValid){
-          validate = false;
-          emailInvalid= true;
-          emailValid='Enter valid email.';
-      }
+        emailValid='Enter valid email.';
     }
+  }
 
-    if(data.firstName.length < 1){
-      validate = false;
-        emailInvalid= true;
-        nameValid='Enter your first name and last name.';
-    }
-    if(data.lastName.length < 1){
-      validate = false;
+  if(this.state.firstName.length < 1){
+    validate = false;
+      emailInvalid= true;
       nameValid='Enter your first name and last name.';
-    }
-    if(data.mobileNo.length < 1){
-      validate = false;
-      mobileValid='Enter your mobile number.';
-    }
-    if(data.password.length < 1){
+  }
+  if(this.state.lastName.length < 1){
+    validate = false;
+    nameValid='Enter your first name and last name.';
+  }
+  if(this.state.mobileNo.length < 1){
+    validate = false;
+    mobileValid='Enter your mobile number.';
+  }
+  if(this.state.password.length < 1){
+    validate = false;
+    passwordInvalid=true;
+    passwordValid='Enter password or confirm password.';
+  }
+
+
+  if(this.state.confirm_password.length < 1){
+    validate = false;
+    confirm_passwordInvalid= true;
+    passwordValid='Enter password and confirm password.';
+  }
+
+  if( this.state.confirm_password.length > 0 && this.state.password != this.state.confirm_password){
+    validate = false;
+    passwordInvalid=true;
+    confirm_passwordInvalid= true;
+    passwordValid='Password and confirm password must be same.';
+  }
+
+  if(!passwordValid){
+    if(this.state.passwordTypeColor != "green" || this.state.confirmPasswordTypeColor != "green"){
       validate = false;
       passwordInvalid=true;
-      passwordValid='Enter password and confirm password.';
-    }
-    if(data.confirm_password.length < 1){
-      validate = false;
       confirm_passwordInvalid= true;
-      passwordValid='Enter password and confirm password.';
+      passwordValid="Password's must be [7 to 15 characters which contain at least one numeric, digit and a special character]";
     }
+  }
 
-    if( data.confirm_password.length > 0 && data.password != data.confirm_password){
-      validate = false;
-      passwordInvalid=true;
-      confirm_passwordInvalid= true;
-      passwordValid='Password and confirm password must be same.';
-    }
+  this.setState({
+      emailInvalid : emailInvalid,
+      emailValid : emailValid,
+      nameValid : nameValid,
+      mobileValid : mobileValid,
+      passwordValid : passwordValid,
+      passwordInvalid : passwordInvalid,
+      confirm_passwordInvalid : confirm_passwordInvalid,
+  });
 
-    
-    setData({
-      ...data,
-        emailInvalid : emailInvalid,
-        emailValid : emailValid,
-        nameValid : nameValid,
-        mobileValid : mobileValid,
-        passwordValid : passwordValid,
-        passwordInvalid : passwordInvalid,
-        confirm_passwordInvalid : confirm_passwordInvalid
-    });
-
-    if(validate){
-      let type = 2;
-      if(data.isCustomer){
-        type = 1;
-      }
-      
-      let body = {
-        acType:type,
-        userId:data.email,
-        firstName:data.firstName,
-        lastName:data.lastName,
-        email:data.email,
-        mobile:data.mobileNo,
-        password:data.password,
-        privacyPolicy:'ACCEPTED'
-      }
-
-      console.log(JSON.stringify(body));
-      let param = {
-        'serviceId': 'WS-UP-03',
-        'body':body
-    }
-
-    let response = await callApi(param);
-    console.log(JSON.stringify(response));
-    if(response && response.retCode == SUCCESS_RET_CODE()){
-      let successMsg = translateMsg("accountCreateSuccess")
-      showSuccess(successMsg);
-    }  
-    else if(response && response.retCode == "WS-E-CM-0003"){
-      let title = translateMsg("operationFailed")
-      let errorMsg = translateMsg("alreadyExistError")
-      showAlert(title, errorMsg);
-    }
-    else{
-      let title = translateMsg("error")
-      let errorMsg = translateMsg("unExpectedError")
-      showAlert(title, errorMsg);
-    }
+  if(validate){
+    let type = 2;
+    if(this.state.isCustomer){
+      type = 1;
     }
     
+    let body = {
+      acType:type,
+      userId:this.state.email.toLowerCase(),
+      firstName:this.state.firstName,
+      lastName:this.state.lastName,
+      email:this.state.email,
+      mobile:this.state.mobileNo,
+      password:this.state.password,
+      privacyPolicy:'ACCEPTED'
+    }
+    let param = {
+      'serviceId': 'WS-UP-03',
+      'body':body
+  }
 
-  };
+  let response = await callApi(param);
+  console.log(JSON.stringify(response));
+  if(response && response.retCode == SUCCESS_RET_CODE()){
+    let successMsg = translateMsg("accountCreateSuccess")
+    this.showSuccess(successMsg);
+  }  
+  else if(response && response.retCode == "WS-E-CM-0003"){
+    let title = translateMsg("operationFailed")
+    let errorMsg = translateMsg("alreadyExistError")
+    this.showAlert(title, errorMsg);
+  }
+  else{
+    let title = translateMsg("error")
+    let errorMsg = translateMsg("unExpectedError")
+    this.showAlert(title, errorMsg);
+  }
+  }else{
+    this.setState({btnDisable:false})
+  }
+};
 
-const showAlert = (title, errorMsg) => {
-  setData({
-    ...data,
+showAlert = (title, errorMsg) => {
+  this.setState({
     showAlert: true,
     title:title,
-    errorMsg:errorMsg
-  });
-};
-  
-const hideAlert = () => {
-  setData({
-    ...data,
-    showAlert: false
+    errorMsg:errorMsg,
+    btnDisable:false,
   });
 };
 
-const showSuccess = (successMsg) => {
-  setData({
-    ...data,
-    showSuccess: true,
-    successMsg:successMsg
+hideAlert = () => {
+  this.setState({
+    showAlert: false,
+    btnDisable:false,
   });
 };
-  
-const hideSuccess = () => {
-  setData({
-    ...data,
-    showSuccess: false
+
+showSuccess = (successMsg) => {
+  this.setState({
+    showSuccessFlg: true,
+    successMsg:successMsg,
+    btnDisable:false,
   });
-  navigation.navigate('LoginScreen');
 };
+
+hideSuccess = () => {
+  this.setState({
+    showSuccessFlg: false,
+    btnDisable:false,
+  });
+  this.props.navigation.navigate('LoginScreen');
+};
+
+validateEmail = (text) => {
+  let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+  if (reg.test(text) === false) {
+    return false;
+  }
+  else {
+    return true;
+  }
+}
+
+
+render() {
+
+  const {isCustomer, email, firstName, lastName, password, confirm_password, selectedValue,
+    mobileNo, isPrivacySelected, check_email, check_FirstName, check_LastName, secureTextEntry,
+    confirm_secureTextEntry, emailInvalid, firstNameInvalid, lastNameInvalid, mobileNoInvalid,
+    passwordInvalid, confirm_passwordInvalid, emailValid, nameValid, mobileValid,
+    passwordValid, showAlert, title, errorMsg, successMsg, passwordTypeColor, confirmPasswordTypeColor, btnDisable,
+    check_mobile,showSuccessFlg,
+  } = this.state;
 
   const toggleSwitch = () => {
-    setData({
-      ...data,
-      isCustomer: !data.isCustomer
+    this.setState({
+      isCustomer: !isCustomer
     });
   }
 
   const emailChange = (value) =>{
     
     if (value.length !== 0) {
-      let isValid = validateEmail(value);
-      setData({
-        ...data,
+      let isValid = this.validateEmail(value);
+      this.setState({
         email: value,
         check_email: true,
         emailInvalid:!isValid,
       });
     } else {
-      setData({
-        ...data,
+      this.setState({
         email: value,
         check_email: false,
         emailInvalid:true
@@ -232,27 +259,15 @@ const hideSuccess = () => {
     }
   }
 
-  const validateEmail = (text) => {
-    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-    if (reg.test(text) === false) {
-      return false;
-    }
-    else {
-      return true;
-    }
-  }
-
   const firstNameChange = (value) =>{
     if (value.length !== 0) {
-      setData({
-        ...data,
+      this.setState({
         firstName: value,
         check_FirstName: true,
         firstNameInvalid:false,
       });
     } else {
-      setData({
-        ...data,
+      this.setState({
         firstName: value,
         check_FirstName: false,
         firstNameInvalid:true
@@ -262,15 +277,13 @@ const hideSuccess = () => {
 
   const lastNameChange = (value) =>{
     if (value.length !== 0) {
-      setData({
-        ...data,
+      this.setState({
         lastName: value,
         check_LastName: true,
         lastNameInvalid:false
       });
     } else {
-      setData({
-        ...data,
+      this.setState({
         lastName: value,
         check_LastName: false,
         lastNameInvalid:true
@@ -280,15 +293,13 @@ const hideSuccess = () => {
 
   const setMobileNo = (val) => {
     if (val.length !== 0) {
-      setData({
-        ...data,
+      this.setState({
         mobileNo: val,
         check_mobile: true,
         mobileNoInvalid:false
       });
     } else {
-      setData({
-        ...data,
+      this.setState({
         mobileNo: val,
         check_mobile: false,
         mobileNoInvalid:true
@@ -296,91 +307,103 @@ const hideSuccess = () => {
     }
   };
 
+  const validatePass = (pass) => {
+    if(pass.length < 8) {  
+      return "red";
+    }
+
+    let passw= /^(?=.*[0-9])(?=.*[!@#$%^&*.])[a-zA-Z0-9!@#$%^&*.]{7,15}$/;
+    let res = passw.test(pass);
+    if(res) 
+    { 
+      return "green";
+    }
+    return "red";
+  }
 
   const handlePasswordChange = (val) => {
     if (val.length !== 0) {
-      setData({
-        ...data,
+      let passTypeColor = validatePass(val);
+      this.setState({
         passwordInvalid: false,
         password: val,
+        passwordTypeColor:passTypeColor,
       });
 
-      if(data.confirm_password != val){
-        setData({
-          ...data,
+      if(this.state.confirm_password != val){
+        this.setState({
           confirm_passwordInvalid: true,
           passwordInvalid:true,
           password: val,
+          passwordTypeColor:passTypeColor,
         });
       }else{
-        setData({
-          ...data,
+        this.setState({
           confirm_passwordInvalid: false,
           passwordInvalid:false,
           password: val,
+          passwordTypeColor:passTypeColor,
         });
       }
     }else{
-      setData({
-        ...data,
+      this.setState({
         passwordInvalid: true,
         password: val,
+        passwordTypeColor:"red"
       });
     }
   };
 
   const handleConfirmPasswordChange = (val) => {
     if (val.length !== 0) {
-      setData({
-        ...data,
+      let passTypeColor = validatePass(val);
+      this.setState({
         confirm_passwordInvalid: false,
         confirm_password: val,
+        confirmPasswordTypeColor:passTypeColor,
       });
 
-      if(data.password != val){
-        setData({
-          ...data,
+      if(this.state.password != val){
+        this.setState({
           confirm_passwordInvalid: true,
           passwordInvalid:true,
           confirm_password: val,
+          confirmPasswordTypeColor:passTypeColor,
         });
       }else{
-        setData({
-          ...data,
+        this.setState({
           confirm_passwordInvalid: false,
           passwordInvalid:false,
           confirm_password: val,
+          confirmPasswordTypeColor:passTypeColor,
         });
       }
 
 
     }else{
-      setData({
-        ...data,
+      this.setState({
         confirm_passwordInvalid: true,
         confirm_password: val,
+        confirmPasswordTypeColor:"red",
       });
     }
   };
 
   const updateSecureTextEntry = () => {
-    setData({
-      ...data,
-      secureTextEntry: !data.secureTextEntry,
+    this.setState({
+      secureTextEntry: !secureTextEntry,
     });
   };
 
   const updateConfirmSecureTextEntry = () => {
-    setData({
-      ...data,
-      confirm_secureTextEntry: !data.confirm_secureTextEntry,
+    this.setState({
+      confirm_secureTextEntry: !confirm_secureTextEntry,
     });
   };
 
   const setPrivacySelection = () => {
-    setData({
-      ...data,
-      isPrivacySelected: !data.isPrivacySelected,
+    this.setState({
+      isPrivacySelected: !isPrivacySelected,
     });
   };
 
@@ -396,32 +419,33 @@ const hideSuccess = () => {
             <Text style={globalStyles.text_footer}>{translateMsg('accountType')}</Text>
             <Switch
               trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={data.isCustomer ? "#f5dd4b" : "#f4f3f4"}
+              thumbColor={isCustomer ? "#f5dd4b" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={toggleSwitch}
-              value={data.isCustomer}
+              value={isCustomer}
             />
-            <Text>{data.isCustomer ? translateMsg('customer') : translateMsg('serviceProvider')}</Text>
+            <Text>{isCustomer ? translateMsg('customer') : translateMsg('serviceProvider')}</Text>
           </View>
 
           <View style={globalStyles.action}>
             <FontAwesome name="envelope-open-o" color="#05375a" size={20} style={{marginTop:20, paddingRight:10}} />
             <TextInput
+              autoCompleteType="email"
               placeholder={translateMsg('email')}
-              style={[globalStyles.textInput, data.emailInvalid ? {borderColor:'red'} :{}]}
+              style={[globalStyles.textInput, emailInvalid ? {borderColor:'red'} :{}]}
               autoCapitalize="none"
               maxLength={250}
               onChangeText={(val) => emailChange(val)}
             />
-            {data.check_email? (
+            {check_email? (
               <Animatable.View animation="bounceIn">
-                <Feather name="check-circle" color={data.emailInvalid ? 'red' : 'green'} size={15} style={{marginTop:20}} />
+                <Feather name="check-circle" color={emailInvalid ? 'red' : 'green'} size={15} style={{marginTop:20}} />
               </Animatable.View>
             ) : null}
           </View>
           <View>
             <Text style={{paddingLeft: 30, color:'red', fontSize:12}}>
-              {data.emailValid}
+              {emailValid}
               </Text>
           </View>
 
@@ -430,12 +454,12 @@ const hideSuccess = () => {
           <FontAwesome name="user-o" color="#05375a" size={20} style={{marginTop:20, paddingRight:10}}/>
             <TextInput
               placeholder={translateMsg('firstName')}
-              style={[globalStyles.textInput, data.firstNameInvalid ? {borderColor:'red'} :{}]}
+              style={[globalStyles.textInput, firstNameInvalid ? {borderColor:'red'} :{}]}
               autoCapitalize="none"
               maxLength={250}
               onChangeText={(val) => firstNameChange(val)}
             />
-            {data.check_FirstName ? (
+            {check_FirstName ? (
               <Animatable.View animation="bounceIn">
                 <Feather name="check-circle" color="green" size={15} style={{marginTop:20}}/>
               </Animatable.View>
@@ -444,12 +468,12 @@ const hideSuccess = () => {
           <View style={globalStyles.action}>
             <TextInput
               placeholder={translateMsg('lastName')}
-              style={[globalStyles.textInput, data.lastNameInvalid ? {borderColor:'red',marginLeft:30} :{marginLeft:30}]}
+              style={[globalStyles.textInput, lastNameInvalid ? {borderColor:'red',marginLeft:30} :{marginLeft:30}]}
               autoCapitalize="none"
               maxLength={250}
               onChangeText={(val) => lastNameChange(val)}
             />
-            {data.check_LastName ? (
+            {check_LastName ? (
               <Animatable.View animation="bounceIn">
                 <Feather name="check-circle" color="green" size={15} style={{marginTop:20}}/>
               </Animatable.View>
@@ -458,19 +482,20 @@ const hideSuccess = () => {
           </View>
           <View>
             <Text style={{paddingLeft: 30, color:'red', fontSize:12}}>
-              {data.nameValid}
+              {nameValid}
               </Text>
           </View>
           <View style={globalStyles.action}>
             <FontAwesome name="phone" color="#05375a" size={20} style={{marginTop:20}}/>
             <TextInput
+              autoCompleteType="cc-number"
               placeholder= {translateMsg('mobile')}
-              style={[globalStyles.textInput, data.mobileNoInvalid ? {borderColor:'red',marginLeft:10} :{marginLeft:10}]}
+              style={[globalStyles.textInput, mobileNoInvalid ? {borderColor:'red',marginLeft:10} :{marginLeft:10}]}
               autoCapitalize="none"
               maxLength={15}
               onChangeText={(val) => setMobileNo(val)}
             />
-            {data.check_mobile ? (
+            {check_mobile ? (
               <Animatable.View animation="bounceIn">
                 <Feather name="check-circle" color="green" size={15} style={{marginTop:20}}/>
               </Animatable.View>
@@ -478,22 +503,24 @@ const hideSuccess = () => {
           </View>
           <View>
             <Text style={{paddingLeft: 30, color:'red', fontSize:12}}>
-              {data.mobileValid}
+              {mobileValid}
               </Text>
           </View>
 
           <View style={globalStyles.action}>
-            <Feather name="lock" color="#05375a" size={20} style={{marginTop:20}}/>
+            <Feather name="lock" color={passwordTypeColor} size={20} style={{marginTop:20}}/>
             <TextInput
+              autoCompleteType="password"
               placeholder= {translateMsg('password')}
-              secureTextEntry={data.secureTextEntry ? true : false}
-              style={[globalStyles.textInput, data.passwordInvalid ? {borderColor:'red',marginLeft:10} :{marginLeft:10}]}
+              secureTextEntry={secureTextEntry ? true : false}
+              style={[globalStyles.textInput, 
+                (passwordInvalid || passwordTypeColor=="red") ? {borderColor:'red',marginLeft:10} :{marginLeft:10}]}
               autoCapitalize="none"
-              maxLength={25}
+              maxLength={15}
               onChangeText={(val) => handlePasswordChange(val)}
             />
             <TouchableOpacity onPress={updateSecureTextEntry}>
-              {data.secureTextEntry ? (
+              {secureTextEntry ? (
                 <Feather name="eye-off" color="grey" size={20} style={{marginTop:20}}/>
               ) : (
                 <Feather name="eye" color="grey" size={20} style={{marginTop:20}}/>
@@ -502,17 +529,18 @@ const hideSuccess = () => {
           </View>
 
           <View style={globalStyles.action}>
-            <Feather name="lock" color="#05375a" size={20} style={{marginTop:20}}/>
+            <Feather name="lock" color={confirmPasswordTypeColor} size={20} style={{marginTop:20}}/>
             <TextInput
               placeholder= {translateMsg('confirmPassword')}
-              secureTextEntry={data.confirm_secureTextEntry ? true : false}
-              style={[globalStyles.textInput, data.confirm_passwordInvalid ? {borderColor:'red',marginLeft:10} :{marginLeft:10}]}
+              secureTextEntry={confirm_secureTextEntry ? true : false}
+              style={[globalStyles.textInput, 
+                (confirm_passwordInvalid || confirmPasswordTypeColor=="red") ? {borderColor:'red',marginLeft:10} :{marginLeft:10}]}
               autoCapitalize="none"
-              maxLength={25}
+              maxLength={15}
               onChangeText={(val) => handleConfirmPasswordChange(val)}
             />
             <TouchableOpacity onPress={updateConfirmSecureTextEntry}>
-              {data.confirm_secureTextEntry ? (
+              {confirm_secureTextEntry ? (
                 <Feather name="eye-off" color="grey" size={20} style={{marginTop:20}}/>
               ) : (
                 <Feather name="eye" color="grey" size={20} style={{marginTop:20}}/>
@@ -521,13 +549,13 @@ const hideSuccess = () => {
           </View>
           <View>
             <Text style={{paddingLeft: 30, color:'red', fontSize:12}}>
-              {data.passwordValid}
+              {passwordValid}
               </Text>
           </View>
 
           <View style={[globalStyles.action, {marginTop:20, flexDirection:'row', flexWrap:'wrap'}]}>
             <CheckBox
-              value={data.isPrivacySelected}
+              value={isPrivacySelected}
               onValueChange={setPrivacySelection}
               style={globalStyles.checkbox}
               size={20}
@@ -560,19 +588,18 @@ const hideSuccess = () => {
               style={[
                 globalStyles.signIn,
                 {borderColor: "#009387",borderWidth: 1,marginTop: 15,
-                backgroundColor: data.isPrivacySelected ? "green" : "gray",
+                backgroundColor: ( btnDisable || !isPrivacySelected) ? "gray" : "green",
               },
               ]}
-              disabled={!data.isPrivacySelected}
-              onPress={() => registrationSubmission(data)}
+              disabled={btnDisable || !isPrivacySelected}
+              onPress={this.onSubmit}
             >
               <Text style={[globalStyles.textSign,{color: "white",},]}>
                 {translateMsg('SignUp')}
               </Text>
             </TouchableOpacity>
-
             <Text style={{color: 'blue', marginTop: 15}}
-                onPress={() => navigation.navigate("LoginScreen")}>
+                onPress={() => this.props.navigation.navigate("LoginScreen")}>
                 {translateMsg("signInHeader")}
             </Text>
           </View>
@@ -580,34 +607,34 @@ const hideSuccess = () => {
             <Text></Text>
           </View>
           <AwesomeAlert
-          show={data.showAlert}
+          show={showAlert}
           showProgress={false}
           title={translateMsg('createAccountTitle')}
-          message={data.errorMsg}
+          message={errorMsg}
           closeOnTouchOutside={true}
           closeOnHardwareBackPress={false}
           showCancelButton={true}
           cancelText="OK"
           onCancelPressed={() => {
-            hideAlert();
+            this.hideAlert();
           }}
         />
       <AwesomeAlert
-          show={data.showSuccess}
+          show={showSuccessFlg}
           showProgress={false}
           title={translateMsg('createAccountTitle')}
-          message={data.successMsg}
+          message={successMsg}
           closeOnTouchOutside={false}
           closeOnHardwareBackPress={false}
           showCancelButton={true}
           cancelText="OK"
           onCancelPressed={() => {
-            hideSuccess();
+            this.hideSuccess();
           }}
         />
         </ScrollView>
       </Animatable.View>
     </View>
   );
-};
-export default SignInScreen;
+}
+}
