@@ -4,9 +4,9 @@
     "slug": "TransportServiceApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/Hertz-icon-2.png",
+    "icon": "./assets/logo-modified1.png",
     "splash": {
-      "image": "./assets/Hertz-icon-2.png",
+      "image": "./assets/logo-modified1.png",
       "backgroundColor": "#009387"
     },
     "updates": {

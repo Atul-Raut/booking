@@ -23,10 +23,10 @@ export default class GetStarted extends Component {
           <Animatable.Image
             animation="bounceIn"
             duraton="1500"
-            source={require("../../assets/Hertz-icon-2.png")}
+            source={require("../../assets/logo-modified1.png")}
             style={styles.logo}
             resizeMode="stretch"
-          /> 
+          />
         </View>
         <Animatable.View
           style={[
@@ -50,9 +50,11 @@ export default class GetStarted extends Component {
           <Text style={styles.text}>Sign in with account</Text>
           <View style={styles.button}>
             <TouchableOpacity
-              onPress={() => 
-                this.props.navigation.reset({index: 0,
-                  routes: [{name:'LoginScreen'}]})
+              onPress={() =>
+                this.props.navigation.reset({
+                  index: 0,
+                  routes: [{ name: "LoginScreen" }],
+                })
               }
             >
               <Text style={styles.textSign}>Get Started</Text>
