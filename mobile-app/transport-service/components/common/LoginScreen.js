@@ -154,13 +154,15 @@ setUserInfoAndNavigateToHomePage =(userInfo) =>{
 }
 showAlert = () => {
   this.setState({
-    showAlert: true
+    showAlert: true,
+    disabled:false
   });
 };
   
 hideAlert = () => {
   this.setState({
-    showAlert: false
+    showAlert: false,
+    disabled:false
   });
 };
 

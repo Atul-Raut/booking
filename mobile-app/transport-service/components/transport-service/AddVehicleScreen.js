@@ -56,6 +56,7 @@ export default class AddVehicleScreen extends AppBaseComponent {
       imageChange1:false,
       imageChange2:false,
       imageChange3:false,
+      btnDisable:false,
     };
 }
 
@@ -201,6 +202,7 @@ getVehicleTypes1 = async () => {
   }
 
 async onSubmit(event) {
+  this.setState({btnDisable:true});
   event.preventDefault();
   this.setState({vehicleNameVal:"", vehicleNoVal:""});
   let validationResult = await this.validateFields(this.screenID, null);
@@ -214,6 +216,7 @@ async onSubmit(event) {
         this.setState({[key+"Val"]:err[key]})
       }
     }
+    this.setState({btnDisable:false});
     return;
   }else {
 
@@ -259,9 +262,6 @@ async onSubmit(event) {
           };
           imagesList.push(img);
         }
-      }
-      else{
-        alert('image ' + result.imageNo + ' upload error.')
       }
     }
 
@@ -331,25 +331,29 @@ uploadImage = async (input, image, imageNo) =>{
 
 showAlert = () => {
   this.setState({
-    showAlert: true
+    showAlert: true,
+    btnDisable:false,
   });
 };
   
 hideAlert = () => {
   this.setState({
-    showAlert: false
+    showAlert: false,
+    btnDisable:false,
   });
 };
 
 showSuccess = () => {
   this.setState({
-    showSuccess: true
+    showSuccess: true,
+    btnDisable:false,
   });
 };
   
 hideSuccess = () => {
   this.setState({
-    showSuccess: false
+    showSuccess: false,
+    btnDisable:false,
   });
   this.props.navigation.reset({index: 0,
     routes: [{name:'MyVehiclesScreen'}]});
@@ -361,7 +365,7 @@ async onValueChangeVehicleType(value) {
 
 render() {
   const {vehicleNo, vehicleName, vehicleNoVal, vehicleNameVal, vehicleType,vehicleTypeVal,
-    successMsg, errorMsg, showAlert, showSuccess, items, image1, image2, image3,
+    successMsg, errorMsg, showAlert, showSuccess, items, image1, image2, image3, btnDisable,
   } = this.state;
 
     const onSelectedItemsChange = (selectedItems) => {
@@ -523,8 +527,9 @@ render() {
 
           </View>
           <TouchableOpacity
+            disabled={btnDisable}
             onPress={this.onSubmit}
-            style={[globalStyles.submitButton, {marginTop:30}]}>
+            style={[globalStyles.submitButton, {marginTop:30, backgroundColor: btnDisable ? 'gray' : '#009387'}]}>
             <Text style={[globalStyles.textSign, { color: "white" }]}>{
              (this.mode == "NEW")? translateMsg('addVehicle') : translateMsg('updateVehicle')
             }</Text>
