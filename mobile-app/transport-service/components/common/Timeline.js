@@ -7,6 +7,9 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  SafeAreaView,
+  Alert,
+  Dimensions
 } from "react-native";
 import AppBaseComponent, {
   getServiceID,
@@ -15,10 +18,8 @@ import AppBaseComponent, {
 } from "../common/AppBaseComponent";
 import { callApi } from "../common/AppService";
 import { translateMsg } from "../common/Translation";
-import AccordionCustome from "./AccordionList/AccordionCustome";
-import { MaterialIcons } from "@expo/vector-icons";
 import { globalStyles } from "../common/GlobalStyles";
-import * as Animatable from "react-native-animatable";
+import EventCalendar from './event-calender/EventCalendar';
 
 export default class Timeline extends AppBaseComponent {
   constructor(props) {
@@ -39,44 +40,87 @@ export default class Timeline extends AppBaseComponent {
   makeRemoteRequest = async () => {
   };
 
-  _renderView(collapse, item, onp) {
-    return (
-      <View style={[globalStyles.cardMyRequest, 
-        (item.images && item.images.length > 0) ? { paddingBottom: 10 } : {paddingBottom: 15, }]}>
-       
-      </View>
-    );
-  }
-
-  _renderBody(collapse, item) {
-    return (
-      <View>
-      </View>
-    );
-  }
+  scrollViewRef = (ref) => {
+    this.timetableRef = ref;
+  };
 
   render() {
     const { requests } = this.state;
+    const events = [
+      {
+        start: '2021-09-11 01:00:00',
+        end: '2021-09-11 02:00:00',
+        title: 'Plant shifting',
+        summary: 'Narhe to Akurdi',
+      },
+      {
+        start: '2021-09-11 02:30:00',
+        end: '2021-09-11 03:30:00',
+        title: 'Still shifting',
+        summary: 'Akurdi to Shivajinagar',
+      },
+      {
+        start: '2021-09-11 05:00:00',
+        end: '2021-09-11 07:00:00',
+        title: 'Shifting',
+        summary: 'Hadpsar to Shivajinagar',
+      },
+      {
+        start: '2021-09-12 00:30:00',
+        end: '2021-09-12 01:30:00',
+        title: 'Parag Birthday Party',
+        summary: 'Call him',
+      },
+      {
+        start: '2021-09-13 01:30:00',
+        end: '2021-09-13 02:20:00',
+        title: 'My Birthday Party',
+        summary: 'Lets Enjoy',
+      },
+      {
+        start: '2021-09-14 04:10:00',
+        end: '2021-09-14 04:40:00',
+        title: 'Engg Expo 2020',
+        summary: 'Expoo Vanue not confirm',
+      },
+    ];
+
+    const eventClicked = (event) => {
+      //On Click of event showing alert from here
+      alert(JSON.stringify(event));
+    };
+  
     return (
       <View style={globalStyles.globalContainer}>
-          <ScrollView>
-            <FlatList
-              data={requests}
-              renderItem={({ item }) => (
-                <View>
-                  <AccordionCustome
-                    renderView={this._renderView}
-                    renderCollapseView={this._renderBody}
-                    item={item}
-                  ></AccordionCustome>
-                </View>
-              )}
+         <SafeAreaView style={styles.container}>
+          <View style={styles.container}>
+            <EventCalendar
+              eventTapped={eventClicked}
+              // Function on event press
+              events={events}
+              // Passing the Array of event
+              width={width}
+              // Container width
+              size={60}
+              // number of date will render before and after initDate
+              // (default is 30 will render 30 day before initDate
+              // and 29 day after initDate)
+              initDate={'2021-09-11'}
+              // Show initial date (default is today)
+              scrollToFirst
+              // Scroll to first event of the day (default true)
             />
-            <View>
-              <Text>Timeline</Text>
-            </View>
-          </ScrollView>
+          </View>
+        </SafeAreaView>
       </View>
     );
   }
 }
+let {width} = Dimensions.get('window');
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

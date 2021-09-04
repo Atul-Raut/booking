@@ -75,6 +75,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
       deleteSuccess: false,
       selectedItem: null,
       deleteFailed: false,
+      loader: false,
     });
   };
 
