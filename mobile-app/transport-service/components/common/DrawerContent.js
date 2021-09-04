@@ -76,6 +76,20 @@ export function DrawerContent(props) {
             />
             <DrawerItem
               icon={({ color, size }) => (
+                <MaterialIcons
+                  key={"timeline"}
+                  name="timeline"
+                  color={color} 
+                  size={size}
+                />
+              )}
+              label="Timeline"
+              onPress={() => {
+                props.navigation.navigate("Timeline");
+              }}
+            />
+            <DrawerItem
+              icon={({ color, size }) => (
                 <Icon name="account-outline" color={color} size={size} />
               )}
               label="Profile"

@@ -20,7 +20,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { globalStyles } from "../common/GlobalStyles";
 import * as Animatable from "react-native-animatable";
 
-export default class Notifications extends AppBaseComponent {
+export default class Timeline extends AppBaseComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -58,8 +58,7 @@ export default class Notifications extends AppBaseComponent {
   render() {
     const { requests } = this.state;
     return (
-    <View style={globalStyles.globalContainer}>
-        <Animatable.View animation="fadeInUpBig" style={globalStyles.footer}>
+      <View style={globalStyles.globalContainer}>
           <ScrollView>
             <FlatList
               data={requests}
@@ -74,10 +73,9 @@ export default class Notifications extends AppBaseComponent {
               )}
             />
             <View>
-              <Text></Text>
+              <Text>Timeline</Text>
             </View>
           </ScrollView>
-        </Animatable.View>
       </View>
     );
   }

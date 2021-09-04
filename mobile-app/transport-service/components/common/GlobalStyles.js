@@ -8,6 +8,11 @@ export const globalStyles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
   },
+  globalContainer: {
+    flex: 1,
+    flexDirection: "column",
+    backgroundColor:'#C5CBE3'
+  },
   titleText: {
     fontSize: 18,
     color: "#333",

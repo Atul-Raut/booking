@@ -28,6 +28,7 @@ import Notifications from "./components/common/Notifications";
 import ForgetPassword from "./components/common/ForgetPassword";
 import ForgetScreenOtp from "./components/common/ForgetScreenOtp";
 import SetPassword from "./components/common/SetPassword";
+import Timeline from "./components/common/Timeline";
 
 const Drawer = createDrawerNavigator();
 
@@ -209,6 +210,17 @@ export default function App() {
             options={({ navigation }) => ({
               header: (props) => (
                 <Header navigation={navigation} name={"Notifications"} />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
+          />
+          <Drawer.Screen
+            name="Timeline"
+            component={Timeline}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header navigation={navigation} name={"Timeline"} />
               ),
               headerLeft: null,
               headerTitleStyle: { alignSelf: "center" },
