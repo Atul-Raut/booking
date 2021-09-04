@@ -460,7 +460,7 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
 const styles = StyleSheet.create({
   text_footer: {
     color: "#05375a",
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: "bold",
   },
 });
