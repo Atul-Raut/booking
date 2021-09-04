@@ -23,7 +23,7 @@ export default class GetStarted extends Component {
           <Animatable.Image
             animation="bounceIn"
             duraton="1500"
-            source={require("../../assets/logo-modified1.png")}
+            source={require("../../assets/RMLogo.png")}
             style={styles.logo}
             resizeMode="stretch"
           />
