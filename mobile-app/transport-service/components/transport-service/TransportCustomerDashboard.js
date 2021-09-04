@@ -24,8 +24,6 @@ import Card from "../common/Card";
 
 export default class TransportCustomerDashbord extends AppBaseComponent {
   constructor(props) {
-    // console.log(JSON.stringify(props));
-    // props = props.props1;
     super(props);
     this.state = {
       requests: [],
@@ -178,9 +176,38 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                       >
                         <Card>
                           <View style={{ flexDirection: "row" }}>
-                            <View style={{ marginBottom: 10 }}>
+                            <View
+                              style={{
+                                marginBottom: 10,
+                                flexDirection: "row",
+                              }}
+                            >
                               {/* <Text>Post Title </Text> */}
-                              <Text style={styles.text_footer}>
+                              <Text
+                                style={{
+                                  color: "#05375a",
+                                  fontSize: 16,
+                                  fontWeight: "bold",
+                                }}
+                              >
+                                <MaterialIcons
+                                  key={"event"}
+                                  name="event-note"
+                                  size={20}
+                                  color={"black"}
+                                  style={{
+                                    marginRight: 8,
+                                  }}
+                                />
+                              </Text>
+                              <Text
+                                style={{
+                                  color: "#05375a",
+                                  fontSize: 16,
+                                  fontWeight: "bold",
+                                }}
+                              >
+                                {" "}
                                 {item.postTitle}
                               </Text>
                             </View>
@@ -188,7 +215,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                           <View style={{ flexDirection: "row" }}>
                             <View style={{ marginBottom: 10 }}>
                               <Text style={styles.text_footer}>
-                                Activity From Date{"  "}
+                                Activity Date{"  "}
                               </Text>
                               <Text>
                                 {item.activityFromDate
@@ -210,36 +237,47 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                             </View>
                           </View>
                           <View style={{ flexDirection: "row" }}>
-                            <View style={{ width: "45%" }}>
-                              {/* <Text style={styles.text_footer}>Source </Text> */}
+                            <View
+                              style={{
+                                width: "45%",
+                                flexDirection: "row",
+                              }}
+                            >
                               <Text>
                                 <MaterialIcons
-                                  key={"delete"}
-                                  name="flight-takeoff"
+                                  key={"MyLocation"}
+                                  name="my-location"
                                   size={20}
                                   color={"black"}
                                   style={{
-                                    marginRight: 8,
+                                    // marginRight: 8,
                                     //zIndex: 1,
+                                    alignItems: "center",
                                   }}
                                 />
-                                {item.source}
+                              </Text>
+                              <Text>
+                                <Text> {item.source} </Text>
                               </Text>
                             </View>
-                            <View style={{ width: "45%" }}>
+                            <View
+                              style={{ width: "45%", flexDirection: "row" }}
+                            >
                               <Text>
                                 <MaterialIcons
-                                  key={"flightLand"}
-                                  name="flight-land"
+                                  key={"MyLocation"}
+                                  name="location-on"
                                   size={20}
                                   color={"black"}
                                   style={{
-                                    marginRight: 8,
+                                    //marginRight: 8,
                                     //zIndex: 1,
+                                    alignItems: "center",
                                   }}
                                 />
-                                {item.destination}
                               </Text>
+
+                              <Text>{item.destination}</Text>
                             </View>
                           </View>
                           <View style={{ flexDirection: "row", marginTop: 10 }}>
@@ -275,7 +313,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                                     </Text>
                                     <Text
                                       style={{
-                                        height: 50,
+                                        height: 40,
                                         marginTop: -8,
                                         marginLeft: 15,
                                       }}
@@ -283,13 +321,10 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                                       <Animatable.Image
                                         animation="bounceIn"
                                         duraton="1500"
-                                        source={require("../../assets/Bidding.png")}
+                                        source={require("../../assets/BiddingLatest.png")}
                                         style={{
                                           height: 25,
                                           width: 25,
-                                          // marginLeft: 20,
-                                          // marginTop: 30,
-                                          //marginBottom: 20,
                                         }}
                                         //  resizeMode="stretch"
                                       />
@@ -299,7 +334,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                               ) : null}
                             </View>
                           </View>
-                          <View style={{ flexDirection: "row", marginTop: 10 }}>
+                          <View style={{ flexDirection: "row" }}>
                             <View style={{ marginBottom: 15 }}>
                               <Text style={styles.text_footer}>Post Desc</Text>
                               <Text>{item.otherInfo}</Text>
@@ -392,6 +427,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                   )}
                   keyExtractor={(item, index) => index.toString()}
                 />
+
                 <View style={{ height: 50 }}>
                   <Text></Text>
                 </View>
@@ -460,7 +496,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
 const styles = StyleSheet.create({
   text_footer: {
     color: "#05375a",
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: "bold",
   },
 });
