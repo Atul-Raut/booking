@@ -25,7 +25,7 @@ export function TransportCustomerDrawerContent({props}) {
               <Drawer.Section title={translateMsg('transportService')}>
                 <DrawerItem
                   icon={({ color, size }) => (
-                    <Icon name="car" color={color} size={size} />
+                    <Icon name="plus" color={color} size={size} />
                   )}
                   label={translateMsg('CreatePost')}
                   onPress={() => {

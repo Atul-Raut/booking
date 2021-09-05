@@ -181,7 +181,7 @@ render() {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
-      <Animatable.View animation="fadeInUpBig" style={styles.footer}>
+      <View style={styles.footer}>
         <ScrollView>
           <Text style={[styles.text_footer, { marginTop: 30 }]}>{translateMsg('currentPassword')}</Text>
           <View style={styles.action}>
@@ -259,8 +259,6 @@ render() {
               </Text>
           </View>
 
-
-
           <View style={styles.button}>
             <TouchableOpacity
               onPress={this.onSubmit}
@@ -270,7 +268,7 @@ render() {
             </TouchableOpacity>
           </View>
         </ScrollView>
-      </Animatable.View>
+      </View>
 
       <AwesomeAlert
           show={showAlert}
@@ -319,8 +317,6 @@ const styles = StyleSheet.create({
   footer: {
     flex: Platform.OS === "ios" ? 3 : 5,
     backgroundColor: "#fff",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
     paddingHorizontal: 20,
     paddingVertical: 30,
   },
