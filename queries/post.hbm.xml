@@ -37,7 +37,7 @@
 		 LEFT JOIN(
 			  SELECT "POST_ID" as "postId",  MIN("AMOUNT") as "amount" FROM "T_POST_BID"
 			  WHERE
-			 "DEL_FLG" = 0  
+			 "DEL_FLG" = 0
 			  GROUP BY "POST_ID")
 			  p3
 			  ON (
@@ -89,7 +89,7 @@
 	LEFT JOIN(
 			  SELECT "POST_ID" as "postId",  MIN("AMOUNT") as "amount" FROM "T_POST_BID"
 			  WHERE
-			 "DEL_FLG" = 0  
+			 "DEL_FLG" = 0
 			  GROUP BY "POST_ID")
 			  p3
 			  ON (
@@ -165,9 +165,11 @@
   <sql-query name="app.post.update.status">
     <![CDATA[
       UPDATE "T_POST"
-      SET "STATUS" = :status,
+      SET
+        "STATUS" = :status,
         "UPD_DT" = CURRENT_TIMESTAMP,
-        "UPD_BY" = :serviceCode
+        "UPD_BY" = :serviceCode,
+        "SERVICE_PROVIDER_USER" = CASE WHEN :status = 'ACCEPTED' THEN :requestUserId ELSE null END
       WHERE
         "ID" = :postId
         AND "USER_ID" = :userId
@@ -232,29 +234,35 @@
   <sql-query name="app.post.get.request">
     <![CDATA[
       SELECT
-        postReq."POST_ID" AS "postId",
-        postReq."STATUS" AS "status",
-        postReq."INS_DT" AS "requestTime",
-        postReq."ID" AS "requestID",
-        postReq."REQUEST_USER_ID" AS "requestUserId",
-        mUser."FIRST_NAME" || ' ' || "LAST_NAME" AS "requestUserName",
-        3 AS "review",
-        'Pune' AS "location",
-        '3' AS "experience",
-        mUser."MOBILE" AS "phone",
-        mUser."EMAIL" AS "email",
-        null AS "images"
-      FROM
-        "T_POST_REQUEST" AS postReq
-      JOIN "M_USER" AS mUser
-        ON (
-          mUser."USER_ID" = postReq."REQUEST_USER_ID"
-        )
+          postReq."POST_ID" AS "postId",
+         post."STATUS" AS "status",
+         postReq."INS_DT" AS "requestTime",
+         postReq."ID" AS "requestID",
+         postReq."REQUEST_USER_ID" AS "requestUserId",
+         mUser."FIRST_NAME" || ' ' || "LAST_NAME" AS "requestUserName",
+         3 AS "review",
+         'Pune' AS "location",
+         '3' AS "experience",
+         mUser."MOBILE" AS "phone",
+         mUser."EMAIL" AS "email",
+         null AS "images",
+         post."SERVICE_PROVIDER_USER" AS "serviceProviderId"
+       FROM
+         "T_POST_REQUEST" AS postReq
+       JOIN "T_POST" AS post
+       ON(
+         post."ID" = postReq."POST_ID"
+       )
+       JOIN "M_USER" AS mUser
+         ON (
+           mUser."USER_ID" = postReq."REQUEST_USER_ID"
+         )
       WHERE
         postReq."POST_ID" = CASE WHEN :postId in ('<NA>') THEN "POST_ID" ELSE :postId END
         AND postReq."DEL_FLG" = 0
         AND mUser."DEL_FLG" = 0
         AND mUser."AC_TYP" = 2
+        AND postReq."STATUS" = 'NEW'
     ]]>
   </sql-query>
 </hibernate-mapping>

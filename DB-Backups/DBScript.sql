@@ -89,3 +89,8 @@ INSERT INTO "M_CTL_CONFIG" VALUES('WS-IMG-01','CONNON_CONFIG', 0, 'Image Upload'
 INSERT INTO "M_CTL_CONFIG" VALUES('WS-BID-01','CONNON_CONFIG', 0, 'Create Post bid', '{}', 0, 0, CURRENT_TIMESTAMP, 'ATUL', null, null);
 INSERT INTO "M_CTL_CONFIG" VALUES('WS-BID-01','MANDATORY_VAL', 1, 'Create Post bid', '[{"fieldName":"userId"},{"fieldName":"acType"},{"fieldName":"postId"},{"fieldName":"amount"}]', 0, 0, CURRENT_TIMESTAMP, 'ATUL', null, null);
 --2021-08-29 end
+
+
+--2021-09-04 Start
+ALTER TABLE "T_POST" ADD COLUMN "SERVICE_PROVIDER_USER" VARCHAR(250);
+--2021-09-04 End

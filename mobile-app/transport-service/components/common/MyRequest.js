@@ -23,6 +23,10 @@ import * as Animatable from "react-native-animatable";
 export default class MyRequest extends AppBaseComponent {
   constructor(props) {
     super(props);
+    this.sendRequest = this.sendRequest.bind(this);
+    this._renderView = this._renderView.bind(this); 
+    this._renderBody = this._renderBody.bind(this); 
+    this.flatListRef = React.createRef();
     this.state = {
       didUpdateFlag: false,
       postId: "",
@@ -88,9 +92,26 @@ export default class MyRequest extends AppBaseComponent {
     this.setState({
       didUpdateFlag: true,
     });
-  };
+  }
 
-  _renderView(collapse, item, onp) {
+
+  sendRequest = async (item, status, props) => {
+    let param = {
+      serviceId: "WS-PS-04",
+      body: {
+        postId: item.postId,
+        'status': status,
+        requestUserId: item.requestUserId
+      },
+    };
+
+    let response = await callApi(param);
+    if (response && response.retCode == this.SUCCESS_RET_CODE) {
+      props.navigation.reset({index: 0,
+        routes: [{name:'MyRequest',params:item}]});
+    }
+  }
+  _renderView(collapse, item, onp, apis, props) {
     let rets = [];
     for (let i = 0; i < item.review; i++) {
       rets.push(
@@ -105,10 +126,24 @@ export default class MyRequest extends AppBaseComponent {
     }
     let btn = [];
 
-    if (item.status == "NEW") {
+    let newStatus = "ACCEPTED";
+    let btnName = "Accept";
+    let isCancle = false;
+    let addBtn = true;
+    if(item.status == "ACCEPTED"){
+      newStatus = "NEW";
+      btnName = "Cancle";
+      isCancle = true;
+      if(!(item.requestUserId == item.serviceProviderId)){
+        addBtn = false;
+      }
+    }
+    if (addBtn && (item.status == "NEW" || item.status == "ACCEPTED")){
       btn.push(
         <View key={item.requestID+"new"}>
-          <TouchableOpacity key={"new"} style={{ flexDirection: "row" }}>
+          <TouchableOpacity key={"new"} style={{ flexDirection: "row" }}
+            onPress={() => apis.sendRequest(item,newStatus, props)}
+          >
             <MaterialIcons
               key={'acceptThumb'+Math.random().toString()+item.requestID}
               name="thumb-up"
@@ -117,12 +152,12 @@ export default class MyRequest extends AppBaseComponent {
               style={{ marginTop: 8, marginRight: -23, zIndex: 1 }}
             />
             <Text
-              key={item.requestID+'Accept'}
+              key={item.requestID+'Accept/Cancle'}
               style={[
                 {
                   color: "white",
                   fontWeight: "bold",
-                  backgroundColor: "#079057",
+                  backgroundColor: isCancle? "red" : "#079057",
                   height: 30,
                   borderRadius: 5,
                   width: 85,
@@ -130,14 +165,16 @@ export default class MyRequest extends AppBaseComponent {
                   padding: 5,
                   marginLeft:5
                 },
+
               ]}
             >
-              {"Accept"}
+              {btnName}
             </Text>
           </TouchableOpacity>
         </View>
       );
     }
+    let flatListRef = React.createRef();
     return (
       <View>
       <View style={[globalStyles.cardMyRequest, 
@@ -163,15 +200,16 @@ export default class MyRequest extends AppBaseComponent {
           key={'imgsView'+Math.random().toString()+item.requestID}
           >
         { (item.images) && <FlatList
+          ref={flatListRef } 
           data={item.images}
-          key={'img'+Math.random().toString()+item.requestID}
+          key={'img'+Math.random().toString()+item}
           numColumns={300}
           style={{height:140}}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
             <>
             <Image
-              key={'img-'+Math.random().toString()+item.requestID}
+              key={'img-'+Math.random().toString()+item}
               source={item && { uri: item }}
               style={{
                 width: 100,
@@ -258,6 +296,7 @@ export default class MyRequest extends AppBaseComponent {
 
   render() {
     const { requests } = this.state;
+    let apis = {sendRequest:this.sendRequest, makeRemoteRequest:this.makeRemoteRequest};
     return (
       <View style={{backgroundColor:'#C5CBE3', height:'100%'}}>
         <View>
@@ -270,29 +309,29 @@ export default class MyRequest extends AppBaseComponent {
             style={([globalStyles.icon], { marginTop: 5 })}
           />
         </View>
-        <View>
-          <View style={globalStyles.footer}>
-            <ScrollView>
-              <FlatList
-                key={'FlatList'+Math.random().toString()}
-                keyExtractor={(item, index) => index.toString()}
-                data={requests}
-                renderItem={({ item }) => (
-                  <View>
-                    <AccordionCustome
-                      renderView={this._renderView}
-                      renderCollapseView={this._renderBody}
-                      item={item}
-                      key={'AccordionCustome-'+Math.random().toString()+item.requestID}
-                    ></AccordionCustome>
-                  </View>
-                )}
-              />
-              <View>
-                <Text></Text>
-              </View>
-            </ScrollView>
-          </View>
+        <View style={globalStyles.footer}>
+          <ScrollView>
+            <FlatList
+              ref={ this.flatListRef } 
+              key={'FlatList'+Math.random().toString()}
+              keyExtractor={(item, index) => index.toString()}
+              data={requests}
+              renderItem={({ item }) => (
+                  <AccordionCustome
+                    renderView={this._renderView}
+                    renderCollapseView={this._renderBody}
+                    item={item}
+                    apis={apis}
+                    navigation={this.props.navigation}
+                    key={'AccordionCustome-'+Math.random().toString()+item.requestID}
+                  ></AccordionCustome>
+              )}
+              keyExtractor={(item, index) => index.toString()}
+            />
+            <View>
+              <Text></Text>
+            </View>
+          </ScrollView>
         </View>
       </View>
     );

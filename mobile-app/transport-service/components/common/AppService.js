@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import apiInformaton from "../common/resources/ApiInfo.json";
-import {getUserId,getAcountType,getUserInfo} from "./AppBaseComponent";
+import {getUserId,getAcountType,getUserInfo,getServiceID} from "./AppBaseComponent";
 //import DeviceInfo from 'react-native-device-info';
 
 export const callApi = (param) => {
@@ -19,6 +19,13 @@ export const callApi = (param) => {
   if(!body.acType){
     body.acType = getAcountType();
   }
+
+  if(!body.serviceId){
+    body.serviceId = getServiceID();
+  }
+
+
+  
 
   let headers= {
     "Content-Type": "application/json",

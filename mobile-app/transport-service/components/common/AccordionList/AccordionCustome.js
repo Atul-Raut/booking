@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { View, StyleSheet, Animated, TouchableOpacity, Text} from "react-native";
+import { View, Animated} from "react-native";
 
 const propTypes = {
   renderView: PropTypes.func.isRequired,
@@ -13,15 +13,14 @@ const defaultProps = {
   tension: 10
 };
 
-
-
 class AccordionCustome extends Component {
   constructor(props) {
     super(props);
     this.state = {
       collapse: this.props.collapse,
-      animation: new Animated.Value(20),
-      item:this.props.item
+      animation: new Animated.Value(0),
+      item:this.props.item,
+      apis:this.props.apis,
     };
   }
 
@@ -63,8 +62,7 @@ class AccordionCustome extends Component {
       <Animated.View style={{height: this.state.animation, backgroundColor:'transparent', overflow: 'hidden'}}>
        
         <View activeOpacity={1}  onLayout={this.startpoint}>
-          {this.props.renderView(this.state.collapse, this.state.item, this.collapse)}
-          
+          {this.props.renderView(this.state.collapse, this.state.item, this.collapse, this.state.apis, this.props)}
         </View>
        
         <View onLayout={this.endpoint}>

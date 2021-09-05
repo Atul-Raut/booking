@@ -1,5 +1,5 @@
 {
-    "baseUrl":"http://65.0.93.17:80/",
+    "baseUrl":"http://192.168.1.5:8080/",
     "apiInfo":{
         "WS-UP-03":{
             "name":"Create Account",
@@ -55,6 +55,11 @@
             "name":"Create Post",
             "type":"POST",
             "path":"post/create"
+        },
+        "WS-PS-04":{
+            "name":"Update Post Status",
+            "type":"PUT",
+            "path":"post/updatestatus"
         },
         "WS-PS-09":{
             "name":"Get Post Request",
