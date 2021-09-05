@@ -57,53 +57,80 @@
   </sql-query>
   <sql-query name="app.post.search.provider">
     <![CDATA[
-      select
-        "ID" AS "postId",
-        "SERVICE_ID" AS "serviceId",
-        "VEHICLE_ID" AS "vehicleId",
-        "ACTIVITY_DATE_TIME_FROM" AS "activityFromDate",
-        "ACTIVITY_DATE_TIME_TO" AS "activityToDate",
-        "SOURCE" AS "source",
-        "DESTINATION" AS "destination",
-        "OTHER" AS "otherInfo",
-        "STATUS" AS "status",
-        "POST_TITLE" AS "postTitle",
-		"BID" AS bid,
-		"BID_DATE_TIME_TO" AS bidEndDate,
-        COALESCE(p2."requestCount",0) AS "requestCount",
-		COALESCE(p3."amount",0) AS "amount"
-      from "T_POST"
-      LEFT JOIN (
-            SELECT
-              count(*) AS "requestCount",
-              "POST_ID" as "postId"
-          FROM "T_POST_REQUEST"
+        SELECT
+          "ID" AS "postId",
+          "SERVICE_ID" AS "serviceId",
+          "VEHICLE_ID" AS "vehicleId",
+          "ACTIVITY_DATE_TIME_FROM" AS "activityFromDate",
+          "ACTIVITY_DATE_TIME_TO" AS "activityToDate",
+          "SOURCE" AS "source",
+          "DESTINATION" AS "destination",
+          "OTHER" AS "otherInfo",
+          "STATUS" AS "status",
+          "POST_TITLE" AS "postTitle",
+          "BID" AS bid,
+          "BID_DATE_TIME_TO" AS bidEndDate,
+          COALESCE(p2."requestCount",0) AS "requestCount",
+          COALESCE(p3."amount",0) AS "currentBidAmount",
+          COALESCE(p4."amount",0) AS "myCurrentBidAmount"
+        FROM "T_POST"
+        LEFT JOIN (
+              SELECT
+                count(*) AS "requestCount",
+                "POST_ID" as "postId"
+              FROM "T_POST_REQUEST"
+              WHERE
+                "DEL_FLG" = 0
+                AND "REQUEST_USER_ID" = :requestUserId
+              GROUP BY "POST_ID"
+          ) p2
+          ON(
+            "ID" = p2."postId"
+          )
+        LEFT JOIN(
+          SELECT
+            "POST_ID" as "postId",
+            MIN("AMOUNT") as "amount"
+          FROM
+            "T_POST_BID"
           WHERE
-          "DEL_FLG" = 0
-		  AND "REQUEST_USER_ID" = :requestUserId
+            "DEL_FLG" = 0
           GROUP BY "POST_ID"
-        ) p2
-        ON(
-          "ID" = p2."postId"
+        ) p3
+        ON (
+          "ID" = p3."postId"
         )
-	LEFT JOIN(
-			  SELECT "POST_ID" as "postId",  MIN("AMOUNT") as "amount" FROM "T_POST_BID"
-			  WHERE
-			 "DEL_FLG" = 0
-			  GROUP BY "POST_ID")
-			  p3
-			  ON (
-			  "ID" = p3."postId"
-			  )
-      where
-        "DEL_FLG" = 0
-        AND "STATUS" in ('NEW')
-        AND "SERVICE_ID" = COALESCE(CAST(:serviceId AS TEXT),"SERVICE_ID")
-        AND "VEHICLE_ID" = COALESCE(CAST(:vehicleId AS TEXT),"VEHICLE_ID")
-        AND ("SOURCE" ilike CONCAT('%',COALESCE(CAST(:source AS TEXT),"SOURCE"),'%')
-            OR "DESTINATION" ilike CONCAT('%',COALESCE(CAST(:destination AS TEXT),"DESTINATION"),'%')
+        LEFT JOIN (
+          SELECT
+            userPostRequest."POST_ID" as "postId",
+            userPostRequest."AMOUNT" as "amount"
+          FROM (
+            SELECT
+              *
+            FROM
+              "T_POST_BID"
+            WHERE
+              "DEL_FLG" = 0
+              AND "REQUEST_USER_ID" = :requestUserId
+            ORDER BY
+              "INS_DT" DESC
+            LIMIT 1
+          ) AS userPostRequest
+          WHERE
+            userPostRequest."DEL_FLG" = 0
+        ) p4
+        ON (
+          "ID" = p4."postId"
         )
-      ORDER BY "ACTIVITY_DATE_TIME_TO" DESC
+        where
+          "DEL_FLG" = 0
+          AND "STATUS" in ('NEW')
+          AND "SERVICE_ID" = COALESCE(CAST(:serviceId AS TEXT),"SERVICE_ID")
+          AND "VEHICLE_ID" = COALESCE(CAST(:vehicleId AS TEXT),"VEHICLE_ID")
+          AND ("SOURCE" ilike CONCAT('%',COALESCE(CAST(:source AS TEXT),"SOURCE"),'%')
+              OR "DESTINATION" ilike CONCAT('%',COALESCE(CAST(:destination AS TEXT),"DESTINATION"),'%')
+          )
+        ORDER BY "ACTIVITY_DATE_TIME_TO" DESC
     ]]>
   </sql-query>
   <sql-query name="app.post.create">
