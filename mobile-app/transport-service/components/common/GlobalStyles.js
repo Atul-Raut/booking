@@ -11,7 +11,7 @@ export const globalStyles = StyleSheet.create({
   globalContainer: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor:'#C5CBE3'
+    backgroundColor: "#C5CBE3",
   },
   titleText: {
     fontSize: 18,
@@ -22,7 +22,7 @@ export const globalStyles = StyleSheet.create({
     color: "#333",
     fontWeight: "bold",
     letterSpacing: 1,
-    paddingLeft:10
+    paddingLeft: 10,
   },
   cartHeader: {
     fontSize: 14,
@@ -86,7 +86,7 @@ export const globalStyles = StyleSheet.create({
     height: 30,
     borderRadius: 3,
     width: 50,
-    alignItems:"center",
+    alignItems: "center",
     padding: 6,
   },
   deletebutton: {
@@ -94,7 +94,7 @@ export const globalStyles = StyleSheet.create({
     height: 30,
     borderRadius: 3,
     width: 60,
-    alignItems:"center",
+    alignItems: "center",
     padding: 6,
   },
   buttenContainer: {
@@ -297,6 +297,7 @@ export const globalStyles = StyleSheet.create({
   },
   modalButton: {
     height: 35,
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
@@ -304,9 +305,9 @@ export const globalStyles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: "#009387",
     marginTop: 15,
-    margin: 12,
+    margin: 15,
     padding: 10,
-    width: 150,
+    //width: 60,
   },
   cardControlBarDashboard: {
     borderBottomEndRadius: 6,

@@ -156,13 +156,13 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
           </View>
         ) : (
           <View>
-            <View style={{ size: 10 }}>
+            {/* <View style={{ size: 10 }}>
               <SpeedDial.Action
                 icon={{ name: "add", color: "#fff" }}
                 style={{ marginBottom: -10, marginTop: 5 }}
                 onPress={() => this.props.navigation.navigate("CreatePost")}
               />
-            </View>
+            </View> */}
             <Animatable.View animation="fadeInUpBig">
               <ScrollView>
                 <FlatList
@@ -308,9 +308,10 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                                     <Text>{item.amount}</Text>
                                   </View>
                                   <View>
-                                    <Text style={styles.text_footer}>
+                                    {/* <Text style={styles.text_footer}>
                                       Submit Bid
-                                    </Text>
+                                    </Text> */}
+                                    <Text></Text>
                                     <Text
                                       style={{
                                         height: 40,

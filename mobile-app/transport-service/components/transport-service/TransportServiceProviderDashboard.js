@@ -116,6 +116,10 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
   };
 
   submitBid = async () => {
+    if (!this.state.selectedPost.amount) {
+      this.sendPostRequest(this.state.selectedPost);
+    }
+
     let param = {
       serviceId: "WS-BID-01",
       body: {
@@ -139,6 +143,7 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
       openBidModal,
       bidValue,
       bidSuccessSubmit,
+      selectedPost,
     } = this.state;
 
     return (
@@ -261,7 +266,7 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                         </View>
                         <View style={{ flexDirection: "row", marginTop: 10 }}>
                           <View style={{ width: "45%" }}>
-                            {item.amount > 0 ? (
+                            {item.bid === 1 ? (
                               <View>
                                 <Text style={styles.text_footer}>
                                   Bid Ends on
@@ -278,28 +283,28 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                             ) : null}
                           </View>
                           <View style={{ width: "45%" }}>
-                            {item.amount > 0 ? (
+                            {item.bid === 1 ? (
                               <View style={{ flexDirection: "row" }}>
                                 <View style={{ width: "60%" }}>
                                   <Text style={styles.text_footer}>
-                                    Bid Amount
+                                    Current Bid
                                   </Text>
-                                  <Text>{item.amount}</Text>
+                                  <Text>{item.currentBidAmount}</Text>
                                 </View>
                                 <View>
-                                  <Text style={styles.text_footer}>
-                                    Submit Bid
-                                  </Text>
+                                  <Text style={styles.text_footer}>My Bid</Text>
                                   <Text
                                     style={{
                                       height: 40,
                                       marginTop: -8,
-                                      marginLeft: 15,
+                                      // marginLeft: 10,
                                     }}
                                     onPress={() => {
                                       this.openModal(item);
                                     }}
                                   >
+                                    <Text>{item.myCurrentBidAmount}</Text>
+                                    {"   "}
                                     <Animatable.Image
                                       animation="bounceIn"
                                       duraton="1500"
@@ -399,29 +404,47 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
             }}
           />
           {openBidModal ? (
-            <Modal
-              visible={openBidModal}
-              style={{ flex: 1, width: 80, height: 80, padding: 10 }}
-            >
-              <View>
+            <Modal visible={openBidModal}>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 <Text
                   style={[globalStyles.text_footer, globalStyles.text_comp]}
                 >
-                  Bid Amount
+                  Bid Submission
+                </Text>
+                <Text
+                  style={{ fontSize: 10, color: "orange", marginBottom: 2 }}
+                >
+                  Note: Please enter amount less than current Bid amount{" "}
+                  {selectedPost.amount}.
                 </Text>
                 <View>
                   <TextInput
                     maxLength={250}
-                    placeholder="Enter Bid"
+                    placeholder="Enter Bid Amount"
                     value={bidValue}
-                    style={[globalStyles.input]}
+                    style={{
+                      height: 40,
+                      width: 300,
+                      // margin: 12,
+                      borderWidth: 1,
+                      borderRadius: 5,
+                      padding: 10,
+                      color: "#05375a",
+                    }}
                     onChangeText={(val) => this.setState({ bidValue: val })}
                   />
                 </View>
                 <View
                   style={{
                     flexDirection: "row",
-                    width: "100%",
+                    width: "90%",
                     alignItems: "center",
                   }}
                 >
