@@ -418,12 +418,14 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                 >
                   Bid Submission
                 </Text>
-                <Text
-                  style={{ fontSize: 10, color: "orange", marginBottom: 2 }}
-                >
-                  Note: Please enter amount less than current Bid amount{" "}
-                  {selectedPost.amount}.
-                </Text>
+                {selectedPost.currentBidAmount > 0 ? (
+                  <Text
+                    style={{ fontSize: 10, color: "orange", marginBottom: 2 }}
+                  >
+                    Note: Please enter amount less than current Bid amount{" "}
+                    {selectedPost.currentBidAmount}.
+                  </Text>
+                ) : null}
                 <View>
                   <TextInput
                     maxLength={250}
@@ -463,7 +465,7 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                         openBidModal: false,
                       })
                     }
-                    style={globalStyles.modalButton}
+                    style={globalStyles.modalCancelButton}
                   >
                     <Text style={{ color: "white", fontWeight: "bold" }}>
                       {" "}
