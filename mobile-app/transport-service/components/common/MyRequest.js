@@ -19,6 +19,7 @@ import AccordionCustome from "./AccordionList/AccordionCustome";
 import { MaterialIcons } from "@expo/vector-icons";
 import { globalStyles } from "../common/GlobalStyles";
 import * as Animatable from "react-native-animatable";
+import {numberWithCommas} from './AppUtils';
 
 export default class MyRequest extends AppBaseComponent {
   constructor(props) {
@@ -112,20 +113,7 @@ export default class MyRequest extends AppBaseComponent {
     }
   }
   _renderView(collapse, item, onp, apis, props) {
-    let rets = [];
-    for (let i = 0; i < item.review; i++) {
-      rets.push(
-        <MaterialIcons
-          key={i}
-          name="star"
-          size={20}
-          color={"#D79922"}
-          style={([globalStyles.icon], { marginTop: 5 })}
-        />
-      );
-    }
     let btn = [];
-
     let newStatus = "ACCEPTED";
     let btnName = "Accept";
     let isCancle = false;
@@ -177,73 +165,23 @@ export default class MyRequest extends AppBaseComponent {
     let flatListRef = React.createRef();
     return (
       <View>
-      <View style={[globalStyles.cardMyRequest, 
-        (item.images && item.images.length > 0) ? { paddingBottom: 10 } : {paddingBottom: 15, }]}>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={[globalStyles.cartHeader]}>{item.requestUserName}</Text>
-          <Text style={{ paddingLeft: 20 }}></Text>
-          {rets}
+        <View style={[globalStyles.cardControlBarMyRequest]}>
+            <View style={{ paddingLeft: 10, marginTop:10, width: "70%" }}>
+              <TouchableOpacity key={item.id+'temp'} onPress={onp}>
+                <Text  key={item.id+'temp1'} style={{color:'blue', fontWeight:'bold'}}>{'More Details'}</Text>
+                <MaterialIcons
+                  key={"expand-more"}
+                  name= {collapse? "expand-less" : "expand-more"}
+                  size={25}
+                  style={{marginTop:-10, marginLeft:25}} 
+                  color={"blue"}
+                />
+              </TouchableOpacity>
+          </View> 
+          <View style={{ position: "absolute", marginTop: 5, right: 10 }}>
+            {btn}
+          </View>
         </View>
-        <View style={{ paddingLeft: 20, width: "70%" }}>
-          <Text>{item.experience + " years of Driving Experience"}</Text>
-        </View>
-        <View style={{ paddingLeft: 20, width: "70%" }}>
-          <Text>{"Leaving at " + item.location}</Text>
-        </View>
-        { item.bidAmount && <View style={{ paddingLeft: 10, width: "70%" }}>
-          <Text>{"Bid Price " + item.bidAmount}</Text>
-        </View> }
-        
-        <View>
-        <ScrollView
-          horizontal={true}
-          key={'imgsView'+Math.random().toString()+item.requestID}
-          >
-        { (item.images) && <FlatList
-          ref={flatListRef } 
-          data={item.images}
-          key={'img'+Math.random().toString()+item}
-          numColumns={300}
-          style={{height:140}}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <>
-            <Image
-              key={'img-'+Math.random().toString()+item}
-              source={item && { uri: item }}
-              style={{
-                width: 100,
-                height: 120,
-                borderWidth: 1,
-                borderColor: "#c35547",
-                resizeMode: "contain",
-                margin: 6,
-              }}
-              keyExtractor={(item, index) => index.toString()}
-            />
-            </>
-          )}
-            /> }
-            </ScrollView>
-            </View>
-      </View>
-      <View style={[globalStyles.cardControlBarMyRequest]}>
-          <View style={{ paddingLeft: 10, marginTop:10, width: "70%" }}>
-            <TouchableOpacity key={item.id+'temp'} onPress={onp}>
-              <Text  key={item.id+'temp1'} style={{color:'blue', fontWeight:'bold'}}>{'More Details'}</Text>
-              <MaterialIcons
-                key={"expand-more"}
-                name= {collapse? "expand-less" : "expand-more"}
-                size={25}
-                style={{marginTop:-10, marginLeft:25}} 
-                color={"blue"}
-              />
-            </TouchableOpacity>
-        </View> 
-        <View style={{ position: "absolute", marginTop: 5, right: 10 }}>
-          {btn}
-        </View>
-      </View>
       </View>
     );
   }
@@ -294,9 +232,29 @@ export default class MyRequest extends AppBaseComponent {
     );
   }
 
+  
+
   render() {
     const { requests } = this.state;
     let apis = {sendRequest:this.sendRequest, makeRemoteRequest:this.makeRemoteRequest};
+
+    const getReview = (item) => {
+      console.log(item)
+      let rets = [];
+        for (let i = 0; i < item.review; i++) {
+          rets.push(
+            <MaterialIcons
+              key={i}
+              name="star"
+              size={20}
+              color={"#D79922"}
+              style={([globalStyles.icon], { marginTop: 5 })}
+            />
+          );
+        }
+      return rets;
+    }
+
     return (
       <View style={{backgroundColor:'#C5CBE3', height:'100%'}}>
         <View>
@@ -317,14 +275,130 @@ export default class MyRequest extends AppBaseComponent {
               keyExtractor={(item, index) => index.toString()}
               data={requests}
               renderItem={({ item }) => (
-                  <AccordionCustome
-                    renderView={this._renderView}
-                    renderCollapseView={this._renderBody}
-                    item={item}
-                    apis={apis}
-                    navigation={this.props.navigation}
-                    key={'AccordionCustome-'+Math.random().toString()+item.requestID}
-                  ></AccordionCustome>
+                  <>
+                    <View style={[globalStyles.cardMyRequest, 
+                        (item.images && item.images.length > 0) ? { paddingBottom: 10 } : {paddingBottom: 15, }]}>
+                        <View style={{ flexDirection: "row" }}>
+                        <MaterialIcons
+                          name="person"
+                          size={20}
+                          style={([globalStyles.icon], { marginTop: 5 })}
+                        />
+                        
+                        <Text style={[globalStyles.cartHeader]}>{item.requestUserName}</Text>
+                        <Text style={{ paddingLeft: 20 }}></Text>
+                        {getReview(item)}
+                      </View>
+                      <View style={{ paddingLeft: 20, width: "70%" }}>
+                        <Text>{item.experience + " years of Driving Experience"}</Text>
+                      </View>
+                      <View style={{ paddingLeft: 20, width: "70%" }}>
+                        <Text>{"Leaving at " + item.location}</Text>
+                      </View>
+                      { item.bidAmount && 
+                        <View style={{ paddingLeft: 20, width: "70%", flexDirection:'row' }}>
+                          <Text>{"Bid Amount "}</Text>
+                          <Text style={{fontSize:14, fontWeight:'bold', color:'#cb5201'}}>
+                            { numberWithCommas(item.bidAmount)}
+                            <Text
+                                style={{
+                                  fontSize:10, 
+                                  fontWeight:'bold', 
+                                  color:'#cb5201',
+                                }}
+                                onPress={() => {
+                                  this.openModal(item);
+                                }}
+                                >
+                                {' Rs.'}
+                              </Text>
+                            </Text>
+                        </View> 
+                      }
+                      <View>
+                        <ScrollView
+                          horizontal={true}
+                          key={'imgsView'+Math.random().toString()+item.requestID}
+                          >
+                        { (item.images) && <FlatList
+                          data={item.images}
+                          key={'img'+Math.random().toString()+item}
+                          numColumns={300}
+                          style={{height:140}}
+                          keyExtractor={(item, index) => index.toString()}
+                          renderItem={({ item }) => (
+                            <>
+                            <Image
+                              key={'img-'+Math.random().toString()+item}
+                              source={item && { uri: item }}
+                              style={{
+                                width: 100,
+                                height: 120,
+                                borderWidth: 1,
+                                borderColor: "#c35547",
+                                resizeMode: "contain",
+                                margin: 6,
+                              }}
+                              keyExtractor={(item, index) => index.toString()}
+                            />
+                            </>
+                          )}
+                            /> }
+                           { (!item.images) && 
+                              <>
+                              <Image
+                                key={'no-img-'+Math.random().toString()}
+                                source={require('../../assets/default-car-logo.jpeg') }
+                                style={{
+                                  width: 100,
+                                  height: 80,
+                                  borderWidth: 1,
+                                  borderColor: "#c35547",
+                                  resizeMode: "contain",
+                                  margin: 6,
+                                }}
+                                keyExtractor={(item, index) => index.toString()}
+                              />
+                              <Image
+                                key={'no-img2-'+Math.random().toString()}
+                                source={require('../../assets/default-car-logo.jpeg') }
+                                style={{
+                                  width: 100,
+                                  height: 80,
+                                  borderWidth: 1,
+                                  borderColor: "#c35547",
+                                  resizeMode: "contain",
+                                  margin: 6,
+                                }}
+                                keyExtractor={(item, index) => index.toString()}
+                              />
+                              <Image
+                                key={'no-img3-'+Math.random().toString()}
+                                source={require('../../assets/default-car-logo.jpeg') }
+                                style={{
+                                  width: 100,
+                                  height: 80,
+                                  borderWidth: 1,
+                                  borderColor: "#c35547",
+                                  resizeMode: "contain",
+                                  margin: 6,
+                                }}
+                                keyExtractor={(item, index) => index.toString()}
+                              />
+                              </>
+                            }
+                          </ScrollView>
+                        </View>
+                    </View>
+                    <AccordionCustome
+                      renderView={this._renderView}
+                      renderCollapseView={this._renderBody}
+                      item={item}
+                      apis={apis}
+                      navigation={this.props.navigation}
+                      key={'AccordionCustome-'+Math.random().toString()+item.requestID}
+                    ></AccordionCustome>
+                  </>
               )}
               keyExtractor={(item, index) => index.toString()}
             />

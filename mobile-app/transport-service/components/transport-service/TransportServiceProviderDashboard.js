@@ -23,6 +23,7 @@ import * as Animatable from "react-native-animatable";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { translateMsg } from "../common/Translation";
 import Card from "../common/Card";
+import {numberWithCommas} from '../common/AppUtils';
 
 export default class TransportServiceProviderDashbord extends AppBaseComponent {
   constructor(props) {
@@ -155,11 +156,6 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                 data={requests}
                 renderItem={({ item }) => (
                   <View>
-                    <TouchableOpacity
-                    // onPress={() =>
-                    //   this.props.navigation.navigate("PostDetails", item)
-                    // }
-                    >
                       <Card>
                         <View style={{ flexDirection: "row" }}>
                           <View
@@ -225,7 +221,7 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                         <View style={{ flexDirection: "row" }}>
                           <View
                             style={{
-                              width: "45%",
+                              width: "40%",
                               flexDirection: "row",
                             }}
                           >
@@ -246,8 +242,7 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                               <Text> {item.source} </Text>
                             </Text>
                           </View>
-                          <View style={{ width: "45%", flexDirection: "row" }}>
-                            <Text>
+                          <View style={{ width: "50%", flexDirection: "row" }}>
                               <MaterialIcons
                                 key={"MyLocation"}
                                 name="location-on"
@@ -259,13 +254,11 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                                   alignItems: "center",
                                 }}
                               />
-                            </Text>
-
                             <Text>{item.destination}</Text>
                           </View>
                         </View>
                         <View style={{ flexDirection: "row", marginTop: 10 }}>
-                          <View style={{ width: "45%" }}>
+                          <View style={{ width: "40%" }}>
                             {item.bid === 1 ? (
                               <View>
                                 <Text style={styles.text_footer}>
@@ -282,29 +275,73 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                               </View>
                             ) : null}
                           </View>
-                          <View style={{ width: "45%" }}>
+                          <View style={{ width: "60%" }}>
                             {item.bid === 1 ? (
                               <View style={{ flexDirection: "row" }}>
-                                <View style={{ width: "60%" }}>
+                                <View style={{ width: "45%", alignItems:'center' }}>
                                   <Text style={styles.text_footer}>
                                     Current Bid
                                   </Text>
-                                  <Text>{item.currentBidAmount}</Text>
-                                </View>
-                                <View>
-                                  <Text style={styles.text_footer}>My Bid</Text>
                                   <Text
                                     style={{
-                                      height: 40,
-                                      marginTop: -8,
-                                      // marginLeft: 10,
+                                      fontSize:13, 
+                                      fontWeight:'bold', 
+                                      color:'#cb5201',
+                                    }}
+                                  >
+                                  {numberWithCommas(item.currentBidAmount)}
+                                  <Text
+                                      style={{
+                                        fontSize:10, 
+                                        fontWeight:'bold', 
+                                        color:'#cb5201',
+                                      }}
+                                      onPress={() => {
+                                        this.openModal(item);
+                                      }}
+                                      >
+                                      {' Rs.'}
+                                    </Text>
+                                  </Text>
+                                </View>
+                                <View style={{ width: "45%" ,  alignItems:'center'}}>
+                                  <Text style={styles.text_footer}>
+                                    My Bid
+                                  </Text>
+                                  <Text
+                                    style={{
+                                      fontSize:12, 
+                                      fontWeight:'bold', 
+                                      color:'#cb5201',
                                     }}
                                     onPress={() => {
                                       this.openModal(item);
                                     }}
                                   >
-                                    <Text>{item.myCurrentBidAmount}</Text>
-                                    {"   "}
+                                    {numberWithCommas(item.myCurrentBidAmount)}
+                                    <Text
+                                      style={{
+                                        fontSize:10, 
+                                        fontWeight:'bold', 
+                                        color:'#cb5201',
+                                      }}
+                                      onPress={() => {
+                                        this.openModal(item);
+                                      }}
+                                      >
+                                      {' Rs.'}
+                                    </Text>
+                                  </Text>
+                                  
+                                </View>
+
+                                <View style={{marginRight:1, paddingRight:1, marginTop:10}}
+                                    
+                                  >
+                                    <TouchableOpacity
+                                    onPress={() => {
+                                      this.openModal(item);
+                                    }}>
                                     <Animatable.Image
                                       animation="bounceIn"
                                       duraton="1500"
@@ -313,22 +350,21 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                                         height: 25,
                                         width: 25,
                                       }}
-                                      //  resizeMode="stretch"
+                                      
                                     />
-                                  </Text>
-                                </View>
+                                    </TouchableOpacity>
+                                    </View>
                               </View>
                             ) : null}
                           </View>
                         </View>
                         <View style={{ flexDirection: "row" }}>
-                          <View style={{ marginBottom: 15 }}>
+                          <View style={{ marginBottom: 15, marginTop:10 }}>
                             <Text style={styles.text_footer}>Post Desc</Text>
                             <Text>{item.otherInfo}</Text>
                           </View>
                         </View>
                       </Card>
-                    </TouchableOpacity>
                     <View style={[globalStyles.cardControlBarDashboard]}>
                       <View>
                         {item.requestCount > 0 ? (
@@ -485,7 +521,7 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
 const styles = StyleSheet.create({
   text_footer: {
     color: "#05375a",
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: "bold",
   },
 });

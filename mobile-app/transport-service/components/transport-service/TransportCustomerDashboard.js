@@ -21,6 +21,7 @@ import { translateMsg } from "../common/Translation";
 import * as Animatable from "react-native-animatable";
 import AwesomeAlert from "react-native-awesome-alerts";
 import Card from "../common/Card";
+import {numberWithCommas} from '../common/AppUtils';
 
 export default class TransportCustomerDashbord extends AppBaseComponent {
   constructor(props) {
@@ -169,17 +170,18 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                   data={requests}
                   renderItem={({ item }) => (
                     <View>
-                      <TouchableOpacity
+                     {/* <TouchableOpacity
                         onPress={() =>
                           this.props.navigation.navigate("PostDetails", item)
                         }
-                      >
+                      >*/}
                         <Card>
                           <View style={{ flexDirection: "row" }}>
                             <View
                               style={{
                                 marginBottom: 10,
                                 flexDirection: "row",
+                                width:'90%'
                               }}
                             >
                               {/* <Text>Post Title </Text> */}
@@ -211,6 +213,17 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                                 {item.postTitle}
                               </Text>
                             </View>
+                            {item.bid === 1 ? (<View style={{marginRight:10}}>
+                                <Animatable.Image
+                                        animation="bounceIn"
+                                        duraton="1500"
+                                        source={require("../../assets/BiddingLatest.png")}
+                                        style={{
+                                          height: 25,
+                                          width: 25,
+                                        }}
+                                      />
+                              </View>) : null}
                           </View>
                           <View style={{ flexDirection: "row" }}>
                             <View style={{ marginBottom: 10 }}>
@@ -301,11 +314,32 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                             <View style={{ width: "45%" }}>
                               {item.amount > 0 ? (
                                 <View style={{ flexDirection: "row" }}>
-                                  <View style={{ width: "60%" }}>
+                                  <View style={{ width: "60%", alignItems:'center' }}>
                                     <Text style={styles.text_footer}>
                                       Bid Amount
                                     </Text>
-                                    <Text>{item.amount}</Text>
+                                    <Text 
+                                      style={{
+                                        fontSize:14, 
+                                        fontWeight:'bold', 
+                                        color:'#cb5201',
+                                        alignItems:'center'
+                                      }}
+                                      >{numberWithCommas(item.amount)}
+                                       <Text
+                                      style={{
+                                        fontSize:10, 
+                                        fontWeight:'bold', 
+                                        color:'#cb5201',
+                                      }}
+                                      onPress={() => {
+                                        this.openModal(item);
+                                      }}
+                                      >
+                                      {' Rs.'}
+                                    </Text>
+                                      
+                                      </Text>
                                   </View>
                                   <View>
                                     {/* <Text style={styles.text_footer}>
@@ -319,16 +353,6 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                                         marginLeft: 15,
                                       }}
                                     >
-                                      <Animatable.Image
-                                        animation="bounceIn"
-                                        duraton="1500"
-                                        source={require("../../assets/BiddingLatest.png")}
-                                        style={{
-                                          height: 25,
-                                          width: 25,
-                                        }}
-                                        //  resizeMode="stretch"
-                                      />
                                     </Text>
                                   </View>
                                 </View>
@@ -336,13 +360,12 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                             </View>
                           </View>
                           <View style={{ flexDirection: "row" }}>
-                            <View style={{ marginBottom: 15 }}>
+                            <View style={{ marginBottom: 15 , marginTop:10}}>
                               <Text style={styles.text_footer}>Post Desc</Text>
                               <Text>{item.otherInfo}</Text>
                             </View>
                           </View>
                         </Card>
-                      </TouchableOpacity>
                       <View style={[globalStyles.cardControlBarDashboard]}>
                         <View style={{ flexDirection: "row" }}>
                           <View>
@@ -499,7 +522,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
 const styles = StyleSheet.create({
   text_footer: {
     color: "#05375a",
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: "bold",
   },
 });

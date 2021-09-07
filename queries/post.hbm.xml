@@ -124,7 +124,10 @@
         )
         where
           "DEL_FLG" = 0
-          AND "STATUS" in ('NEW')
+          AND (
+    			  "STATUS" in ('NEW')
+    		  	 OR ("STATUS" in('ACCEPTED') AND "SERVICE_PROVIDER_USER" = :requestUserId)
+         )
           AND "SERVICE_ID" = COALESCE(CAST(:serviceId AS TEXT),"SERVICE_ID")
           AND "VEHICLE_ID" = COALESCE(CAST(:vehicleId AS TEXT),"VEHICLE_ID")
           AND ("SOURCE" ilike CONCAT('%',COALESCE(CAST(:source AS TEXT),"SOURCE"),'%')
@@ -260,36 +263,66 @@
   </sql-query>
   <sql-query name="app.post.get.request">
     <![CDATA[
-      SELECT
-          postReq."POST_ID" AS "postId",
-         post."STATUS" AS "status",
-         postReq."INS_DT" AS "requestTime",
-         postReq."ID" AS "requestID",
-         postReq."REQUEST_USER_ID" AS "requestUserId",
-         mUser."FIRST_NAME" || ' ' || "LAST_NAME" AS "requestUserName",
-         3 AS "review",
-         'Pune' AS "location",
-         '3' AS "experience",
-         mUser."MOBILE" AS "phone",
-         mUser."EMAIL" AS "email",
-         null AS "images",
-         post."SERVICE_PROVIDER_USER" AS "serviceProviderId"
-       FROM
-         "T_POST_REQUEST" AS postReq
-       JOIN "T_POST" AS post
-       ON(
-         post."ID" = postReq."POST_ID"
-       )
-       JOIN "M_USER" AS mUser
-         ON (
-           mUser."USER_ID" = postReq."REQUEST_USER_ID"
+        SELECT
+           postReq."POST_ID" AS "postId",
+           post."STATUS" AS "status",
+           postReq."INS_DT" AS "requestTime",
+           postReq."ID" AS "requestID",
+           postReq."REQUEST_USER_ID" AS "requestUserId",
+           mUser."FIRST_NAME" || ' ' || "LAST_NAME" AS "requestUserName",
+           3 AS "review",
+           'Pune' AS "location",
+           '3' AS "experience",
+           mUser."MOBILE" AS "phone",
+           mUser."EMAIL" AS "email",
+           null AS "images",
+           post."SERVICE_PROVIDER_USER" AS "serviceProviderId",
+           userPostRequest."amount" AS "bidAmount"
+         FROM
+           "T_POST_REQUEST" AS postReq
+         JOIN "T_POST" AS post
+         ON(
+           post."ID" = postReq."POST_ID"
          )
-      WHERE
-        postReq."POST_ID" = CASE WHEN :postId in ('<NA>') THEN "POST_ID" ELSE :postId END
-        AND postReq."DEL_FLG" = 0
-        AND mUser."DEL_FLG" = 0
-        AND mUser."AC_TYP" = 2
-        AND postReq."STATUS" = 'NEW'
+         JOIN "M_USER" AS mUser
+         ON (
+             mUser."USER_ID" = postReq."REQUEST_USER_ID"
+         )
+         LEFT JOIN (
+            SELECT
+              tPostBid."POST_ID" as "postId",
+              tPostBid."AMOUNT" as "amount",
+              tPostBid."REQUEST_USER_ID"
+            FROM "T_POST_BID" AS tPostBid
+            JOIN(
+              SELECT
+                "REQUEST_USER_ID",
+                "POST_ID",
+                MAX("INS_DT") AS "INS_DT"
+              FROM
+                "T_POST_BID"
+              WHERE
+                "DEL_FLG" = 0
+              GROUP BY
+                "REQUEST_USER_ID",
+                "POST_ID"
+            ) as latestBidData
+            ON(
+              latestBidData."POST_ID" = tPostBid."POST_ID"
+              AND latestBidData."REQUEST_USER_ID" = tPostBid."REQUEST_USER_ID"
+              AND latestBidData."INS_DT" = tPostBid."INS_DT"
+            )
+          ) AS userPostRequest
+          ON (
+            post."ID" = userPostRequest."postId"
+            AND postReq."REQUEST_USER_ID" = userPostRequest."REQUEST_USER_ID"
+          )
+        WHERE
+          postReq."POST_ID" = CASE WHEN :postId in ('<NA>') THEN "POST_ID" ELSE :postId END
+          AND postReq."DEL_FLG" = 0
+          AND mUser."DEL_FLG" = 0
+          AND mUser."AC_TYP" = 2
+          AND postReq."STATUS" = 'NEW'
     ]]>
   </sql-query>
 </hibernate-mapping>
