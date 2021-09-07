@@ -344,6 +344,7 @@ public class UserController extends UserControllerBase {
 		}
 		return result;
 	}
+
 	
 	@PostMapping("/profile")	
 	@ServiceInfo(serviceCode = "WS-UP-10", serviceName = "Profile", queryId = "app.user.profile.get", logActivity =false)
@@ -388,5 +389,46 @@ public class UserController extends UserControllerBase {
 		return result;
 	}
 
+	@PutMapping("/setnewpassword")
+	@ServiceInfo(serviceCode = "WS-UP-12", serviceName = "Set New Password", queryId = "app.user.password.setnew", logActivity =true)
+	private ResponseDTO setNewPassword(@RequestBody Map<String, Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo,
+									   @RequestAttribute("requestId") String requestId) throws Exception {
+		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
+
+		requestInfo.putAll(input);
+		requestInfo.put(CommonConstants.KEY_ID, CoreUtils.getUUID());
+
+		//set request info
+		setRequestInfo(requestInfo);
+
+		ResponseDTO result = null;
+		try {
+
+			result = validate(requestInfo);
+			if(null != result) {
+				return result;
+			}
+
+			RequestInfo requestInfoTemp =  new RequestInfo();
+			requestInfoTemp.putAll(requestInfo);
+			requestInfo.put("password", requestInfo.get("newPassword"));
+			
+			//Update new password
+			service.executeUpdate(requestInfo);
+
+			//save password into history
+			requestInfo.setQueryId("app.user.password.hist.save");
+			requestInfo.put("password", requestInfo.get("newPassword"));
+			service.executeUpdate(requestInfo);
+			result = createSuccessResponse(requestInfo,null);
+		}catch(DataNotFoundException e) {
+			e.setErrorDescription("Password update failed.");
+			result = createErrorResponse(requestInfo, null, e);
+		}
+		catch(Exception e) {
+			result = createErrorResponse(requestInfo, null, e);
+		}
+		return result;
+	}
 
 }

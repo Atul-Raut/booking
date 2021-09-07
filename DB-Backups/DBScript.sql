@@ -94,3 +94,8 @@ INSERT INTO "M_CTL_CONFIG" VALUES('WS-BID-01','MANDATORY_VAL', 1, 'Create Post b
 --2021-09-04 Start
 ALTER TABLE "T_POST" ADD COLUMN "SERVICE_PROVIDER_USER" VARCHAR(250);
 --2021-09-04 End
+
+--2021-09-07 start
+INSERT INTO "M_CTL_CONFIG" VALUES('WS-UP-12','CONNON_CONFIG', 0, 'Set New Password', '{}', 0, 0, CURRENT_TIMESTAMP, 'ATUL', null, null);
+INSERT INTO "M_CTL_CONFIG" VALUES('WS-UP-12','MANDATORY_VAL', 1, 'Set New Password', '[{"fieldName":"userId"},{"fieldName":"acType"},{"fieldName":"newPassword"}]', 0, 0, CURRENT_TIMESTAMP, 'ATUL', null, null);
+--2021-09-07 end

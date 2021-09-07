@@ -152,6 +152,18 @@
         AND "DEL_FLG" = 0
     ]]>
   </sql-query>
+  <sql-query name="app.user.password.setnew">
+    <![CDATA[
+      UPDATE "M_USER" SET
+      		"PASSWORD" = :newPassword,
+      		"UPD_DT" = CURRENT_TIMESTAMP,
+        	"UPD_BY" = :serviceCode
+      WHERE
+        "USER_ID" = :userId
+        AND "AC_TYP" = CAST (:acType AS INTEGER)
+        AND "DEL_FLG" = 0
+    ]]>
+  </sql-query>
   <sql-query name="app.user.password.count">
       <![CDATA[
         SELECT
