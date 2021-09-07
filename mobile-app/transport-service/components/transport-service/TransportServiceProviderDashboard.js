@@ -23,8 +23,8 @@ import * as Animatable from "react-native-animatable";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { translateMsg } from "../common/Translation";
 import Card from "../common/Card";
-import {numberWithCommas} from '../common/AppUtils';
-import Dialog, { DialogContent } from 'react-native-popup-dialog';
+import { numberWithCommas } from "../common/AppUtils";
+import Dialog, { DialogContent } from "react-native-popup-dialog";
 
 export default class TransportServiceProviderDashbord extends AppBaseComponent {
   constructor(props) {
@@ -85,7 +85,7 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
 
   showBidSuccess = () => {
     this.setState({
-      openBidModal:false,
+      openBidModal: false,
       bidSuccessSubmit: true,
     });
   };
@@ -159,215 +159,218 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                 data={requests}
                 renderItem={({ item }) => (
                   <View>
-                      <Card>
-                        <View style={{ flexDirection: "row" }}>
-                          <View
+                    <Card>
+                      <View style={{ flexDirection: "row" }}>
+                        <View
+                          style={{
+                            marginBottom: 10,
+                            flexDirection: "row",
+                          }}
+                        >
+                          {/* <Text>Post Title </Text> */}
+                          <Text
                             style={{
-                              marginBottom: 10,
-                              flexDirection: "row",
+                              color: "#05375a",
+                              fontSize: 16,
+                              fontWeight: "bold",
                             }}
                           >
-                            {/* <Text>Post Title </Text> */}
-                            <Text
+                            <MaterialIcons
+                              key={"event"}
+                              name="event-note"
+                              size={20}
+                              color={"black"}
                               style={{
-                                color: "#05375a",
-                                fontSize: 16,
-                                fontWeight: "bold",
+                                marginRight: 8,
                               }}
-                            >
-                              <MaterialIcons
-                                key={"event"}
-                                name="event-note"
-                                size={20}
-                                color={"black"}
-                                style={{
-                                  marginRight: 8,
-                                }}
-                              />
-                            </Text>
-                            <Text
-                              style={{
-                                color: "#05375a",
-                                fontSize: 16,
-                                fontWeight: "bold",
-                              }}
-                            >
-                              {" "}
-                              {item.postTitle}
-                            </Text>
-                          </View>
+                            />
+                          </Text>
+                          <Text
+                            style={{
+                              color: "#05375a",
+                              fontSize: 16,
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {" "}
+                            {item.postTitle}
+                          </Text>
                         </View>
-                        <View style={{ flexDirection: "row" }}>
-                          <View style={{ marginBottom: 10 }}>
-                            <Text style={styles.text_footer}>
-                              Activity Date
-                            </Text>
+                      </View>
+                      <View style={{ flexDirection: "row" }}>
+                        <View style={{ marginBottom: 10 }}>
+                          <Text style={styles.text_footer}>Activity Date</Text>
+                          <Text>
+                            {item.activityFromDate
+                              ? format(
+                                  item.activityFromDate,
+                                  "dd-MM-yyyy hh:mm"
+                                )
+                              : null}
+                            <Text style={styles.text_footer}> To </Text>
                             <Text>
-                              {item.activityFromDate
+                              {item.activityToDate
                                 ? format(
-                                    item.activityFromDate,
+                                    item.activityToDate,
                                     "dd-MM-yyyy hh:mm"
                                   )
                                 : null}
-                              <Text style={styles.text_footer}> To </Text>
+                            </Text>
+                          </Text>
+                        </View>
+                      </View>
+                      <View style={{ flexDirection: "row" }}>
+                        <View
+                          style={{
+                            width: "40%",
+                            flexDirection: "row",
+                          }}
+                        >
+                          <Text>
+                            <MaterialIcons
+                              key={"MyLocation"}
+                              name="my-location"
+                              size={20}
+                              color={"black"}
+                              style={{
+                                // marginRight: 8,
+                                //zIndex: 1,
+                                alignItems: "center",
+                              }}
+                            />
+                          </Text>
+                          <Text>
+                            <Text> {item.source} </Text>
+                          </Text>
+                        </View>
+                        <View style={{ width: "50%", flexDirection: "row" }}>
+                          <MaterialIcons
+                            key={"MyLocation"}
+                            name="location-on"
+                            size={20}
+                            color={"black"}
+                            style={{
+                              //marginRight: 8,
+                              //zIndex: 1,
+                              alignItems: "center",
+                            }}
+                          />
+                          <Text>{item.destination}</Text>
+                        </View>
+                      </View>
+                      <View style={{ flexDirection: "row", marginTop: 10 }}>
+                        <View style={{ width: "40%" }}>
+                          {item.bid === 1 ? (
+                            <View>
+                              <Text style={styles.text_footer}>
+                                Bid Ends on
+                              </Text>
                               <Text>
-                                {item.activityToDate
+                                {item.activityFromDate
                                   ? format(
-                                      item.activityToDate,
+                                      item.activityFromDate,
                                       "dd-MM-yyyy hh:mm"
                                     )
-                                  : null}
+                                  : ""}
                               </Text>
-                            </Text>
-                          </View>
+                            </View>
+                          ) : null}
                         </View>
-                        <View style={{ flexDirection: "row" }}>
-                          <View
-                            style={{
-                              width: "40%",
-                              flexDirection: "row",
-                            }}
-                          >
-                            <Text>
-                              <MaterialIcons
-                                key={"MyLocation"}
-                                name="my-location"
-                                size={20}
-                                color={"black"}
-                                style={{
-                                  // marginRight: 8,
-                                  //zIndex: 1,
-                                  alignItems: "center",
-                                }}
-                              />
-                            </Text>
-                            <Text>
-                              <Text> {item.source} </Text>
-                            </Text>
-                          </View>
-                          <View style={{ width: "50%", flexDirection: "row" }}>
-                              <MaterialIcons
-                                key={"MyLocation"}
-                                name="location-on"
-                                size={20}
-                                color={"black"}
-                                style={{
-                                  //marginRight: 8,
-                                  //zIndex: 1,
-                                  alignItems: "center",
-                                }}
-                              />
-                            <Text>{item.destination}</Text>
-                          </View>
-                        </View>
-                        <View style={{ flexDirection: "row", marginTop: 10 }}>
-                          <View style={{ width: "40%" }}>
-                            {item.bid === 1 ? (
-                              <View>
+                        <View style={{ width: "60%" }}>
+                          {item.bid === 1 ? (
+                            <View style={{ flexDirection: "row" }}>
+                              <View
+                                style={{ width: "45%", alignItems: "center" }}
+                              >
                                 <Text style={styles.text_footer}>
-                                  Bid Ends on
+                                  Current Bid
                                 </Text>
-                                <Text>
-                                  {item.activityFromDate
-                                    ? format(
-                                        item.activityFromDate,
-                                        "dd-MM-yyyy hh:mm"
-                                      )
-                                    : ""}
-                                </Text>
-                              </View>
-                            ) : null}
-                          </View>
-                          <View style={{ width: "60%" }}>
-                            {item.bid === 1 ? (
-                              <View style={{ flexDirection: "row" }}>
-                                <View style={{ width: "45%", alignItems:'center' }}>
-                                  <Text style={styles.text_footer}>
-                                    Current Bid
-                                  </Text>
-                                  <Text
-                                    style={{
-                                      fontSize:13, 
-                                      fontWeight:'bold', 
-                                      color:'#cb5201',
-                                    }}
-                                  >
+                                <Text
+                                  style={{
+                                    fontSize: 13,
+                                    fontWeight: "bold",
+                                    color: "#cb5201",
+                                  }}
+                                >
                                   {numberWithCommas(item.currentBidAmount)}
                                   <Text
-                                      style={{
-                                        fontSize:10, 
-                                        fontWeight:'bold', 
-                                        color:'#cb5201',
-                                      }}
-                                      onPress={() => {
-                                        this.openModal(item);
-                                      }}
-                                      >
-                                      {' Rs.'}
-                                    </Text>
+                                    style={{
+                                      fontSize: 10,
+                                      fontWeight: "bold",
+                                      color: "#cb5201",
+                                    }}
+                                    onPress={() => {
+                                      this.openModal(item);
+                                    }}
+                                  >
+                                    {" Rs."}
                                   </Text>
-                                </View>
-                                <View style={{ width: "45%" ,  alignItems:'center'}}>
-                                  <Text style={styles.text_footer}>
-                                    My Bid
-                                  </Text>
+                                </Text>
+                              </View>
+                              <View
+                                style={{ width: "45%", alignItems: "center" }}
+                              >
+                                <Text style={styles.text_footer}>My Bid</Text>
+                                <Text
+                                  style={{
+                                    fontSize: 12,
+                                    fontWeight: "bold",
+                                    color: "#cb5201",
+                                  }}
+                                  onPress={() => {
+                                    this.openModal(item);
+                                  }}
+                                >
+                                  {numberWithCommas(item.myCurrentBidAmount)}
                                   <Text
                                     style={{
-                                      fontSize:12, 
-                                      fontWeight:'bold', 
-                                      color:'#cb5201',
+                                      fontSize: 10,
+                                      fontWeight: "bold",
+                                      color: "#cb5201",
                                     }}
                                     onPress={() => {
                                       this.openModal(item);
                                     }}
                                   >
-                                    {numberWithCommas(item.myCurrentBidAmount)}
-                                    <Text
-                                      style={{
-                                        fontSize:10, 
-                                        fontWeight:'bold', 
-                                        color:'#cb5201',
-                                      }}
-                                      onPress={() => {
-                                        this.openModal(item);
-                                      }}
-                                      >
-                                      {' Rs.'}
-                                    </Text>
+                                    {" Rs."}
                                   </Text>
-                                  
-                                </View>
-
-                                <View style={{marginRight:1, paddingRight:1, marginTop:10}}
-                                    
-                                  >
-                                    <TouchableOpacity
-                                    onPress={() => {
-                                      this.openModal(item);
-                                    }}>
-                                    <Animatable.Image
-                                      animation="bounceIn"
-                                      duraton="1500"
-                                      source={require("../../assets/BiddingLatest.png")}
-                                      style={{
-                                        height: 25,
-                                        width: 25,
-                                      }}
-                                      
-                                    />
-                                    </TouchableOpacity>
-                                    </View>
+                                </Text>
                               </View>
-                            ) : null}
-                          </View>
+
+                              <View
+                                style={{
+                                  marginRight: 1,
+                                  paddingRight: 1,
+                                  marginTop: 10,
+                                }}
+                              >
+                                <TouchableOpacity
+                                  onPress={() => {
+                                    this.openModal(item);
+                                  }}
+                                >
+                                  <Animatable.Image
+                                    animation="bounceIn"
+                                    duraton="1500"
+                                    source={require("../../assets/BiddingLatest.png")}
+                                    style={{
+                                      height: 25,
+                                      width: 25,
+                                    }}
+                                  />
+                                </TouchableOpacity>
+                              </View>
+                            </View>
+                          ) : null}
                         </View>
-                        <View style={{ flexDirection: "row" }}>
-                          <View style={{ marginBottom: 15, marginTop:10 }}>
-                            <Text style={styles.text_footer}>Post Desc</Text>
-                            <Text>{item.otherInfo}</Text>
-                          </View>
+                      </View>
+                      <View style={{ flexDirection: "row" }}>
+                        <View style={{ marginBottom: 15, marginTop: 10 }}>
+                          <Text style={styles.text_footer}>Post Desc</Text>
+                          <Text>{item.otherInfo}</Text>
                         </View>
-                      </Card>
+                      </View>
+                    </Card>
                     <View style={[globalStyles.cardControlBarDashboard]}>
                       <View>
                         {item.requestCount > 0 ? (
@@ -442,85 +445,84 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
               this.componentDidMount();
             }}
           />
-          
-            <View>
+
+          <View>
             <Dialog
               visible={openBidModal}
               onTouchOutside={() => {
                 this.setState({ openBidModal: false });
               }}
             >
-             
               {openBidModal ? (
-                 <DialogContent>
-                <View  style={{height:'40%'}}>
-                <Text
-                  style={[globalStyles.text_footer, globalStyles.text_comp]}
-                >
-                  Bid Submission
-                </Text>
-                {selectedPost.currentBidAmount > 0 ? (
-                  <Text
-                    style={{ fontSize: 10, color: "orange", marginBottom: 2 }}
-                  >
-                    Note: Please enter amount less than current Bid amount{" "}
-                    {selectedPost.currentBidAmount}.
-                  </Text>
-                ) : null}
-                <View>
-                  <TextInput
-                    maxLength={250}
-                    placeholder="Enter Bid Amount"
-                    value={bidValue}
-                    style={{
-                      height: 40,
-                      width: 300,
-                      // margin: 12,
-                      borderWidth: 1,
-                      borderRadius: 5,
-                      padding: 10,
-                      color: "#05375a",
-                    }}
-                    onChangeText={(val) => this.setState({ bidValue: val })}
-                  />
-                </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    width: "90%",
-                    alignItems: "center",
-                  }}
-                >
-                  <TouchableOpacity
-                    onPress={() => this.submitBid()}
-                    style={globalStyles.modalButton}
-                  >
-                    <Text style={{ color: "white", fontWeight: "bold" }}>
-                      {" "}
-                      Submit Bid{" "}
+                <DialogContent>
+                  <View style={{ height: "40%" }}>
+                    <Text
+                      style={[globalStyles.popup_text, globalStyles.text_comp]}
+                    >
+                      Bid Submission
                     </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.setState({
-                        openBidModal: false,
-                      })
-                    }
-                    style={globalStyles.modalCancelButton}
-                  >
-                    <Text style={{ color: "white", fontWeight: "bold" }}>
-                      {" "}
-                      Cancel{" "}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-              </DialogContent>
-               ) : null}
-              
+                    {selectedPost.currentBidAmount > 0 ? (
+                      <Text
+                        style={{
+                          fontSize: 10,
+                          color: "orange",
+                          marginBottom: 2,
+                        }}
+                      >
+                        Note: Please enter amount less than current Bid amount{" "}
+                        {selectedPost.currentBidAmount}.
+                      </Text>
+                    ) : null}
+                    <View>
+                      <TextInput
+                        maxLength={250}
+                        placeholder="Enter Bid Amount"
+                        value={bidValue}
+                        style={{
+                          height: 40,
+                          width: 300,
+                          // margin: 12,
+                          borderWidth: 1,
+                          borderRadius: 5,
+                          padding: 10,
+                          color: "#05375a",
+                        }}
+                        onChangeText={(val) => this.setState({ bidValue: val })}
+                      />
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        width: "100%",
+                        alignItems: "center",
+                      }}
+                    >
+                      <TouchableOpacity
+                        onPress={() => this.submitBid()}
+                        style={globalStyles.modalButton}
+                      >
+                        <Text style={{ color: "white", fontWeight: "bold" }}>
+                          Submit Bid
+                        </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.setState({
+                            openBidModal: false,
+                          })
+                        }
+                        style={globalStyles.modalCancelButton}
+                      >
+                        <Text style={{ color: "white", fontWeight: "bold" }}>
+                          Cancel
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </DialogContent>
+              ) : null}
             </Dialog>
-            </View>
-         
+          </View>
         </View>
       </>
     );

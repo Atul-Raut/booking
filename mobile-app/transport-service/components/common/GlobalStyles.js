@@ -285,6 +285,13 @@ export const globalStyles = StyleSheet.create({
     color: "#05375a",
     fontSize: 16,
   },
+  popup_text: {
+    color: "#05375a",
+    fontSize: 16,
+    marginLeft: 92,
+    marginBottom: 5,
+    fontWeight: "bold",
+  },
   action: {
     flexDirection: "row",
   },
