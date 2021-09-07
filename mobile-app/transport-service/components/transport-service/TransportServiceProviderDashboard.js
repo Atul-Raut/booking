@@ -24,6 +24,7 @@ import AwesomeAlert from "react-native-awesome-alerts";
 import { translateMsg } from "../common/Translation";
 import Card from "../common/Card";
 import {numberWithCommas} from '../common/AppUtils';
+import Dialog, { DialogContent } from 'react-native-popup-dialog';
 
 export default class TransportServiceProviderDashbord extends AppBaseComponent {
   constructor(props) {
@@ -77,12 +78,14 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
 
   showSuccess = () => {
     this.setState({
+      openBidModal: true,
       showSuccess: true,
     });
   };
 
   showBidSuccess = () => {
     this.setState({
+      openBidModal:false,
       bidSuccessSubmit: true,
     });
   };
@@ -439,16 +442,18 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
               this.componentDidMount();
             }}
           />
-          {openBidModal ? (
-            <Modal visible={openBidModal}>
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
+          
+            <View>
+            <Dialog
+              visible={openBidModal}
+              onTouchOutside={() => {
+                this.setState({ openBidModal: false });
+              }}
+            >
+             
+              {openBidModal ? (
+                 <DialogContent>
+                <View  style={{height:'40%'}}>
                 <Text
                   style={[globalStyles.text_footer, globalStyles.text_comp]}
                 >
@@ -510,8 +515,12 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                   </TouchableOpacity>
                 </View>
               </View>
-            </Modal>
-          ) : null}
+              </DialogContent>
+               ) : null}
+              
+            </Dialog>
+            </View>
+         
         </View>
       </>
     );
