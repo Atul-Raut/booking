@@ -31,6 +31,7 @@ export const globalStyles = StyleSheet.create({
     letterSpacing: 1,
     paddingLeft: 5,
     marginTop: 8,
+    fontSize: 16
   },
   cartContent: {
     fontSize: 12,

@@ -29,6 +29,8 @@ import ForgetPassword from "./components/common/ForgetPassword";
 import ForgetScreenOtp from "./components/common/ForgetScreenOtp";
 import SetPassword from "./components/common/SetPassword";
 import Timeline from "./components/common/Timeline";
+import Feedback from "./components/common/Feedback"
+import FeedbackApplicationCreate from "./components/common/FeedbackApplicationCreate"
 
 const Drawer = createDrawerNavigator();
 
@@ -204,6 +206,30 @@ export default function App() {
               headerTitleStyle: { alignSelf: "center" },
             })}
           />
+          <Drawer.Screen
+            name="Feedback"
+            component={Feedback}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header navigation={navigation} name={"Feedback"} />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
+          />
+          <Drawer.Screen
+            name="FeedbackApplicationCreate"
+            component={FeedbackApplicationCreate}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header navigation={navigation} name={"Feedback"} />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
+          />
+
+
           <Drawer.Screen
             name="Notifications"
             component={Notifications}

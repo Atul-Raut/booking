@@ -114,6 +114,8 @@
     "deletePostConfirmation": "Are you sure want to delete selected post?",
     "submitButton":"Submit",
     "verifyButton":"Verify",
-    "resendOtpButton":"Resend OTP"
+    "resendOtpButton":"Resend OTP",
+    "submitFeedback":"Submit Feedback",
+    "feedback":"Feedback"
 
 }

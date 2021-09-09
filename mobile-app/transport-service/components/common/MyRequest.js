@@ -286,7 +286,8 @@ export default class MyRequest extends AppBaseComponent {
                         />
                         
                         <Text style={[globalStyles.cartHeader]}>{item.requestUserName}</Text>
-                        <Text style={{ paddingLeft: 20 }}></Text>
+                        <Text style={{ paddingLeft: 20, paddingTop:5, paddingRight:3, fontWeight:'bold'}}> 
+                        {item.review}</Text>
                         {getReview(item)}
                       </View>
                       <View style={{ paddingLeft: 20, width: "70%" }}>
@@ -315,7 +316,7 @@ export default class MyRequest extends AppBaseComponent {
                             </Text>
                         </View> 
                       }
-                      <View>
+                      <View style={{ paddingLeft: 10}}>
                         <ScrollView
                           horizontal={true}
                           key={'imgsView'+Math.random().toString()+item.requestID}
@@ -389,6 +390,23 @@ export default class MyRequest extends AppBaseComponent {
                             }
                           </ScrollView>
                         </View>
+                        <View style={{marginTop:3}}>
+                          <TouchableOpacity
+                            onPress={(props) => {
+                              this.props.navigation.navigate("Feedback", 
+                              {selectedItem:item, post:this.props.route.params});
+                            }}
+                            >
+                              <Text style={{
+                                  fontSize:12, 
+                                  fontWeight:'bold', 
+                                  color:'#0645AD',
+                                  paddingLeft: 20 
+                                }}
+                                
+                                >{'Feedbacks(' + item.feedbacks +')'}</Text>
+                              </TouchableOpacity>
+                          </View>
                     </View>
                     <AccordionCustome
                       renderView={this._renderView}

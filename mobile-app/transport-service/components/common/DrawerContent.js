@@ -123,6 +123,16 @@ export function DrawerContent(props) {
             }}
           />
         </Drawer.Section>
+        
+        <DrawerItem
+          icon={({ color, size }) => (
+            <Icon name="bookmark-outline" color={color} size={size} />
+          )}
+          label={translateMsg("feedback")}
+          onPress={() => {
+            props.navigation.navigate("FeedbackApplicationCreate");
+          }}
+        />
         <DrawerItem
           icon={({ color, size }) => (
             <Icon name="bookmark-outline" color={color} size={size} />
