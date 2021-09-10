@@ -101,23 +101,37 @@
           "ID" = p3."postId"
         )
         LEFT JOIN (
-          SELECT
+
+
+        SELECT
             userPostRequest."POST_ID" as "postId",
             userPostRequest."AMOUNT" as "amount"
           FROM (
-            SELECT
-              *
-            FROM
-              "T_POST_BID"
-            WHERE
-              "DEL_FLG" = 0
-              AND "REQUEST_USER_ID" = :requestUserId
-            ORDER BY
-              "INS_DT" DESC
-            LIMIT 1
+            SELECT * FROM "T_POST_BID" AS postBidAllTable
+			JOIN (
+				SELECT
+				  "POST_ID" AS "postID",
+				  max("INS_DT") AS "insDt"
+				FROM
+				  "T_POST_BID"
+				WHERE
+				  "DEL_FLG" = 0
+				  AND "REQUEST_USER_ID" = :requestUserId
+				GROUP BY
+					"POST_ID"
+				) AS postBidMaxDate
+				ON(
+					postBidMaxDate."postID" = postBidAllTable."POST_ID"
+					AND postBidMaxDate."insDt" = postBidAllTable."INS_DT"
+					AND postBidAllTable."REQUEST_USER_ID" = :requestUserId
+				)
           ) AS userPostRequest
           WHERE
             userPostRequest."DEL_FLG" = 0
+
+
+
+
         ) p4
         ON (
           "ID" = p4."postId"

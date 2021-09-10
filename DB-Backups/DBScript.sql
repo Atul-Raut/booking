@@ -99,3 +99,60 @@ ALTER TABLE "T_POST" ADD COLUMN "SERVICE_PROVIDER_USER" VARCHAR(250);
 INSERT INTO "M_CTL_CONFIG" VALUES('WS-UP-12','CONNON_CONFIG', 0, 'Set New Password', '{}', 0, 0, CURRENT_TIMESTAMP, 'ATUL', null, null);
 INSERT INTO "M_CTL_CONFIG" VALUES('WS-UP-12','MANDATORY_VAL', 1, 'Set New Password', '[{"fieldName":"userId"},{"fieldName":"acType"},{"fieldName":"newPassword"}]', 0, 0, CURRENT_TIMESTAMP, 'ATUL', null, null);
 --2021-09-07 end
+
+--2021-09-09
+DROP TABLE "M_FEEDBACK_QUESTIONS";
+CREATE TABLE "M_FEEDBACK_QUESTIONS"
+(
+    "ID" character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    "QUESTION" character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    "OPTION_A" character varying(250),
+    "OPTION_B" character varying(250),
+    "OPTION_C" character varying(250),
+    "OPTION_D" character varying(250),
+	"TYPE" integer,
+	"DISP_ORD" integer,
+    "DEL_FLG" integer DEFAULT 0,
+    "INS_DT" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    "INS_BY" character varying(250) COLLATE pg_catalog."default" NOT NULL
+);
+
+DROP TABLE "M_FEEDBACK_QUESTIONS";
+CREATE TABLE "M_FEEDBACK_QUESTIONS"
+(
+    "ID" character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    "QUESTION" character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    "OPTION_A" character varying(250),
+    "OPTION_B" character varying(250),
+    "OPTION_C" character varying(250),
+    "OPTION_D" character varying(250),
+	"TYPE" integer,
+	"DISP_ORD" integer,
+    "DEL_FLG" integer DEFAULT 0,
+    "INS_DT" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    "INS_BY" character varying(250) COLLATE pg_catalog."default" NOT NULL
+);
+ALTER TABLE "M_FEEDBACK_QUESTIONS"
+    ADD CONSTRAINT M_FEEDBACK_QUESTIONS_image
+	UNIQUE ("ID", "TYPE", "DEL_FLG");
+
+INSERT INTO "M_FEEDBACK_QUESTIONS"(
+	"ID", "QUESTION", "OPTION_A", "OPTION_B", "OPTION_C", "OPTION_D", "DEL_FLG", "INS_DT", "INS_BY", "TYPE","DISP_ORD")
+	VALUES ('1', 'How was the service?', null, null, null, null, 0, CURRENT_TIMESTAMP, 'Atul', 1,1);
+INSERT INTO "M_FEEDBACK_QUESTIONS"(
+	"ID", "QUESTION", "OPTION_A", "OPTION_B", "OPTION_C", "OPTION_D", "DEL_FLG", "INS_DT", "INS_BY", "TYPE","DISP_ORD")
+	VALUES ('1', 'Question2 ?', null, null, null, null, 0, CURRENT_TIMESTAMP, 'Atul', 1,2);
+
+INSERT INTO "M_FEEDBACK_QUESTIONS"(
+	"ID", "QUESTION", "OPTION_A", "OPTION_B", "OPTION_C", "OPTION_D", "DEL_FLG", "INS_DT", "INS_BY", "TYPE","DISP_ORD")
+	VALUES ('1', 'How was the service?', null, null, null, null, 0, CURRENT_TIMESTAMP, 'Atul', 2,1);
+INSERT INTO "M_FEEDBACK_QUESTIONS"(
+	"ID", "QUESTION", "OPTION_A", "OPTION_B", "OPTION_C", "OPTION_D", "DEL_FLG", "INS_DT", "INS_BY", "TYPE","DISP_ORD")
+	VALUES ('1', 'Question2 ?', null, null, null, null, 0, CURRENT_TIMESTAMP, 'Atul', 2,2);
+INSERT INTO "M_FEEDBACK_QUESTIONS"(
+	"ID", "QUESTION", "OPTION_A", "OPTION_B", "OPTION_C", "OPTION_D", "DEL_FLG", "INS_DT", "INS_BY", "TYPE","DISP_ORD")
+	VALUES ('1', 'Question3 ?', null, null, null, null, 0, CURRENT_TIMESTAMP, 'Atul', 2,3);
+INSERT INTO "M_CTL_CONFIG" VALUES('WS-FED-01','CONNON_CONFIG', 0, 'Get feedback Question', '{}', 0, 0, CURRENT_TIMESTAMP, 'ATUL', null, null);
+
+
+--2021-09-09

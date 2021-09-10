@@ -7,6 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.app.controller.ApplicationController;
 import com.app.controller.BidController;
+import com.app.controller.FeedbackController;
 import com.app.controller.FileController;
 import com.app.controller.PostController;
 import com.app.controller.ServiceController;
@@ -49,6 +50,8 @@ public class InterceptorAppConfig implements WebMvcConfigurer {
 		//Bid Controller
 		registry.addInterceptor(serviceInterceptor).addPathPatterns(BidController.PATH_SERVICE_PATHS);
 		
+		//Feedback Controller
+		registry.addInterceptor(serviceInterceptor).addPathPatterns(FeedbackController.PATH_SERVICE_PATHS);
 		
 	}
 }
