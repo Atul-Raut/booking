@@ -373,13 +373,15 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                     </Card>
                     <View style={[globalStyles.cardControlBarDashboard]}>
                       <View>
-                        {item.requestCount > 0 ? (
+                        {item.bid !== 1 && item.requestCount > 0 ? (
                           <View>
                             <Text
                               style={{
                                 color: "blue",
                                 marginTop: 10,
                                 marginLeft: 10,
+                                height: 20,
+                                fontWeight: "bold",
                               }}
                               // onPress={() => this.sendPostRequest(item)}
                             >
@@ -399,16 +401,55 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
                           </View>
                         ) : (
                           <View>
+                            {item.bid !== 1 ? (
+                              <Text
+                                style={{
+                                  color: "blue",
+                                  marginTop: 10,
+                                  marginLeft: 10,
+                                  height: 20,
+                                  fontWeight: "bold",
+                                }}
+                                onPress={() => this.sendPostRequest(item)}
+                              >
+                                Send Interest
+                              </Text>
+                            ) : null}
+                          </View>
+                        )}
+                      </View>
+                      <View>
+                        {item.bid === 1 && item.currentBidAmount > 0 ? (
+                          <View>
                             <Text
                               style={{
                                 color: "blue",
                                 marginTop: 10,
                                 marginLeft: 10,
+                                height: 20,
+                                fontWeight: "bold",
                               }}
-                              onPress={() => this.sendPostRequest(item)}
+                              onPress={() => this.openModal(item)}
                             >
-                              Send Interest
+                              Change Bid
                             </Text>
+                          </View>
+                        ) : (
+                          <View>
+                            {item.bid === 1 ? (
+                              <Text
+                                style={{
+                                  color: "blue",
+                                  marginTop: 10,
+                                  marginLeft: 10,
+                                  height: 20,
+                                  fontWeight: "bold",
+                                }}
+                                onPress={() => this.openModal(item)}
+                              >
+                                Submit Bid
+                              </Text>
+                            ) : null}
                           </View>
                         )}
                       </View>
