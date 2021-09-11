@@ -154,5 +154,32 @@ INSERT INTO "M_FEEDBACK_QUESTIONS"(
 	VALUES ('1', 'Question3 ?', null, null, null, null, 0, CURRENT_TIMESTAMP, 'Atul', 2,3);
 INSERT INTO "M_CTL_CONFIG" VALUES('WS-FED-01','CONNON_CONFIG', 0, 'Get feedback Question', '{}', 0, 0, CURRENT_TIMESTAMP, 'ATUL', null, null);
 
+INSERT INTO "M_CTL_CONFIG" VALUES('WS-FED-02','CONNON_CONFIG', 0, 'Save user feedback', '{}', 0, 0, CURRENT_TIMESTAMP, 'ATUL', null, null);
+CREATE TABLE "T_FEEDBACK"
+(
+    "ID" VARCHAR(50) NOT NULL,
+    "FEEDBACK_BY" character varying(250) NOT NULL,
+    "FEEDBACK_FOR" character varying(250) NOT NULL,
+	"RATINGS" integer,
+	"OTHER" character varying(3000),
+    "DEL_FLG" integer DEFAULT 0,
+    "INS_DT" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    "INS_BY" character varying(250) NOT NULL,
+    CONSTRAINT tfeedback_pk PRIMARY KEY ("ID")
+);
+
+
+CREATE TABLE "T_FEEDBACK_QUE_ANS"
+(
+    "ID" VARCHAR(50) NOT NULL,
+    "FEEDBACK_BY" character varying(250) NOT NULL,
+    "FEEDBACK_FOR" character varying(250) NOT NULL,
+	  "QUESTION_ID" character varying(50) NOT NULL,
+	  "RATINGS" integer,
+		"FEEDBACK_ID" VARCHAR(50) NOT NULL,
+    "INS_DT" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    "INS_BY" character varying(250) NOT NULL,
+    CONSTRAINT tfeedbackqueans_pk PRIMARY KEY ("ID")
+);
 
 --2021-09-09

@@ -130,7 +130,7 @@ export function DrawerContent(props) {
           )}
           label={translateMsg("feedback")}
           onPress={() => {
-            props.navigation.navigate("FeedbackApplicationCreate");
+            props.navigation.navigate("FeedbackCreate");
           }}
         />
         <DrawerItem

@@ -116,6 +116,9 @@
     "verifyButton":"Verify",
     "resendOtpButton":"Resend OTP",
     "submitFeedback":"Submit Feedback",
-    "feedback":"Feedback"
+    "feedback":"Feedback",
+    "rellusonhowimprove":"Tell us on how can we improve...",
+    "feedbackSaveSuccess":"Feedback save.",
+    "feedbackSaveError":"Feedbcak not saved."
 
 }

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <sql-query name="app.feedback.question.get">
+    <![CDATA[
+        SELECT
+          "ID" AS "questionId",
+          "QUESTION" AS "question",
+          "OPTION_A" AS "optionA",
+          "OPTION_B" AS "optionB",
+          "OPTION_C" AS "optionC",
+          "OPTION_D" AS "optionD",
+          "TYPE" AS "type"
+        FROM
+          "M_FEEDBACK_QUESTIONS"
+        WHERE
+          "DEL_FLG" = 0
+          AND "TYPE" = :type
+        ORDER BY "DISP_ORD"
+    ]]>
+  </sql-query>
+  <sql-query name="app.feedback.save">
+    <![CDATA[
+      INSERT INTO "T_FEEDBACK" (
+        "ID",
+        "FEEDBACK_BY",
+        "FEEDBACK_FOR",
+        "RATINGS",
+        "OTHER",
+        "INS_DT",
+        "INS_BY"
+      )
+      VALUES(
+        :id,
+        :userId,
+        :feedbackFor,
+        :allRatings,
+        :details,
+        CURRENT_TIMESTAMP,
+        :serviceCode
+      )
+    ]]>
+  </sql-query>
+  <sql-query name="app.feedback.ans.save">
+    <![CDATA[
+      INSERT INTO "T_FEEDBACK_QUE_ANS" (
+        "ID",
+        "FEEDBACK_BY",
+        "FEEDBACK_FOR",
+        "QUESTION_ID",
+        "RATINGS",
+        "FEEDBACK_ID",
+        "INS_DT",
+        "INS_BY"
+      )
+      VALUES(
+        :id,
+        :userId,
+        :feedbackFor,
+        :questionId,
+        :ratings,
+        :feedbackID,
+        CURRENT_TIMESTAMP,
+        :serviceCode
+      )
+    ]]>
+  </sql-query>
+</hibernate-mapping>

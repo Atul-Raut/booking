@@ -1,0 +1,9 @@
+
+Start Service:
+cd /opt/service/
+
+sudo nohup sh starter.sh >/tmp/null 2>&1 &
+
+Find Servuce:
+ps -ef | grep "starter.sh"
+ps -ef | grep "BookingApp-0.0.1.jar"

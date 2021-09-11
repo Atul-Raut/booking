@@ -30,7 +30,7 @@ import ForgetScreenOtp from "./components/common/ForgetScreenOtp";
 import SetPassword from "./components/common/SetPassword";
 import Timeline from "./components/common/Timeline";
 import Feedback from "./components/common/Feedback"
-import FeedbackApplicationCreate from "./components/common/FeedbackApplicationCreate"
+import FeedbackCreate from "./components/common/FeedbackCreate"
 
 const Drawer = createDrawerNavigator();
 
@@ -218,11 +218,11 @@ export default function App() {
             })}
           />
           <Drawer.Screen
-            name="FeedbackApplicationCreate"
-            component={FeedbackApplicationCreate}
+            name="FeedbackCreate"
+            component={FeedbackCreate}
             options={({ navigation }) => ({
               header: (props) => (
-                <Header navigation={navigation} name={"Feedback"} />
+                <Header navigation={navigation} name={"Write Feedback"} />
               ),
               headerLeft: null,
               headerTitleStyle: { alignSelf: "center" },

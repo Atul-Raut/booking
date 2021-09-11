@@ -44,13 +44,14 @@ export default class Feedback extends AppBaseComponent {
   makeRemoteRequest = async () => {
     let tempProviderId = '<NA>';
     let providerId = null;
-    console.log('====================')
-    console.log(this.props.route.params)
-    console.log('====================')
     if(this.props.route.params){
-      const { serviceProviderId } = this.props.route.params.selectedItem;
+      const { serviceProviderId, back } = this.props.route.params.selectedItem;
+      let backFromCreateFeedback = false;
+      if(back){
+        backFromCreateFeedback = true;
+      }
       providerId = serviceProviderId;
-      if (this.state.providerId == providerId) {
+      if (this.state.providerId == providerId && !backFromCreateFeedback) {
         return;
       }
       this.setState({
@@ -154,7 +155,8 @@ export default class Feedback extends AppBaseComponent {
                       </View>
                   </View>
               </View>
-              <View style={{paddingTop:10, borderBottomWidth:1, borderBottomColor:'#8080808c'}}>
+              <View style={{paddingTop:10, borderBottomWidth:1, borderBottomColor:'#8080808c',
+                  flexDirection:'row'}}>
                   <Text style={{
                       fontSize:16, 
                       fontWeight:'bold', 
@@ -163,7 +165,20 @@ export default class Feedback extends AppBaseComponent {
                       paddingBottom:10
                     }}
                     
-                    >{'Feedbacks(' + selectedItem.feedbacks +')'}</Text>
+                    >{'Feedbacks(' + selectedItem.feedbacks +')'}
+                  </Text>
+                  <View style={{position: "absolute",right: 10}}>
+                    <TouchableOpacity
+                      onPress={(props) => {
+                        this.props.navigation.navigate("FeedbackCreate", 
+                        {selectedItem:selectedItem, type : 1});
+                      }}
+                    >
+                      <Text style={{fontSize:12, color:'blue', marginTop:5}}>
+                        {'Write a feedback'}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
               </View>
               <ScrollView>
                 <View style={{paddingTop:5, borderBottomWidth:1, 

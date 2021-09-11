@@ -348,4 +348,18 @@ export const globalStyles = StyleSheet.create({
     // marginLeft: -9,
     // marginBottom: -9,
   },
+  cartFeedback: {
+    borderRadius: 5,
+    elevation: 0,
+    backgroundColor: "white",
+    shadowOffset: { width: 1, height: 1 },
+    shadowColor: "#333",
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    marginHorizontal: 2,
+    marginVertical: 2,
+    marginTop:10,
+    marginRight:5,
+    marginLeft:5
+  },
 });

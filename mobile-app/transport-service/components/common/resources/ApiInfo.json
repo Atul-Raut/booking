@@ -90,12 +90,21 @@
             "name":"Delete Post",
             "type":"DELETE",
             "path":"post/delete"
-        }
-        ,
+        },
         "WS-BID-01":{
             "name":"Submit Bid",
             "type":"POST",
             "path":"bid/create"
+        },
+        "WS-FED-01":{
+            "name":"Get feedback Question",
+            "type":"POST",
+            "path":"feedback/getquestion"
+        },
+        "WS-FED-02":{
+            "name":"Save feedback",
+            "type":"POST",
+            "path":"feedback/save"
         }
         
       }

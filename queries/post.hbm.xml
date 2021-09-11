@@ -285,7 +285,7 @@
            postReq."REQUEST_USER_ID" AS "requestUserId",
            mUser."FIRST_NAME" || ' ' || "LAST_NAME" AS "requestUserName",
            3.4 AS "review",
-           2 AS "feedbacks",
+           COALESCE(reviews."totalFeedback",0) AS "feedbacks",
            'Pune' AS "location",
            '3' AS "experience",
            mUser."MOBILE" AS "phone",
@@ -302,6 +302,21 @@
          JOIN "M_USER" AS mUser
          ON (
              mUser."USER_ID" = postReq."REQUEST_USER_ID"
+         )
+         LEFT JOIN (
+           SELECT
+             count(*) AS "totalFeedback",
+             tfb."FEEDBACK_FOR" AS "requestUserId"
+          FROM
+             "T_FEEDBACK" AS tfb
+          WHERE
+             tfb."DEL_FLG" = 0
+             AND tfb."FEEDBACK_FOR" NOT IN ('APP')
+          GROUP BY
+             tfb."FEEDBACK_FOR"
+         ) AS reviews
+         ON(
+            reviews."requestUserId" = postReq."REQUEST_USER_ID"
          )
          LEFT JOIN (
             SELECT
