@@ -130,4 +130,24 @@ public class FeedbackController extends UserControllerBase {
 		}
 		return result;
 	}
+	
+	@PostMapping("/get")	
+	@ServiceInfo(serviceCode = "WS-FED-03", serviceName = "get user feedback", queryId = "app.feedback.get", logActivity =false)
+	private ResponseDTO get(@RequestBody Map<String, Object> input, @RequestAttribute("requestInfo") RequestInfo requestInfo,
+								 @RequestAttribute("requestId") String requestId) throws Exception {
+		LogUtils.logInfo(logger, requestId, requestInfo.getServiceName() + " started.");
+		requestInfo.putAll(input);
+		ResponseDTO result = null;
+		try {
+			result = validate(requestInfo);
+			if(null != result) {
+				return result;
+			}
+
+			result = createSuccessResponse(requestInfo,service.getData(requestInfo));
+		}catch(Exception e) {
+			result = createErrorResponse(requestInfo, null, e);
+		}
+		return result;
+	}
 }

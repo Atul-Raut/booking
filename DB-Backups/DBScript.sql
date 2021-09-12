@@ -183,3 +183,8 @@ CREATE TABLE "T_FEEDBACK_QUE_ANS"
 );
 
 --2021-09-09
+
+--2021-09-12 start
+INSERT INTO "M_CTL_CONFIG" VALUES('WS-FED-03','CONNON_CONFIG', 0, 'get user feedback', '{}', 0, 0, CURRENT_TIMESTAMP, 'ATUL', null, null);
+
+--2021-09-12 start

@@ -105,6 +105,11 @@
             "name":"Save feedback",
             "type":"POST",
             "path":"feedback/save"
+        },
+        "WS-FED-03":{
+            "name":"Get feedback",
+            "type":"POST",
+            "path":"feedback/get"
         }
         
       }

@@ -24,7 +24,7 @@ export default class FeedbackCreate extends AppBaseComponent {
     this.selectedItem = {};
     if(props.route && props.route.params &&  props.route.params.selectedItem){
       this.selectedItem = props.route.params.selectedItem;
-      this.feedbackFor = props.route.params.selectedItem.serviceProviderId;
+      this.feedbackFor = props.route.params.selectedItem.requestUserId;
     }
     this.state = {
       btnDisable:false,
@@ -142,7 +142,7 @@ hideSuccess = () => {
     btnDisable:false
   });
   this.props.navigation.reset({index: 0,
-    routes: [{name:'Feedback', params:{selectedItem:this.selectedItem, back:true}}]});
+    routes: [{name:'Feedback', params:{selectedItem:this.selectedItem, ReloadFlag:true}}]});
 };
 
 renderQuestions = (questions) =>{
@@ -207,7 +207,7 @@ render() {
             size={20}
             onPress={(props) => {
               this.props.navigation.reset({index: 0,
-                routes: [{name:'Feedback', params:{selectedItem:this.selectedItem, back:false}}]});
+                routes: [{name:'Feedback', params:{selectedItem:this.selectedItem, ReloadFlag:false}}]});
             }}
             style={([globalStyles.icon], { marginTop: 5 })}
           />

@@ -68,4 +68,50 @@
       )
     ]]>
   </sql-query>
+  <sql-query name="app.feedback.get">
+    <![CDATA[
+        SELECT
+            feedback."ID" AS "feedbackID",
+            feedback."FEEDBACK_BY" AS "feedbackBy",
+            feedback."FEEDBACK_FOR" AS "feedbackFor",
+            feedback."OTHER" AS "other",
+            ROUND(feedratings."ratings", 1) AS "ratings",
+            user1."feedbackBy" AS "feedbackByName"
+          FROM
+          "T_FEEDBACK" AS feedback
+          JOIN(
+            SELECT
+              AVG("RATINGS") AS "ratings",
+              "FEEDBACK_ID" AS "feedbackID",
+              "FEEDBACK_BY" AS "feedbackBy",
+              "FEEDBACK_FOR" AS "feedbackFor"
+            FROM
+              "T_FEEDBACK_QUE_ANS"
+            GROUP BY
+              "FEEDBACK_ID",
+              "FEEDBACK_BY",
+              "FEEDBACK_FOR"
+          ) AS feedratings
+          ON(
+            feedratings."feedbackID" = feedback."ID"
+            AND feedratings."feedbackBy" = feedback."FEEDBACK_BY"
+            AND feedratings."feedbackFor" = feedback."FEEDBACK_FOR"
+          )
+          JOIN(
+            SELECT
+              DISTINCT
+                "USER_ID",
+                "FIRST_NAME" || ' ' || "LAST_NAME" AS "feedbackBy"
+            FROM
+              "M_USER"
+          ) user1
+          ON(
+            user1."USER_ID" = feedback."FEEDBACK_BY"
+          )
+          WHERE
+            feedback."FEEDBACK_FOR" not in ('APP')
+            AND feedback."DEL_FLG" = 0
+            AND feedback."FEEDBACK_FOR" = :feedbackFor
+    ]]>
+  </sql-query>
 </hibernate-mapping>

@@ -45,6 +45,9 @@ export default class MyRequest extends AppBaseComponent {
 
   makeRemoteRequest = async () => {
     let tempPostId = '<NA>';
+    console.log("=========MyRequest==================")
+    console.log(this.props.route.params)
+    console.log("===========================")
     if(this.props.route.params){
       const { postId } = this.props.route.params;
       if (this.state.postId == postId) {

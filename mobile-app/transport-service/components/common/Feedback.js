@@ -44,14 +44,22 @@ export default class Feedback extends AppBaseComponent {
   makeRemoteRequest = async () => {
     let tempProviderId = '<NA>';
     let providerId = null;
+    console.log("=========Feedback==================")
+    console.log(this.props.route.params)
+    console.log("===========================")
     if(this.props.route.params){
-      const { serviceProviderId, back } = this.props.route.params.selectedItem;
-      let backFromCreateFeedback = false;
-      if(back){
-        backFromCreateFeedback = true;
+      const { requestUserId, ReloadFlag } = this.props.route.params.selectedItem;
+      let Reload_Flag = false;
+      if(ReloadFlag){
+        Reload_Flag = true;
+        this.isDataUpdated=true;s
       }
-      providerId = serviceProviderId;
-      if (this.state.providerId == providerId && !backFromCreateFeedback) {
+      providerId = requestUserId;
+      console.log("Status: " + this.state.providerId)
+      console.log("Request: " + providerId)
+      console.log("ReloadFlag: " + Reload_Flag)
+      if (this.state.providerId == providerId && !Reload_Flag) {
+        console.log("Returned.")
         return;
       }
       this.setState({
@@ -59,31 +67,31 @@ export default class Feedback extends AppBaseComponent {
         tempProviderId:providerId,
         selectedItem:this.props.route.params.selectedItem
       });
+      console.log("Set in status")
       tempProviderId = providerId;
     }else{
-      if (this.state.tempProviderId == tempProviderId) {
-        return;
-      }
-
-      this.setState({
-        tempProviderId: tempProviderId,
-        providerId: null,
-      });
-      tempProviderId = '<NA>';
+      console.log("Returned.")
+      return;
     }
 
+    console.log("Loading Data...")
     let param = {
-      serviceId: "WS-PS-09",
+      serviceId: "WS-FED-03",
       body: {
-        providerId: tempProviderId,
+        feedbackFor: tempProviderId,
       },
     };
 
     let response = await callApi(param);
     if (response && response.retCode == this.SUCCESS_RET_CODE) {
       if (response.result.length > 0) {
+        let selectedItem1 = this.state.selectedItem;
+        if(selectedItem1.feedbacks < response.result.length){
+          selectedItem1.feedbacks = response.result.length;
+        }
         this.setState({
           feedbacks: response.result,
+          selectedItem:selectedItem1,
         });
       } else {
         this.setState({
@@ -128,7 +136,8 @@ export default class Feedback extends AppBaseComponent {
             onPress={(props) => {
               this.props.navigation.navigate(
                 "MyRequest",
-                this.props.route.params.post
+                this.props.route.params.post,
+                this.isDataUpdated
               );
             }}
             style={([globalStyles.icon], { marginTop: 5 })}
@@ -181,42 +190,33 @@ export default class Feedback extends AppBaseComponent {
                   </View>
               </View>
               <ScrollView>
-                <View style={{paddingTop:5, borderBottomWidth:1, 
-                    borderBottomColor:'#8080808c', height:200}}>
-                    <View style={{flexDirection: "row"}}>
-                      <MaterialIcons
-                        name="person"
-                        size={16}
-                        style={([globalStyles.icon], { marginTop: 11 })}
-                      />
-                      <Text style={[globalStyles.cartHeader]}
-                      >{'Sandeep Tupe'}</Text>
-                      <View style={{paddingLeft: 20, flexDirection: "row", paddingTop:7}}>
-                          {getReview(3)}
-                      </View>
-                    </View>
-                    <View style={{paddingLeft: 20, paddingTop:7}}>
-                          <Text>Some text.....</Text>
-                      </View>
-                  </View>
+              <FlatList
+                key={'FlatList' + Math.random().toString()}
+                keyExtractor={(item, index) => index.toString()}
+                data={feedbacks}
+                style={{marginTop:5, marginBottom:10}}
+                renderItem={({ item }) => (
                   <View style={{paddingTop:5, borderBottomWidth:1, 
-                    borderBottomColor:'#8080808c', height:200}}>
-                    <View style={{flexDirection: "row"}}>
-                      <MaterialIcons
-                        name="person"
-                        size={16}
-                        style={([globalStyles.icon], { marginTop: 11 })}
-                      />
-                      <Text style={[globalStyles.cartHeader]}
-                      >{'Sham sundar'}</Text>
-                      <View style={{paddingLeft: 20, flexDirection: "row", paddingTop:7}}>
-                          {getReview(5)}
+                      borderBottomColor:'#8080808c', height:200}}>
+                      <View style={{flexDirection: "row"}}>
+                        <MaterialIcons
+                          name="person"
+                          size={16}
+                          style={([globalStyles.icon], { marginTop: 11 })}
+                        />
+                        <Text style={[globalStyles.cartHeader]}
+                        >{item.feedbackByName}</Text>
+                        <View style={{paddingLeft: 20, flexDirection: "row", paddingTop:7}}>
+                            {getReview(item.ratings)}
+                        </View>
                       </View>
+                      <View style={{paddingLeft: 20, paddingTop:7}}>
+                            <Text>{item.other}</Text>
+                        </View>
                     </View>
-                    <View style={{paddingLeft: 20, paddingTop:7}}>
-                          <Text>Some text.....</Text>
-                      </View>
-                  </View>
+                    )}
+                    keyExtractor={(item, index) => index.toString()}
+                  />
               </ScrollView>
           </View>
         </View>
