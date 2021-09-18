@@ -11,6 +11,9 @@ export default class AppBaseComponent extends ValidationComponent {
     super(props)
     this.validate = this.validate.bind(this);
     this.data = {}
+    this.state = {
+      userId:null
+    }
   }
 
   SUCCESS_RET_CODE = SUCCESS_RET_CODE();

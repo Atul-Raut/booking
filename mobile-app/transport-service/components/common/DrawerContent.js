@@ -18,17 +18,20 @@ import {translateMsg} from '../common/Translation'
 import {getUserInfo, getServiceID, getAcountTypeName, clearLocalStorage, setSignedOut} from "./AppBaseComponent"
 import { TransportDrawerContent } from "../transport-service/TransportDrawerContent";
 
+//import { AuthContext } from "../../App"
+import {AuthContext} from './AppContext'
+
 export function DrawerContent(props) {
   const paperTheme = useTheme();
+  const { signOut } = React.useContext(AuthContext);
 
   const userInfo = getUserInfo();
 
-  function signOut() {
+  function signOutInner() {
     //TODO call signout Api
     setSignedOut();
     clearLocalStorage();
-    props.navigation.reset({index: 0,
-      routes: [{name:'LoginScreen'}]});
+    signOut();
   }
   return (
     <View style={{ flex: 1 }}>
@@ -149,7 +152,7 @@ export function DrawerContent(props) {
             )}
             label="Sign Out"
             onPress={() => {
-              signOut();
+              signOutInner();
             }}
           />
         </Drawer.Section>

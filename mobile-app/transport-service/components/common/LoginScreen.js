@@ -9,11 +9,13 @@ import AppBaseComponent,{clearLocalStorage, setDataintoLocalStorage,
    setSelectedService, setSignedIn} from "../common/AppBaseComponent";
 import { callApi } from "./AppService";
 import AwesomeAlert from 'react-native-awesome-alerts';
-
+import { AuthContext } from "./AppContext";
 
 export default class LoginScreen extends AppBaseComponent {
+  static contextType = AuthContext;
   constructor(props){
       super(props);
+
       this.onSubmit = this.onSubmit.bind(this);
       this.validate = this.validate.bind(this);
       this.translate = this.translate.bind(this);
@@ -143,15 +145,20 @@ onSelectedService = () => {
 
 setUserInfoAndNavigateToHomePage =(userInfo) =>{
   setDataintoLocalStorage("userInfo", userInfo);
+
+
   this.onSelectedService();
   setSignedIn();
-  this.props.navigation.reset({index: 0,
-    routes: [{name:'Dashboard'}]});
-    this.setState({
+  let userIdForCache = this.state.userId
+  let passwordForCache = this.state.password
+  this.context.signIn({ userIdForCache,passwordForCache });
+
+this.setState({
       disabled:false
     });
 
 }
+
 showAlert = () => {
   this.setState({
     showAlert: true,
