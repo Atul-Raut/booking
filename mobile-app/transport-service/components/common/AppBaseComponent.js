@@ -101,6 +101,21 @@ export const getUserInfo = () => {
   }
   
 }
+
+/**
+ * Get user accounts from loacl storage
+ * @returns user accounts
+ */
+ export const getUserAccounts = () => {
+  let userAccounts = getDataFromLocalStorage("LOGIN-accounts");
+
+  if(userAccounts){
+    return userAccounts
+  }else{
+    return [];
+  }
+  
+}
 /**
  * Get Account Type
  * @returns account type
@@ -114,13 +129,7 @@ export const getAcountType = () => {
  * @returns account type
  */ 
  export const getAcountTypeName = () => {
-   if(getAcountType() == 1){
-      return "Customer";
-   }
-   else if(getAcountType() == 2){
-     return "Service Provider";
-  }
-  return "";
+   return getUserInfo().acTypeName;
 }
 
 /**
@@ -171,5 +180,17 @@ export const baseUrl=()=>{
 
   export const setSignedOut = () => {
     setDataintoLocalStorage("signIn", false);
+  }
+
+  export const setReloadData = () => {
+    setDataintoLocalStorage("reloadData", true);
+  }
+
+  export const resetReloadData = () => {
+    setDataintoLocalStorage("reloadData", false);
+  }
+
+  export const reloadDataFlag = () => {
+    return getDataFromLocalStorage('reloadData');
   }
 

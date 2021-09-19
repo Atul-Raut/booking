@@ -1,38 +1,79 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import {
   useTheme,
   Avatar,
   Title,
   Caption,
-  Paragraph,
-  Drawer,
-  Text,
-  TouchableRipple,
-  Switch,
+  Drawer
 } from "react-native-paper";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { MaterialIcons } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {translateMsg} from '../common/Translation'
-import {getUserInfo, getServiceID, getAcountTypeName, clearLocalStorage, setSignedOut} from "./AppBaseComponent"
+import {getUserInfo, getAcountTypeName, clearLocalStorage, setSelectedService,setReloadData,
+  setSignedOut, getUserAccounts, setSignedIn, setDataintoLocalStorage} from "./AppBaseComponent"
 import { TransportDrawerContent } from "../transport-service/TransportDrawerContent";
-
-//import { AuthContext } from "../../App"
+import { callApi } from "./AppService";
 import {AuthContext} from './AppContext'
+import SelectDropdown from 'react-native-select-dropdown';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export function DrawerContent(props) {
-  const paperTheme = useTheme();
-  const { signOut } = React.useContext(AuthContext);
-
+  const { signOut, signIn } = React.useContext(AuthContext);
   const userInfo = getUserInfo();
+  const userAccounts = getUserAccounts();
+
+  const onSelectedService = () => {
+    let selectedServiceId = "1";
+    let selectedServiceName = "Transport Service";
+    setSelectedService(selectedServiceId, selectedServiceName);
+    return {selectedServiceId, selectedServiceName};
+  }
+
+  const updateAccount = (userInfo, index) => {
+
+    setDataintoLocalStorage("userInfo", userInfo);
+    setDataintoLocalStorage("LOGIN-accounts", userAccounts);
+    setReloadData();
+
+    let selectedService = onSelectedService();
+    setSignedIn();
+    let userId = userInfo.userId
+    let signIn1 = true;
+    let accounts = userAccounts;
+    signIn({ userId, signIn:signIn1, userInfo, selectedService, accounts});
+
+    setReloadData();
+    props.navigation.reset({index: 0,
+        routes: [{name:'Dashboard'}]});
+  }
+
+
+  const getIndex = () =>{
+    for(let i = 0; i < userAccounts.length; i++){
+      let acc = userAccounts[i];
+      if(acc.acType == userInfo.acType){
+        return i;
+      }
+    }
+    return 0;
+  }
 
   function signOutInner() {
-    //TODO call signout Api
+    try{
+      let param = {
+        'serviceId': "WS-UP-05",
+        'body': {}
+      }
+      callApi(param);
+    }catch(e){}
+
     setSignedOut();
     clearLocalStorage();
     signOut();
   }
+
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.drawerContent}>
@@ -42,13 +83,59 @@ export function DrawerContent(props) {
               source={require("../../assets/Hertz-icon-2.png")}
               size={50}
             ></Avatar.Image>
-            <View style={{ marginLeft: 15, flexDirection: "column" }}>
+            <View style={{ marginLeft: 15, flexDirection: "column", alignItems:'flex-start'}}>
               {userInfo ? (
                 <Title style={styles.title}>
-                  {userInfo.firstName + " " + userInfo.lastName}
+                  {userInfo.firstName ? userInfo.firstName + " " + userInfo.lastName  : "" }
                 </Title>
               ) : null}
-              <Caption style={styles.caption}>{getAcountTypeName()}</Caption>
+              <View style={{flexDirection:"row", width:"100%", alignItems:'flex-start'}}>
+                {(userAccounts  && userAccounts.length > 1) ?
+                <View style={{width:"100%", alignItems:'flex-start', marginLeft:-14}}>
+                    <SelectDropdown
+                        data={userAccounts}
+                        defaultValueByIndex={getIndex()}
+                        buttonStyle={{
+                          width: 130,
+                          height: 15,
+                          backgroundColor: "#FFF",
+                          borderColor: "#444"
+                        }}
+                          onSelect={(selectedItem, index) => {
+                          updateAccount(selectedItem, index);
+                        }}
+                        buttonTextStyle={{color: "#444", textAlign: "left", fontSize:12}}
+                        buttonTextAfterSelection={(selectedItem, index) => {
+                         return selectedItem.acTypeName
+                        }}
+                        rowTextForSelection={(item, index) => {
+                         return item.acTypeName
+                        }}
+                        renderDropdownIcon={() => {
+                          return (
+                            <FontAwesome name="chevron-down" color={"#444"} size={10} />
+                          );
+                        }}
+                        dropdownIconPosition={"right"}
+                        dropdownStyle={{backgroundColor: "#EFEFEF"}}
+                        renderCustomizedRowChild={(item, index) => {
+                          return (
+                            <View style={[]}>
+                              <Text style={{
+                                    color: "#444",
+                                    textAlign: "center",
+                                    fontSize: 12,
+                                  }}>{item}</Text>
+                            </View>
+                          );
+                        }}
+                      />
+                </View>
+                : <Caption style={{color: "#444", textAlign: "left", fontSize:12,
+                  marginTop:-5
+                }}>{getAcountTypeName()}</Caption>}
+                
+              </View>
             </View>
           </View>
         </View>
@@ -150,7 +237,7 @@ export function DrawerContent(props) {
             icon={({ color, size }) => (
               <Icon name="exit-to-app" color={color} size={size} />
             )}
-            label="Sign Out"
+            label="Log Out"
             onPress={() => {
               signOutInner();
             }}

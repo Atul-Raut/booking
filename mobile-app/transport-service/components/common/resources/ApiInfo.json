@@ -10,6 +10,11 @@
             "type":"POST",
             "path":"user/login"
         },
+        "WS-UP-05":{
+            "name":"Logout Service",
+            "type":"POST",
+            "path":"user/logout"
+        },
         "WS-UP-07":{
             "name":"Change Password",
             "type":"PUT",

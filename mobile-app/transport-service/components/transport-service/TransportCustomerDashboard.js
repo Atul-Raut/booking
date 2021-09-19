@@ -11,6 +11,9 @@ import {
 import AppBaseComponent, {
   getServiceID,
   getUserId,
+  setReloadData,
+  reloadDataFlag,
+  resetReloadData
 } from "../common/AppBaseComponent";
 import { format } from "date-fns";
 import { SpeedDial } from "react-native-elements";
@@ -40,9 +43,19 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
     this.makeRemoteRequest();
   }
 
+  componentDidUpdate() {
+    this.makeRemoteRequest();
+  }
+
   makeRemoteRequest = async () => {
-    //  alert("okok");
-    //TODO remove userID and account type from body
+    //Check data load flag if true then and then data will be load
+    if(!reloadDataFlag()){
+      return;
+    }
+   
+    //Reset reload flag to false
+    resetReloadData();
+
     let param = {
       serviceId: "WS-PS-11",
       body: {},
@@ -51,8 +64,6 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
       loader: true,
     });
     let response = await callApi(param);
-    //alert(JSON.stringify(response.result));
-
     if (response && response.retCode == this.SUCCESS_RET_CODE) {
       if (response.result.length > 0) {
         this.setState({
@@ -91,7 +102,6 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
     };
 
     let response = await callApi(param);
-    //alert(JSON.stringify(response.result));
     if (response && response.retCode == this.SUCCESS_RET_CODE) {
       this.setState({
         loader: false,
@@ -164,7 +174,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                 onPress={() => this.props.navigation.navigate("CreatePost")}
               />
             </View> */}
-            <Animatable.View animation="fadeInUpBig">
+            <Animatable.View>
               <ScrollView>
                 <FlatList
                   data={requests}
@@ -263,8 +273,6 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                                   size={20}
                                   color={"black"}
                                   style={{
-                                    // marginRight: 8,
-                                    //zIndex: 1,
                                     alignItems: "center",
                                   }}
                                 />
@@ -283,8 +291,6 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                                   size={20}
                                   color={"black"}
                                   style={{
-                                    //marginRight: 8,
-                                    //zIndex: 1,
                                     alignItems: "center",
                                   }}
                                 />
@@ -342,9 +348,6 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                                       </Text>
                                   </View>
                                   <View>
-                                    {/* <Text style={styles.text_footer}>
-                                      Submit Bid
-                                    </Text> */}
                                     <Text></Text>
                                     <Text
                                       style={{
@@ -441,7 +444,6 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                                   },
                                 ]}
                               >
-                                {/* {"Delete Post"} */}
                               </Text>
                             </TouchableOpacity>
                           </View>
@@ -457,12 +459,6 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                 <View style={{ height: 50 }}>
                   <Text></Text>
                 </View>
-                {/* <View>
-                <Text></Text>
-              </View>
-              <View>
-                <Text></Text>
-              </View> */}
               </ScrollView>
             </Animatable.View>
             <AwesomeAlert
@@ -475,6 +471,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
               showCancelButton={true}
               cancelText="ok"
               onCancelPressed={() => {
+                setReloadData();
                 this.componentDidMount();
               }}
             />

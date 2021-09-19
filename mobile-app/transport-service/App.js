@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Button, Text, TextInput, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
 import DrawerNavigator from "./components/common/navigator/DrawerNavigator";
 import { ExternalStackNavigator } from "./components/common/navigator/ExternalStackNavigator";
 import { AuthContext } from './components/common/AppContext';
+import {setDataintoLocalStorage, setReloadData, 
+  setSelectedService, setSignedIn} from "./components/common/AppBaseComponent"
 
 export default function App({ navigation }) {
   const [state, dispatch] = React.useReducer(
@@ -37,17 +38,30 @@ export default function App({ navigation }) {
     }
   );
 
+  const onSelectedService = () => {
+    let selectedServiceId = "1";
+    let selectedServiceName = "Transport Service";
+    setSelectedService(selectedServiceId, selectedServiceName);
+    return {selectedServiceId, selectedServiceName};
+  }
+
   React.useEffect(() => {
     // Fetch the token from storage then navigate to our appropriate place
     const bootstrapAsync = async () => {
       let userToken;
 
       try {
-        // Restore token stored in `SecureStore` or any other encrypted storage
          userToken = await SecureStore.getItemAsync('userToken');
-         if(null == userToken){
+         if(null == userToken || userToken == ""){
           dispatch({ type: 'SIGN_OUT'});
          }else{
+            let data = JSON.parse(userToken);
+            setDataintoLocalStorage("userInfo", data.userInfo);
+            setDataintoLocalStorage("LOGIN-accounts", data.accounts);
+            setReloadData();
+            onSelectedService();
+            setSignedIn();
+
           dispatch({ type: 'RESTORE_TOKEN', token: userToken });
          }
       } catch (e) {
@@ -62,7 +76,7 @@ export default function App({ navigation }) {
   const authContext = React.useMemo(
     () => ({
       signIn: async (data) => {
-        // navihare to Home page
+        // navigate to Home page
         try{
           await SecureStore.setItemAsync('userToken', JSON.stringify(data));
         }catch(e){
@@ -70,7 +84,14 @@ export default function App({ navigation }) {
         }
         dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
       },
-      signOut: () => dispatch({ type: 'SIGN_OUT' }),
+      signOut: async () => {
+        try{
+          await SecureStore.setItemAsync('userToken', "null");
+        }catch(e){
+          console.log(e)
+        }
+        dispatch({ type: 'SIGN_OUT' });
+      },
     }),
     []
   );
@@ -79,7 +100,7 @@ export default function App({ navigation }) {
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
           {state.userToken == null ? (
-            // No token found, user isn't signed in
+            // user isn't signed in
            <ExternalStackNavigator/>
           ) : (
             // User is signed in

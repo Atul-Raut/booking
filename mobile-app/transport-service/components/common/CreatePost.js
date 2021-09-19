@@ -1,7 +1,9 @@
 import React from "react";
 import { View, Text,TouchableOpacity, Switch,
   TextInput, ScrollView} from "react-native";
-import AppBaseComponent,{getServiceID, getUserId} from "../common/AppBaseComponent";
+import AppBaseComponent,{getServiceID, getUserId,
+  setReloadData
+} from "../common/AppBaseComponent";
 import { callApi } from "../common/AppService";
 import {translateMsg} from '../common/Translation';
 import * as Animatable from "react-native-animatable";
@@ -19,7 +21,8 @@ export default class CreatePost extends AppBaseComponent {
     this.onSubmit = this.onSubmit.bind(this);
     this.OnSubmitServiceID= "WS-PS-02";
     this.screenID = "SCR-DSH-03";
-    this.state = {
+
+    this.defaultState = {
       activityDateFrom:"",
       activityDateTo:"",
       fromDate:"",
@@ -55,7 +58,12 @@ export default class CreatePost extends AppBaseComponent {
       activityDateToDateObj:null,
       fromBidDateObj:null,
       toBidDateObj:null,
-      btnDisable:false
+      btnDisable:false,
+    }
+
+
+    this.state = {
+      ...defaultState,
     };
 }
 
@@ -209,8 +217,14 @@ hideSuccess = () => {
     showSuccess: false,
     btnDisable:false
   });
-  this.props.navigation.reset({index: 0,
-    routes: [{name:'Dashboard'}]});
+  setReloadData();
+
+  this.setState({
+    ...this.defaultState,
+  });
+  this.props.navigation.navigate("Dashboard");
+  //this.props.navigation.reset({index: 0,
+  //  routes: [{name:'Dashboard'}]});
 };
 
 async onValueChangeVehicleType(value) {

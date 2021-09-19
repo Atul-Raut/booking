@@ -6,7 +6,8 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 import {translateMsg} from '../common/Translation'
 import AppBaseComponent,{clearLocalStorage, setDataintoLocalStorage,
-   setSelectedService, setSignedIn} from "../common/AppBaseComponent";
+   setSelectedService, setSignedIn, setReloadData
+  } from "../common/AppBaseComponent";
 import { callApi } from "./AppService";
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { AuthContext } from "./AppContext";
@@ -109,6 +110,7 @@ async onSubmit(event) {
   if(response && response.retCode == this.SUCCESS_RET_CODE){
       if(response.result.length == 1){
         this.setUserInfoAndNavigateToHomePage(response.result[0]);
+        this.respo=response.result;
       }else if(response.result.length > 0){
         this.setState({
           showMultipleAccount: true,
@@ -148,12 +150,15 @@ onSelectedService = () => {
 
 setUserInfoAndNavigateToHomePage =(userInfo) =>{
   setDataintoLocalStorage("userInfo", userInfo);
+  setDataintoLocalStorage("LOGIN-accounts", this.respo);
+  setReloadData();
 
   let selectedService = this.onSelectedService();
   setSignedIn();
   let userId = this.state.userId
   let signIn = true;
-  this.context.signIn({ userId, signIn, userInfo, selectedService});
+  let accounts = this.respo;
+  this.context.signIn({ userId, signIn, userInfo, selectedService, accounts});
 }
 
 showAlert = () => {
