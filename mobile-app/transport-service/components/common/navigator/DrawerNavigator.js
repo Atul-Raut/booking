@@ -19,6 +19,7 @@ import Notifications from "../../common/Notifications";
 import Timeline from "../../common/Timeline";
 import Feedback from "../../common/Feedback"
 import FeedbackCreate from "../../common/FeedbackCreate"
+import StartServeWithUs from "../../common/StartServeWithUs"
 
 import {DashboardStackNavigator} from '../../common/navigator/DashboardStackNavigator'
 import { ExternalStackNavigator } from "../../common/navigator/ExternalStackNavigator";
@@ -40,6 +41,20 @@ const DrawerNavigator = () => {
                 <Header
                   navigation={navigation}
                   name={translateMsg("Dashboard")}
+                />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
+          />
+           <Drawer.Screen
+            name="StartServeWithUs"
+            component={StartServeWithUs}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header
+                  navigation={navigation}
+                  name={translateMsg("StartServeWithUs")}
                 />
               ),
               headerLeft: null,

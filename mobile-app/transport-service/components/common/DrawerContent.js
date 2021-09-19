@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import {
   useTheme,
   Avatar,
@@ -58,6 +58,10 @@ export function DrawerContent(props) {
       }
     }
     return 0;
+  }
+
+  function serveWithUs() {
+    props.navigation.navigate("StartServeWithUs");
   }
 
   function signOutInner() {
@@ -131,10 +135,34 @@ export function DrawerContent(props) {
                         }}
                       />
                 </View>
-                : <Caption style={{color: "#444", textAlign: "left", fontSize:12,
-                  marginTop:-5
-                }}>{getAcountTypeName()}</Caption>}
-                
+                : 
+                <View style={{flexDirection:"row", width:"100%", alignItems:'flex-start'}}>
+                    <Caption style={{color: "#444", textAlign: "left", fontSize:12,
+                      marginTop:-5, width:100
+                    }}>{getAcountTypeName()}</Caption>
+                    <TouchableOpacity onPress={() => {
+                        serveWithUs();
+                      }}
+                      style={[ {
+                        fontSize:10, color: "white",
+                        fontWeight: "bold",
+                        backgroundColor: "#079057",
+                        height: 20,
+                        borderRadius: 5,
+                        textAlign: "center",
+                        width:90,
+                        marginTop:-5,
+                      }]}>
+                      <Text style={[ {
+                        fontSize:11, 
+                        color: "white",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        paddingTop:1,
+                      }]}>Serve with us</Text>
+                    </TouchableOpacity>
+                  </View>
+                  }
               </View>
             </View>
           </View>

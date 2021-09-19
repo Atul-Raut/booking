@@ -120,6 +120,7 @@
     "feedback":"Feedback",
     "rellusonhowimprove":"Tell us on how can we improve...",
     "feedbackSaveSuccess":"Feedback save.",
-    "feedbackSaveError":"Feedbcak not saved."
+    "feedbackSaveError":"Feedbcak not saved.",
+    "StartServeWithUs":"Serve With Us"
 
 }
