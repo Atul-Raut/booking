@@ -125,6 +125,12 @@ public class UserController extends UserControllerBase {
 			privacy.putAll(requestInfo);
 			privacy.put(CommonConstants.KEY_QUERY_ID, "app.user.policy.save");
 			service.executeUpdate(privacy);
+			
+			
+			
+			requestInfo.setQueryId("app.user.get");
+			List<Map<String, Object>> user = service.getData(requestInfo);
+			result = createSuccessResponse(requestInfo,user);
 
 		}catch(Exception e) {
 			result = createErrorResponse(requestInfo, null, e);

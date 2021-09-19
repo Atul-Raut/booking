@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import apiInformaton from "../common/resources/ApiInfo.json";
+import AppProperties from "../common/resources/AppProperties.json"
 import {getUserId,getAcountType,getUserInfo,getServiceID} from "./AppBaseComponent";
 //import DeviceInfo from 'react-native-device-info';
 
@@ -74,5 +75,5 @@ export const callApi = (param) => {
 };
 
 const baseUrl = () => {
-  return apiInformaton.baseUrl;
+  return AppProperties.baseUrl;
 };

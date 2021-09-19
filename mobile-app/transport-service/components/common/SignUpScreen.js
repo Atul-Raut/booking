@@ -26,8 +26,10 @@ import { callApi } from "./AppService";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { globalStyles } from "../common/GlobalStyles";
 import { SUCCESS_RET_CODE } from "./AppBaseComponent";
+import { AuthContext } from "./AppContext";
 
 export default class SignUpScreen2 extends AppBaseComponent {
+  static contextType = AuthContext;
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -183,7 +185,7 @@ export default class SignUpScreen2 extends AppBaseComponent {
       console.log(JSON.stringify(response));
       if (response && response.retCode == SUCCESS_RET_CODE()) {
         let successMsg = translateMsg("accountCreateSuccess");
-        this.showSuccess(successMsg);
+        this.showSuccess(successMsg, response.result[0]);
       } else if (response && response.retCode == "WS-E-CM-0003") {
         let title = translateMsg("operationFailed");
         let errorMsg = translateMsg("alreadyExistError");
@@ -214,11 +216,12 @@ export default class SignUpScreen2 extends AppBaseComponent {
     });
   };
 
-  showSuccess = (successMsg) => {
+  showSuccess = (successMsg, userInfo) => {
     this.setState({
       showSuccessFlg: true,
       successMsg: successMsg,
       btnDisable: false,
+      userInfo
     });
   };
 
@@ -227,8 +230,24 @@ export default class SignUpScreen2 extends AppBaseComponent {
       showSuccessFlg: false,
       btnDisable: false,
     });
-    this.props.navigation.navigate("LoginScreen");
+
+
+    setDataintoLocalStorage("userInfo", this.state.userInfo);
+
+    let selectedService = this.onSelectedService();
+    setSignedIn();
+    let userId = this.state.userInfo.userId
+    let signIn = true;
+    let userInfo = this.state.userInfo;
+    this.context.signIn({ userId, signIn, userInfo, selectedService});
   };
+
+  onSelectedService = () => {
+    let selectedServiceId = "1";
+    let selectedServiceName = "Transport Service";
+    setSelectedService(selectedServiceId, selectedServiceName);
+    return {selectedServiceId, selectedServiceName};
+  }
 
   validateEmail = (text) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -450,9 +469,7 @@ export default class SignUpScreen2 extends AppBaseComponent {
         <View style={globalStyles.header}>
           <Text style={globalStyles.text_header}>Create Account !</Text>
         </View>
-        <Animatable.View
-          animation="fadeInUpBig"
-          style={globalStyles.footerSignUp}
+        <Animatable.View style={globalStyles.footerSignUp}
         >
           <ScrollView>
             <View style={{ flexDirection: "row" }}>

@@ -140,23 +140,20 @@ async onSubmit(event) {
 }
 
 onSelectedService = () => {
-  setSelectedService("1", "Transport Service");
+  let selectedServiceId = "1";
+  let selectedServiceName = "Transport Service";
+  setSelectedService(selectedServiceId, selectedServiceName);
+  return {selectedServiceId, selectedServiceName};
 }
 
 setUserInfoAndNavigateToHomePage =(userInfo) =>{
   setDataintoLocalStorage("userInfo", userInfo);
 
-
-  this.onSelectedService();
+  let selectedService = this.onSelectedService();
   setSignedIn();
-  let userIdForCache = this.state.userId
-  let passwordForCache = this.state.password
-  this.context.signIn({ userIdForCache,passwordForCache });
-
-this.setState({
-      disabled:false
-    });
-
+  let userId = this.state.userId
+  let signIn = true;
+  this.context.signIn({ userId, signIn, userInfo, selectedService});
 }
 
 showAlert = () => {
@@ -206,7 +203,7 @@ render() {
       <View style={styles.header}>
         <Text style={styles.text_header}>{translateMsg('signInHeader')}</Text>
       </View>
-      <Animatable.View animation="fadeInUpBig" style={styles.footer}>
+      <Animatable.View style={styles.footer}>
         <ScrollView>
           <Text style={styles.text_footer}>{translateMsg('email')}</Text>
           <View style={styles.action}>

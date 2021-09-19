@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-
+import * as SecureStore from 'expo-secure-store';
 import DrawerNavigator from "./components/common/navigator/DrawerNavigator";
 import { ExternalStackNavigator } from "./components/common/navigator/ExternalStackNavigator";
 import { AuthContext } from './components/common/AppContext';
@@ -44,16 +44,16 @@ export default function App({ navigation }) {
 
       try {
         // Restore token stored in `SecureStore` or any other encrypted storage
-        // userToken = await SecureStore.getItemAsync('userToken');
+         userToken = await SecureStore.getItemAsync('userToken');
+         if(null == userToken){
+          dispatch({ type: 'SIGN_OUT'});
+         }else{
+          dispatch({ type: 'RESTORE_TOKEN', token: userToken });
+         }
       } catch (e) {
         // Restoring token failed
+        dispatch({ type: 'SIGN_OUT'});
       }
-
-      // After restoring token, we may need to validate it in production apps
-
-      // This will switch to the App screen or Auth screen and this loading
-      // screen will be unmounted and thrown away.
-      dispatch({ type: 'RESTORE_TOKEN', token: userToken });
     };
 
     bootstrapAsync();
@@ -63,6 +63,11 @@ export default function App({ navigation }) {
     () => ({
       signIn: async (data) => {
         // navihare to Home page
+        try{
+          await SecureStore.setItemAsync('userToken', JSON.stringify(data));
+        }catch(e){
+          console.log(e)
+        }
         dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
       },
       signOut: () => dispatch({ type: 'SIGN_OUT' }),
