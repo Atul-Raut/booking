@@ -14,6 +14,7 @@ import AppBaseComponent, {
   getAcountType,
   getServiceID,
   getUserId,
+  reloadDataFlag,resetReloadData,
 } from "../common/AppBaseComponent";
 import { format } from "date-fns";
 import { SpeedDial } from "react-native-elements";
@@ -47,9 +48,19 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
       bidValue: "",
     });
     this.makeRemoteRequest();
+    //Add focus listener
+    //whenever focus come on scrren event will trigger
+    this.props.navigation.addListener('focus', this.makeRemoteRequest)
   }
 
   makeRemoteRequest = async () => {
+    //Check data load flag if true then and then data will be load
+    if(!reloadDataFlag()){
+      return;
+    }
+    //Reset reload flag to false
+    resetReloadData();
+
     let param = {
       serviceId: "WS-PS-13",
       body: { requestUserId: getUserId() },

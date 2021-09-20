@@ -38,21 +38,23 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
       loader: false,
     };
   }
-
   componentDidMount() {
     this.makeRemoteRequest();
+    //Add focus listener
+    //whenever focus come on scrren event will trigger
+    this.props.navigation.addListener('focus', this.makeRemoteRequest)
   }
 
   componentDidUpdate() {
     this.makeRemoteRequest();
   }
 
+
   makeRemoteRequest = async () => {
     //Check data load flag if true then and then data will be load
     if(!reloadDataFlag()){
       return;
     }
-   
     //Reset reload flag to false
     resetReloadData();
 
@@ -167,6 +169,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
           </View>
         ) : (
           <View>
+            
             {/* <View style={{ size: 10 }}>
               <SpeedDial.Action
                 icon={{ name: "add", color: "#fff" }}

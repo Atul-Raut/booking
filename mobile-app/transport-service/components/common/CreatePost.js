@@ -59,11 +59,11 @@ export default class CreatePost extends AppBaseComponent {
       fromBidDateObj:null,
       toBidDateObj:null,
       btnDisable:false,
-    }
+    };
 
 
     this.state = {
-      ...defaultState,
+      ...this.defaultState,
     };
 }
 
@@ -223,8 +223,6 @@ hideSuccess = () => {
     ...this.defaultState,
   });
   this.props.navigation.navigate("Dashboard");
-  //this.props.navigation.reset({index: 0,
-  //  routes: [{name:'Dashboard'}]});
 };
 
 async onValueChangeVehicleType(value) {

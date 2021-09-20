@@ -28,7 +28,7 @@ export default class Dashboard extends AppBaseComponent {
       } else if (acountType == "2") {
         return (
           <View style={{ backgroundColor: "#C5CBE3", height: "100%" }}>
-            <ServiceProviderDashboard />
+            <ServiceProviderDashboard navigation={this.props.navigation}/>
           </View>
         );
       } else {

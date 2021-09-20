@@ -85,6 +85,7 @@ export default function App({ navigation }) {
         dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
       },
       signOut: async () => {
+        //Navigate to landing page
         try{
           await SecureStore.setItemAsync('userToken', "null");
         }catch(e){
