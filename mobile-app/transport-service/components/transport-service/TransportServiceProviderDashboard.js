@@ -27,6 +27,8 @@ import { translateMsg } from "../common/Translation";
 import Card from "../common/Card";
 import { numberWithCommas } from "../common/AppUtils";
 import Dialog, { DialogContent } from "react-native-popup-dialog";
+import {setSelectedPost, getSelectedPost, isUpdatePost, getUpdatedPost} 
+from '../common/DashboardGlobalCache'
 
 export default class TransportServiceProviderDashbord extends AppBaseComponent {
   constructor(props) {
@@ -50,7 +52,26 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
     this.makeRemoteRequest();
     //Add focus listener
     //whenever focus come on scrren event will trigger
-    this.props.navigation.addListener('focus', this.makeRemoteRequest)
+    this.props.navigation.addListener('focus', this.handleFocus)
+  }
+
+  handleFocus(){
+    if(reloadDataFlag()){
+      this.makeRemoteRequest();
+    }else{
+      if(isUpdatePost()){
+        console.log("Updating post......");
+        resetIsUpdatePost();
+
+        let {post, index} = getSelectedPost();
+        let updatedPost = getUpdatedPost();
+
+        if(requests && requests.length > index && updatedPost){
+          requests[index] = updatedPost;
+          this.setState({requests:this.state.requests})
+        }
+      }
+    }
   }
 
   makeRemoteRequest = async () => {

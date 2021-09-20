@@ -25,6 +25,8 @@ import * as Animatable from "react-native-animatable";
 import AwesomeAlert from "react-native-awesome-alerts";
 import Card from "../common/Card";
 import {numberWithCommas} from '../common/AppUtils';
+import {setSelectedPost, getSelectedPost, isUpdatePost, getUpdatedPost} 
+from '../common/DashboardGlobalCache'
 
 export default class TransportCustomerDashbord extends AppBaseComponent {
   constructor(props) {
@@ -42,11 +44,31 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
     this.makeRemoteRequest();
     //Add focus listener
     //whenever focus come on scrren event will trigger
-    this.props.navigation.addListener('focus', this.makeRemoteRequest)
+    this.props.navigation.addListener('focus', this.handleFocus)
+  }
+
+
+  handleFocus(){
+    if(reloadDataFlag()){
+      this.makeRemoteRequest();
+    }else{
+      if(isUpdatePost()){
+        console.log("Updating post......");
+        resetIsUpdatePost();
+
+        let {post, index} = getSelectedPost();
+        let updatedPost = getUpdatedPost();
+
+        if(requests && requests.length > index && updatedPost){
+          requests[index] = updatedPost;
+          this.setState({requests:this.state.requests})
+        }
+      }
+    }
   }
 
   componentDidUpdate() {
-    this.makeRemoteRequest();
+      this.makeRemoteRequest();
   }
 
 
@@ -140,6 +162,14 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
     });
   };
 
+  callMyRequest(item,index){       
+    setSelectedPost(item,index);                   
+    this.props.navigation.navigate(
+      "MyRequest",
+      item
+    );
+  }
+
   render() {
     const {
       requests,
@@ -181,7 +211,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
               <ScrollView>
                 <FlatList
                   data={requests}
-                  renderItem={({ item }) => (
+                  renderItem={({ item, index }) => (
                     <View>
                      {/* <TouchableOpacity
                         onPress={() =>
@@ -384,12 +414,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                                   height: 20,
                                   fontWeight: "bold",
                                 }}
-                                onPress={() => {
-                                  this.props.navigation.navigate(
-                                    "MyRequest",
-                                    item
-                                  );
-                                }}
+                                onPress={() => this.callMyRequest(item, index)}
                               >
                                 {item.requestCount} requests
                               </Text>

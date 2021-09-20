@@ -35,7 +35,7 @@ export default class SignUpScreen2 extends AppBaseComponent {
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-      isCustomer: true,
+      //isCustomer: true,
       email: "",
       firstName: "",
       lastName: "",
@@ -161,10 +161,11 @@ export default class SignUpScreen2 extends AppBaseComponent {
     });
 
     if (validate) {
-      let type = 2;
+      let type = 1;
+      /*let type = 2;
       if (this.state.isCustomer) {
         type = 1;
-      }
+      }*/
 
       let body = {
         acType: type,
@@ -260,7 +261,7 @@ export default class SignUpScreen2 extends AppBaseComponent {
 
   render() {
     const {
-      isCustomer,
+      //isCustomer,
       email,
       firstName,
       lastName,
@@ -295,11 +296,12 @@ export default class SignUpScreen2 extends AppBaseComponent {
       showSuccessFlg,
     } = this.state;
 
+    /*
     const toggleSwitch = () => {
       this.setState({
         isCustomer: !isCustomer,
       });
-    };
+    };*/
 
     const emailChange = (value) => {
       if (value.length !== 0) {
@@ -472,6 +474,7 @@ export default class SignUpScreen2 extends AppBaseComponent {
         <Animatable.View style={globalStyles.footerSignUp}
         >
           <ScrollView>
+            {/*
             <View style={{ flexDirection: "row" }}>
               <Text style={globalStyles.text_footer}>
                 {translateMsg("accountType")}
@@ -489,6 +492,7 @@ export default class SignUpScreen2 extends AppBaseComponent {
                   : translateMsg("serviceProvider")}
               </Text>
             </View>
+                */}
 
             <View style={globalStyles.action}>
               <FontAwesome
