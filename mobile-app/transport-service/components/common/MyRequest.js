@@ -12,7 +12,12 @@ import AppBaseComponent, {
   getServiceID,
   getUserId,
   baseUrl,
+  setReloadData,
+  reloadDataFlag,
+  resetReloadData
 } from "../common/AppBaseComponent";
+import {setSelectedPost, getSelectedPost, isUpdatePost, getUpdatedPost} 
+from '../common/DashboardGlobalCache'
 import { callApi } from "../common/AppService";
 import { translateMsg } from "../common/Translation";
 import AccordionCustome from "./AccordionList/AccordionCustome";
@@ -28,28 +33,41 @@ export default class MyRequest extends AppBaseComponent {
     this._renderView = this._renderView.bind(this); 
     this._renderBody = this._renderBody.bind(this); 
     this.flatListRef = React.createRef();
+    this.makeRemoteRequest = this.makeRemoteRequest.bind(this);
     this.state = {
       didUpdateFlag: false,
       postId: "",
       requests: [],
     };
+    this.focusListener = null;
   }
 
   componentDidMount() {
     this.makeRemoteRequest();
+    this.focusListener = this.props.navigation.addListener('focus', this.handleFocus)
   }
 
-  componentDidUpdate() {
-    this.makeRemoteRequest();
+  componentWillUnmount() {
+    if(this.focusListener){
+      //this.focusListener.remove();
+    }
+  }
+
+  handleFocus = () => {
+    console.log("My Request Focus.....")
+    if(reloadDataFlag()){
+      console.log("Reloading Request.....")
+      this.makeRemoteRequest();
+      resetReloadData();
+    }
   }
 
   makeRemoteRequest = async () => {
     let tempPostId = '<NA>';
-    console.log("=========MyRequest==================")
-    console.log(this.props.route.params)
-    console.log("===========================")
-    if(this.props.route.params){
-      const { postId } = this.props.route.params;
+    let {post, index} = getSelectedPost();
+    if(this.props.route.params || post){
+      let post1 = this.props.route.params ? this.props.route.params : post;
+      const { postId } = post1;
       if (this.state.postId == postId) {
         return;
       }
@@ -59,10 +77,6 @@ export default class MyRequest extends AppBaseComponent {
       });
       tempPostId = postId;
     }else{
-      if (this.state.tempPostId == tempPostId) {
-        return;
-      }
-
       this.setState({
         tempPostId: tempPostId,
         postId: null,
@@ -235,14 +249,11 @@ export default class MyRequest extends AppBaseComponent {
     );
   }
 
-  
-
   render() {
     const { requests } = this.state;
     let apis = {sendRequest:this.sendRequest, makeRemoteRequest:this.makeRemoteRequest};
 
     const getReview = (item) => {
-      console.log(item)
       let rets = [];
         for (let i = 0; i < item.review; i++) {
           rets.push(
@@ -260,17 +271,17 @@ export default class MyRequest extends AppBaseComponent {
 
     return (
       <View style={{backgroundColor:'#C5CBE3', height:'100%'}}>
-        <View>
+        <View style={{backgroundColor:'white', height:25, width:'100%', marginHorizontal: 1,}}>
           <MaterialIcons
-            name="arrow-back"
-            size={20}
+            name="chevron-left"
+            size={25}
             onPress={(props) => {
               this.props.navigation.navigate("Dashboard");
             }}
-            style={([globalStyles.icon], { marginTop: 5 })}
+            style={([globalStyles.icon], { marginTop: 1 , marginLeft:5, width:30})}
           />
         </View>
-        <View style={globalStyles.footer}>
+        <View>
           <ScrollView>
             <FlatList
               ref={ this.flatListRef } 
@@ -401,7 +412,7 @@ export default class MyRequest extends AppBaseComponent {
                             }}
                             >
                               <Text style={{
-                                  fontSize:12, 
+                                  fontSize:13, 
                                   fontWeight:'bold', 
                                   color:'#0645AD',
                                   paddingLeft: 20 

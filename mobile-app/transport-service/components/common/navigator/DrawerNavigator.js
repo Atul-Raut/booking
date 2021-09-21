@@ -36,16 +36,7 @@ const DrawerNavigator = () => {
           <Drawer.Screen
             name="Dashboard"
             component={DashboardStackNavigator}
-            options={({ navigation }) => ({
-              header: (props) => (
-                <Header
-                  navigation={navigation}
-                  name={translateMsg("Dashboard")}
-                />
-              ),
-              headerLeft: null,
-              headerTitleStyle: { alignSelf: "center" },
-            })}
+            options={({ navigation }) => ({ headerShown: false })}
           />
            <Drawer.Screen
             name="StartServeWithUs"

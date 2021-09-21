@@ -31,6 +31,7 @@ from '../common/DashboardGlobalCache'
 export default class TransportCustomerDashbord extends AppBaseComponent {
   constructor(props) {
     super(props);
+    this.makeRemoteRequest = this.makeRemoteRequest.bind(this);
     this.state = {
       requests: [],
       selectedItem: null,
@@ -39,17 +40,31 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
       deleteSuccess: false,
       loader: false,
     };
+    this.focusListener = null;
   }
   componentDidMount() {
     this.makeRemoteRequest();
     //Add focus listener
     //whenever focus come on scrren event will trigger
-    this.props.navigation.addListener('focus', this.handleFocus)
+    this.focusListener = this.props.navigation.addListener('focus', this.handleFocus)
+  }
+
+  componentWillUnmount() {
+    if(this.focusListener){
+      //this.focusListener.remove();
+    }
   }
 
 
-  handleFocus(){
+  handleFocus = () => {
+    console.log("Customer Dashboard Focus.....")
+    if(this){
+      if(this.state){
+        console.log(this.state)
+      }
+    }
     if(reloadDataFlag()){
+      console.log("Reloading post......");
       this.makeRemoteRequest();
     }else{
       if(isUpdatePost()){
@@ -66,11 +81,6 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
       }
     }
   }
-
-  componentDidUpdate() {
-      this.makeRemoteRequest();
-  }
-
 
   makeRemoteRequest = async () => {
     //Check data load flag if true then and then data will be load

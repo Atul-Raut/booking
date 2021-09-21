@@ -12,6 +12,9 @@ import AppBaseComponent, {
   getServiceID,
   getUserId,
   baseUrl,
+  setReloadData,
+  reloadDataFlag,
+  resetReloadData
 } from "../common/AppBaseComponent";
 import { callApi } from "../common/AppService";
 import { translateMsg } from "../common/Translation";
@@ -24,6 +27,7 @@ import {numberWithCommas} from './AppUtils';
 export default class Feedback extends AppBaseComponent {
   constructor(props) {
     super(props);
+    this.makeRemoteRequest = this.makeRemoteRequest.bind(this);
     this.flatListRef = React.createRef();
     this.state = {
       didUpdateFlag: false,
@@ -31,50 +35,45 @@ export default class Feedback extends AppBaseComponent {
       feedbacks:[],
       selectedItem:{}
     };
+    this.focusListener = null;
   }
 
   componentDidMount() {
     this.makeRemoteRequest();
+    this.focusListener = this.props.navigation.addListener('focus', this.handleFocus)
   }
 
-  componentDidUpdate() {
-    this.makeRemoteRequest();
+  componentWillUnmount() {
+    if(this.focusListener){
+    //  this.focusListener.remove();
+    }
+  }
+
+  handleFocus = () => {
+    console.log("Feedback Focus.....")
+    if(reloadDataFlag() && this){
+      console.log("Reloading Feedback.....")
+      this.makeRemoteRequest();
+      resetReloadData();
+    }
   }
 
   makeRemoteRequest = async () => {
     let tempProviderId = '<NA>';
     let providerId = null;
-    console.log("=========Feedback==================")
-    console.log(this.props.route.params)
-    console.log("===========================")
     if(this.props.route.params){
-      const { requestUserId, ReloadFlag } = this.props.route.params.selectedItem;
-      let Reload_Flag = false;
-      if(ReloadFlag){
-        Reload_Flag = true;
-        this.isDataUpdated=true;s
-      }
+      const { requestUserId } = this.props.route.params.selectedItem;
       providerId = requestUserId;
-      console.log("Status: " + this.state.providerId)
-      console.log("Request: " + providerId)
-      console.log("ReloadFlag: " + Reload_Flag)
-      if (this.state.providerId == providerId && !Reload_Flag) {
-        console.log("Returned.")
-        return;
-      }
       this.setState({
         providerId: providerId,
         tempProviderId:providerId,
         selectedItem:this.props.route.params.selectedItem
       });
-      console.log("Set in status")
       tempProviderId = providerId;
     }else{
-      console.log("Returned.")
       return;
     }
 
-    console.log("Loading Data...")
     let param = {
       serviceId: "WS-FED-03",
       body: {
@@ -129,26 +128,22 @@ export default class Feedback extends AppBaseComponent {
 
     return (
       <View style={{backgroundColor:'#C5CBE3', height:'100%'}}>
-        <View>
+        <View style={{backgroundColor:'white', height:25, width:'100%', marginHorizontal: 1,}}>
           <MaterialIcons
-            name="arrow-back"
-            size={20}
+            name="chevron-left"
+            size={25}
             onPress={(props) => {
-              this.props.navigation.navigate(
-                "MyRequest",
-                this.props.route.params.post,
-                this.isDataUpdated
-              );
+              this.props.navigation.navigate("MyRequest");
             }}
-            style={([globalStyles.icon], { marginTop: 5 })}
+            style={([globalStyles.icon], { marginTop: 1 , marginLeft:5, width:30})}
           />
         </View>
-        <View style={globalStyles.footer}>
+        <View>
             <View style={[globalStyles.cardMyRequest]}>
                 <View style={{ flexDirection: "row" }}>
                   <MaterialIcons
                     name="person"
-                    size={20}
+                    size={30}
                     style={([globalStyles.icon], { marginTop: 5 })}
                   />
                   <Text style={[globalStyles.cartHeader,{fontSize:18}]}>{selectedItem.requestUserName}</Text>
@@ -176,7 +171,7 @@ export default class Feedback extends AppBaseComponent {
                     
                     >{'Feedbacks(' + selectedItem.feedbacks +')'}
                   </Text>
-                  <View style={{position: "absolute",right: 10}}>
+                  <View style={{position: "absolute",right: 10, height:30}}>
                     <TouchableOpacity
                       onPress={(props) => {
                         this.props.navigation.navigate("FeedbackCreate", 
@@ -201,8 +196,8 @@ export default class Feedback extends AppBaseComponent {
                       <View style={{flexDirection: "row"}}>
                         <MaterialIcons
                           name="person"
-                          size={16}
-                          style={([globalStyles.icon], { marginTop: 11 })}
+                          size={25}
+                          style={([globalStyles.icon], { marginTop: 5 })}
                         />
                         <Text style={[globalStyles.cartHeader]}
                         >{item.feedbackByName}</Text>

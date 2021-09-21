@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import { translateMsg } from "../Translation";
 import Header from "../Header";
 import Dashboard from "../Dashboard";
 import PostDetails from "../PostDetails";
@@ -16,28 +16,73 @@ const DashboardStackNavigator = () => {
         <Stack.Screen 
             name="Dashboard" 
             component={Dashboard}
-            options={({ navigation }) => ({ headerShown: false })}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header
+                  navigation={navigation}
+                  name={translateMsg("Dashboard")}
+                />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
         />
         <Stack.Screen
             name="PostDetails"
             component={PostDetails}
-            options={({ navigation }) => ({ headerShown: false })}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header
+                  navigation={navigation}
+                  name={translateMsg("PostDetails")}
+                />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
           />
         <Stack.Screen
             name="MyRequest"
             component={MyRequest}
-            options={({ navigation }) => ({ headerShown: false })}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header
+                  navigation={navigation}
+                  name={translateMsg("myRequest")}
+                />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
           />
         
         <Stack.Screen
             name="Feedback"
             component={Feedback}
-            options={({ navigation }) => ({ headerShown: false })}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header
+                  navigation={navigation}
+                  name={translateMsg("feedback")}
+                />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
           />
           <Stack.Screen
             name="FeedbackCreate"
             component={FeedbackCreate}
-            options={({ navigation }) => ({ headerShown: false })}
+            options={({ navigation }) => ({
+              header: (props) => (
+                <Header
+                  navigation={navigation}
+                  name={translateMsg("submitFeedback")}
+                />
+              ),
+              headerLeft: null,
+              headerTitleStyle: { alignSelf: "center" },
+            })}
           />
     </Stack.Navigator>
   );

@@ -45,10 +45,8 @@ export function DrawerContent(props) {
     signIn({ userId, signIn:signIn1, userInfo, selectedService, accounts});
 
     setReloadData();
-    props.navigation.reset({index: 0,
-        routes: [{name:'Dashboard'}]});
+    props.navigation.reset({index: 0, routes: [{name:'Dashboard'}]});
   }
-
 
   const getIndex = () =>{
     for(let i = 0; i < userAccounts.length; i++){

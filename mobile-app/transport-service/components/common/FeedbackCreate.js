@@ -1,7 +1,14 @@
 import React from "react";
 import { View, Text,TouchableOpacity, Switch,
   TextInput, ScrollView,FlatList} from "react-native";
-import AppBaseComponent,{getServiceID, getUserId} from "./AppBaseComponent";
+import AppBaseComponent, {
+  getServiceID,
+  getUserId,
+  baseUrl,
+  setReloadData,
+  reloadDataFlag,
+  resetReloadData
+} from "../common/AppBaseComponent";
 import { callApi } from "./AppService";
 import {translateMsg} from './Translation';
 import * as Animatable from "react-native-animatable";
@@ -141,8 +148,8 @@ hideSuccess = () => {
     showSuccess: false,
     btnDisable:false
   });
-  this.props.navigation.reset({index: 0,
-    routes: [{name:'Feedback', params:{selectedItem:this.selectedItem, ReloadFlag:true}}]});
+  setReloadData();
+  this.props.navigation.navigate("Feedback", {selectedItem:this.selectedItem});
 };
 
 renderQuestions = (questions) =>{
@@ -200,24 +207,23 @@ render() {
   }
 
   return (
-    <View style={globalStyles.container}>
-      <View>
+    <View style={[globalStyles.container,{backgroundColor:'#C5CBE3'}]}>
+      <View style={{backgroundColor:'white', height:25, width:'100%', marginBottom:1,marginHorizontal: 1,}}>
           <MaterialIcons
-            name="arrow-back"
-            size={20}
+            name="chevron-left"
+            size={25}
             onPress={(props) => {
-              this.props.navigation.reset({index: 0,
-                routes: [{name:'Feedback', params:{selectedItem:this.selectedItem, ReloadFlag:false}}]});
+                this.props.navigation.navigate("Feedback", {selectedItem:this.selectedItem});
             }}
-            style={([globalStyles.icon], { marginTop: 5 })}
+            style={([globalStyles.icon], { marginTop: 1 , marginLeft:5, width:30})}
           />
         </View>
-      <Animatable.View style={globalStyles.footer}>
+      <Animatable.View >
           {this.type == 1 ? (<View style={[globalStyles.cartFeedback,{height:80}]}>
             <View style={{ flexDirection: "row" }}>
                 <MaterialIcons
-                  name="person"
-                  size={20}
+                  name="person" 
+                  size={30}
                   style={([globalStyles.icon], { marginTop: 5 })}
                 />
                 <Text style={[globalStyles.cartHeader,{fontSize:18}]}>{selectedItem.requestUserName}</Text>

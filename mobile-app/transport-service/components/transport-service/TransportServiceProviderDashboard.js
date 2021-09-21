@@ -39,6 +39,7 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
     this.state = {
       loader: false,
     };
+    this.focusListener = null;
   }
   componentDidMount() {
     this.setState({
@@ -52,10 +53,16 @@ export default class TransportServiceProviderDashbord extends AppBaseComponent {
     this.makeRemoteRequest();
     //Add focus listener
     //whenever focus come on scrren event will trigger
-    this.props.navigation.addListener('focus', this.handleFocus)
+    this.focusListener = this.props.navigation.addListener('focus', this.handleFocus)
   }
 
-  handleFocus(){
+  componentWillUnmount() {
+    if(this.focusListener){
+     // this.focusListener.remove();
+    }
+  }
+
+  handleFocus = () => {
     if(reloadDataFlag()){
       this.makeRemoteRequest();
     }else{
