@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text,TouchableOpacity,TextInput,Platform,StyleSheet, ScrollView,StatusBar, Alert,} from "react-native";
+import { View, Text,TouchableOpacity,TextInput,Platform,StyleSheet, ScrollView,StatusBar, Alert,
+  Image} from "react-native";
 import AppBaseComponent,{resetReloadData, reloadDataFlag} from "../common/AppBaseComponent";
 import { callApi } from "../common/AppService";
 import { FlatGrid } from 'react-native-super-grid';
@@ -136,6 +137,25 @@ render() {
             style={globalStyles.gridView}
             renderItem={({ item }) => (
               <View style={[globalStyles.itemContainer, { backgroundColor: '#1abc9c' }]}>
+                <Image
+                  key={'img-'+Math.random().toString()+item}
+                  source={item && { uri: 'http://localhost:8080/image/app/piaggio-ape-3.jpg' }}
+                  style={{
+                    width: 50,
+                    height: 50,
+                    borderWidth: 1,
+                    borderColor: "#c35547",
+                    resizeMode: "contain",
+                    margin: 6,
+                    borderRadius:90
+                  }}
+                  keyExtractor={(item, index) => index.toString()}
+                />
+
+
+
+
+
                 <Text style={globalStyles.itemName}>{item.vehicleNo}</Text>
                 <Text style={globalStyles.itemCode}>{item.vehicleType}</Text>
                 <Text style={globalStyles.itemCode}>{item.vehicleName}</Text>
