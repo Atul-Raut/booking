@@ -20,22 +20,35 @@
   <sql-query name="app.vehicle.get.allcatwise">
       <![CDATA[
       SELECT
-        vtype."ID" AS "vehicleId",
-        vtype."TYPE" AS "vehicleType",
-        vtype."NAME" AS "vehicleName",
-        vtype."CATEGORY" AS "CATEGORY_ID",
-        cat."NAME" AS "CATEGORY_NAME"
-      FROM
-        "M_VEHICLE_TYPE" AS vtype
-        JOIN "M_VEHICLE_CAT" AS cat
-        ON(
-          vtype."CATEGORY" = cat."ID"
-        )
-      WHERE
-        cat."DEL_FLG" = 0
-        AND vtype."DEL_FLG" = 0
-      ORDER BY
-        "DISP_ORD"
+      	"vehicleId",
+      	"vehicleType",
+      	"vehicleName" || "DIMENSION" || "CAPACITY" AS "vehicleName",
+      	"DIMENSION",
+      	"CAPACITY",
+      	"CATEGORY_ID",
+      	"CATEGORY_NAME"
+      FROM (
+      SELECT
+            vtype."ID" AS "vehicleId",
+            vtype."TYPE" AS "vehicleType",
+            vtype."NAME" AS "vehicleName",
+    		CASE WHEN coalesce( trim(vtype."DIMENSION"),'') = '' THEN '' ELSE ' Size(LxBxH): ' || vtype."DIMENSION" END AS "DIMENSION",
+            CASE WHEN coalesce( trim(vtype."CAPACITY"),'') = '' THEN '' ELSE ' Capacity: ' || vtype."CAPACITY" END AS "CAPACITY",
+            vtype."CATEGORY" AS "CATEGORY_ID",
+            cat."NAME" AS "CATEGORY_NAME",
+    	    "DISP_ORD"
+          FROM
+            "M_VEHICLE_TYPE" AS vtype
+            JOIN "M_VEHICLE_CAT" AS cat
+            ON(
+              vtype."CATEGORY" = cat."ID"
+            )
+          WHERE
+            cat."DEL_FLG" = 0
+            AND vtype."DEL_FLG" = 0
+      ) AS s
+            ORDER BY
+              "DISP_ORD"
       ]]>
   </sql-query>
   <sql-query name="app.vehicle.save">

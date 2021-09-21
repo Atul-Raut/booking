@@ -311,12 +311,6 @@ render() {
 
   return (
     <View style={globalStyles.container}>
-      <MaterialIcons
-            name="arrow-back"
-            size={20}
-            onPress={(props) => { this.props.navigation.navigate('Dashboard') }}
-            style={[globalStyles.icon],{marginTop:5}}
-          />
       <Animatable.View animation="fadeInUpBig" style={globalStyles.footer}>
         <ScrollView>
           <View>
@@ -333,6 +327,24 @@ render() {
               selectedItems={this.state.vehicleType}
               animateDropDowns={false}
               modalWithSafeAreaView={true}
+              styles={{subItemText: {
+                   fontSize:12,
+                   fontWeight:'bold',
+                   color:'#626262',
+                   padding: 5,
+                   paddingVertical:5,
+                 },
+                 subItem: {
+                  borderRadius: 2,
+                  borderColor: "#0000004a",
+                  borderWidth: 1,
+                  height:35,
+                  marginBottom:5
+                },
+                selectedSubItem: {
+                  backgroundColor: '#e9e8ef'
+                }
+                }}
             />
           </View>
           <View>
