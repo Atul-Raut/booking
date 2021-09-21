@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text,TouchableOpacity,TextInput,Platform,StyleSheet, ScrollView,StatusBar, Alert,} from "react-native";
-import AppBaseComponent from "../common/AppBaseComponent";
+import AppBaseComponent,{resetReloadData, reloadDataFlag} from "../common/AppBaseComponent";
 import { callApi } from "../common/AppService";
 import { FlatGrid } from 'react-native-super-grid';
 import {translateMsg} from '../common/Translation';
@@ -23,9 +23,14 @@ export default class MyVehicleScreen extends AppBaseComponent {
 }
 
 componentDidMount() {
-  
   this.makeRemoteRequest();
-  
+  this.props.navigation.addListener('focus', this.handleFocus)
+}
+handleFocus = () => {
+  if(reloadDataFlag() && this){
+    this.makeRemoteRequest();
+    resetReloadData();
+  }
 }
  makeRemoteRequest = async () => {
   //TODO remove userID and account type from body
@@ -179,7 +184,7 @@ render() {
             cancelText={translateMsg('ok')}
             
             onCancelPressed={() => {
-              this.componentDidMount();
+              this.makeRemoteRequest();
             }}
           />
 

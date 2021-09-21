@@ -2,7 +2,9 @@ import React from "react";
 import { Image,
   View, Text,TouchableOpacity,TextInput,
   ScrollView,StatusBar} from "react-native";
-import AppBaseComponent,{getUserId,getAcountType} from "../common/AppBaseComponent";
+import AppBaseComponent,{getServiceID, getUserId,
+  setReloadData, getAcountType
+} from "../common/AppBaseComponent";
 import { callApi } from "../common/AppService";
 import {translateMsg} from '../common/Translation';
 import * as Animatable from "react-native-animatable";
@@ -355,8 +357,12 @@ hideSuccess = () => {
     showSuccess: false,
     btnDisable:false,
   });
-  this.props.navigation.reset({index: 0,
-    routes: [{name:'MyVehiclesScreen'}]});
+  //this.props.navigation.reset({index: 0,
+  //  routes: [{name:'MyVehiclesScreen'}]});
+
+  setReloadData();
+  this.props.navigation.navigate("MyVehiclesScreen");
+
 };
 
 async onValueChangeVehicleType(value) {
@@ -419,6 +425,24 @@ render() {
                 animateDropDowns={false}
                 modalWithSafeAreaView={true}
                 single={true}
+                styles={{subItemText: {
+                  fontSize:12,
+                  fontWeight:'bold',
+                  color:'#626262',
+                  padding: 5,
+                  paddingVertical:5,
+                },
+                subItem: {
+                 borderRadius: 2,
+                 borderColor: "#0000004a",
+                 borderWidth: 1,
+                 height:35,
+                 marginBottom:5
+               },
+               selectedSubItem: {
+                 backgroundColor: '#e9e8ef'
+               }
+               }}
               />
             </View>
             <View>
