@@ -141,11 +141,20 @@ export default class Feedback extends AppBaseComponent {
         <View>
             <View style={[globalStyles.cardMyRequest]}>
                 <View style={{ flexDirection: "row" }}>
-                  <MaterialIcons
-                    name="person"
-                    size={30}
-                    style={([globalStyles.icon], { marginTop: 5 })}
-                  />
+                    <Image
+                        key={'img-'+Math.random().toString()}
+                        source={require('../../assets/person-icon.png') }
+                        style={{
+                          width: 30,
+                          height: 30,
+                          borderWidth: 1,
+                          borderColor: "#c35547",
+                          resizeMode: "contain",
+                          margin: 6,
+                          borderRadius:90
+                        }}
+                        keyExtractor={(item, index) => index.toString()}
+                      />
                   <Text style={[globalStyles.cartHeader,{fontSize:18}]}>{selectedItem.requestUserName}</Text>
                   <View style={{paddingLeft: 20,}}>
                       <Text>
@@ -194,10 +203,19 @@ export default class Feedback extends AppBaseComponent {
                   <View style={{paddingTop:5, borderBottomWidth:1, 
                       borderBottomColor:'#8080808c', height:200}}>
                       <View style={{flexDirection: "row"}}>
-                        <MaterialIcons
-                          name="person"
-                          size={25}
-                          style={([globalStyles.icon], { marginTop: 5 })}
+                        <Image
+                          key={'img-'+Math.random().toString()}
+                          source={require('../../assets/person-icon.png') }
+                          style={{
+                            width: 20,
+                            height: 20,
+                            borderWidth: 1,
+                            borderColor: "#c35547",
+                            resizeMode: "contain",
+                            margin: 6,
+                            borderRadius:90
+                          }}
+                          keyExtractor={(item, index) => index.toString()}
                         />
                         <Text style={[globalStyles.cartHeader]}
                         >{item.feedbackByName}</Text>

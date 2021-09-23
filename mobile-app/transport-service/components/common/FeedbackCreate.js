@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text,TouchableOpacity, Switch,
+import { View, Text,TouchableOpacity, Switch,Image,
   TextInput, ScrollView,FlatList} from "react-native";
 import AppBaseComponent, {
   getServiceID,
@@ -221,10 +221,19 @@ render() {
       <Animatable.View >
           {this.type == 1 ? (<View style={[globalStyles.cartFeedback,{height:80}]}>
             <View style={{ flexDirection: "row" }}>
-                <MaterialIcons
-                  name="person" 
-                  size={30}
-                  style={([globalStyles.icon], { marginTop: 5 })}
+              <Image
+                  key={'img-'+Math.random().toString()}
+                  source={require('../../assets/person-icon.png') }
+                  style={{
+                    width: 30,
+                    height: 30,
+                    borderWidth: 1,
+                    borderColor: "#c35547",
+                    resizeMode: "contain",
+                    margin: 6,
+                    borderRadius:90
+                  }}
+                  keyExtractor={(item, index) => index.toString()}
                 />
                 <Text style={[globalStyles.cartHeader,{fontSize:18}]}>{selectedItem.requestUserName}</Text>
                 <View style={{paddingLeft: 20,}}>

@@ -78,9 +78,11 @@ export const globalStyles = StyleSheet.create({
   },
   itemCode: {
     fontWeight: "bold",
-    fontSize: 12,
-    color: "#FFF",
+    fontSize: 14,
     marginTop: 5,
+    color: "#333",
+    letterSpacing: 1,
+    paddingLeft: 5,
   },
   editbutton: {
     backgroundColor: "#FFBF00",
@@ -345,4 +347,16 @@ export const globalStyles = StyleSheet.create({
     marginRight:2,
     marginLeft:2
   },
+  vehicleCard:{
+    borderRadius: 2,
+    borderBottomEndRadius: 0,
+    borderBottomStartRadius: 0,
+    elevation: 2,
+    backgroundColor: "white",
+    shadowOffset: { width: 1, height: 1 },
+    shadowColor: "#333",
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    marginHorizontal: 2
+  }
 });

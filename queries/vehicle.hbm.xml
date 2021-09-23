@@ -84,8 +84,9 @@
           uservehicle."VEHICLE_NO" AS "vehicleNo",
           uservehicle."NAME" AS "vehicleName",
           vehicletype."TYPE" AS "vehicleType",
-          vehicletype."NAME" AS "vehicleTypeName"
-          from "T_USER_VEHICLE" as uservehicle
+          vehicletype."NAME" AS "vehicleTypeName",
+ 		      vehicletype."IMG_URL" AS "vehicleLogo"
+        from "T_USER_VEHICLE" as uservehicle
         JOIN "M_VEHICLE_TYPE" as vehicletype
         ON (
           uservehicle."VEHICLE_ID" = vehicletype."ID"

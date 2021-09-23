@@ -219,6 +219,10 @@ public class VehicleController extends ControllerBase {
 				if(vImages.containsKey(vehicle.get("userVehicleId"))) {
 					vehicle.putAll(vImages.get(vehicle.get("userVehicleId")));
 				}
+				if(vehicle.containsKey("vehicleLogo") 
+						&& null != vehicle.get("vehicleLogo")) {
+					vehicle.put("vehicleLogo", baseUrl + "image/" + vehicle.get("vehicleLogo"));
+				}
 			});
 
 			result = createSuccessResponse(requestInfo,userVehicles);

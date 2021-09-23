@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text,TouchableOpacity,TextInput,Platform,StyleSheet, ScrollView,StatusBar, Alert,
-  Image} from "react-native";
+  Image, FlatList} from "react-native";
 import AppBaseComponent,{resetReloadData, reloadDataFlag} from "../common/AppBaseComponent";
 import { callApi } from "../common/AppService";
 import { FlatGrid } from 'react-native-super-grid';
@@ -10,6 +10,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {globalStyles} from '../common/GlobalStyles'
 import * as Animatable from "react-native-animatable";
 import { SpeedDial } from 'react-native-elements';
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default class MyVehicleScreen extends AppBaseComponent {
   constructor(props){
@@ -124,53 +125,156 @@ handleFocus = () => {
 render() {
   const {deleteSuccess, showDeleteConfirmation, deleteFailed} =this.state;
   return (
-    <View style={globalStyles.container}>
+    <View style={{ backgroundColor: "#C5CBE3", height: "100%" }}>
       <View style={globalStyles.footer}>
         <ScrollView>
+          {/*
           <SpeedDial.Action
             icon={{ name: 'add', color: '#fff' }}
             style={{marginBottom:0}}
             onPress={() => this.addVehicle()}
           />
-          <FlatGrid
-            data={this.state.data}
-            style={globalStyles.gridView}
-            renderItem={({ item }) => (
-              <View style={[globalStyles.itemContainer, { backgroundColor: '#1abc9c' }]}>
-                <Image
-                  key={'img-'+Math.random().toString()+item}
-                  source={item && { uri: 'http://localhost:8080/image/app/piaggio-ape-3.jpg' }}
-                  style={{
-                    width: 50,
-                    height: 50,
-                    borderWidth: 1,
-                    borderColor: "#c35547",
-                    resizeMode: "contain",
-                    margin: 6,
-                    borderRadius:90
-                  }}
-                  keyExtractor={(item, index) => index.toString()}
-                />
-
-
-
-
-
-                <Text style={globalStyles.itemName}>{item.vehicleNo}</Text>
-                <Text style={globalStyles.itemCode}>{item.vehicleType}</Text>
-                <Text style={globalStyles.itemCode}>{item.vehicleName}</Text>
-                <View style={globalStyles.buttenContainer}>
-                    <TouchableOpacity style={globalStyles.editbutton}
+          */}
+          <FlatList
+              key={'FlatList'+Math.random().toString()}
+              keyExtractor={(item, index) => index.toString()}
+              data={this.state.data}
+              renderItem={({ item }) => (
+                  <>
+                  <View style={[globalStyles.vehicleCard,{marginBottom:1}]}>
+                    <View style={{flexDirection:'row'}}>
+                      <Image
+                        key={'img-'+Math.random().toString()+item}
+                        source={item.vehicleLogo ? { uri: item.vehicleLogo } : require('../../assets/default-car-logo.jpeg') }
+                        style={{
+                          width: 50,
+                          height: 50,
+                          borderWidth: 1,
+                          borderColor: "#c35547",
+                          resizeMode: "contain",
+                          margin: 6,
+                          borderRadius:90
+                        }}
+                        keyExtractor={(item, index) => index.toString()}
+                      />
+                      <View style={{flexDirection:'column', marginLeft:10}}>
+                          <Text style={[globalStyles.cartHeader]}>{item.vehicleNo}</Text>
+                          <Text style={{paddingLeft: 5}}>{item.vehicleType}</Text>
+                          <Text style={{paddingLeft: 5}}>{item.vehicleName}</Text>
+                      </View>
+                    </View>
+                    <View style={{ paddingLeft: 10, marginBottom:10, marginTop:10}}>
+                        <ScrollView
+                          horizontal={true}
+                          key={'imgsView'+Math.random().toString()+item.vehicleNo}
+                          >
+                            { (item.images) && 
+                            <FlatList
+                            data={item.images}
+                            key={'img'+Math.random().toString()+item}
+                            numColumns={300}
+                            style={{height:140}}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({ item }) => (
+                            <>
+                              <Image
+                                key={'img-'+Math.random().toString()+item}
+                                source={item && { uri: item }}
+                                style={{
+                                  width: 100,
+                                  height: 120,
+                                  borderWidth: 1,
+                                  borderColor: "#c35547",
+                                  resizeMode: "contain",
+                                  margin: 6,
+                                }}
+                                keyExtractor={(item, index) => index.toString()}
+                            />
+                            </>
+                             )}
+                            />
+                          }
+                           { (!item.images) && 
+                              <>
+                              <Image
+                                key={'no-img-'+Math.random().toString()}
+                                source={item.image1 ? { uri: item.image1 } : require('../../assets/default-car-logo.jpeg') }
+                                style={{
+                                  width: 100,
+                                  height: 80,
+                                  borderWidth: 1,
+                                  borderColor: "#c35547",
+                                  resizeMode: "contain",
+                                  margin: 6,
+                                }}
+                                keyExtractor={(item, index) => index.toString()}
+                              />
+                              <Image
+                                key={'no-img2-'+Math.random().toString()}
+                                source={item.image2 ? { uri: item.image2 } : require('../../assets/default-car-logo.jpeg') }
+                                style={{
+                                  width: 100,
+                                  height: 80,
+                                  borderWidth: 1,
+                                  borderColor: "#c35547",
+                                  resizeMode: "contain",
+                                  margin: 6,
+                                }}
+                                keyExtractor={(item, index) => index.toString()}
+                              />
+                              <Image
+                                key={'no-img3-'+Math.random().toString()}
+                                source={item.image3 ? { uri: item.image3 } : require('../../assets/default-car-logo.jpeg') }
+                                style={{
+                                  width: 100,
+                                  height: 80,
+                                  borderWidth: 1,
+                                  borderColor: "#c35547",
+                                  resizeMode: "contain",
+                                  margin: 6,
+                                }}
+                                keyExtractor={(item, index) => index.toString()}
+                              />
+                              </>
+                            }
+                        </ScrollView>
+                    </View>
+              </View>
+              <View style={[globalStyles.cardControlBarMyRequest,
+                  {paddingTop:1, marginBottom:3,marginHorizontal: 2, alignItems:'flex-end'}]}>
+                  <View style={{flexDirection:'row', paddingRight:10, marginTop:5}}>
+                    <TouchableOpacity
+                      style={{marginRight:10}}
                       onPress={() => this.updateVehicle({ item })}>
-                      <Text style={{fontWeight: "bold", color:'#05375a', fontSize:12}} >{translateMsg('edit')}</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={globalStyles.deletebutton}
+                      <MaterialIcons
+                            key={"edit"}
+                            name="edit"
+                            size={25}
+                            color={"#535356"}
+                            style={{
+                              marginTop: 2,
+                              zIndex: 1,
+                            }}
+                          />
+                    </TouchableOpacity>
+                    <TouchableOpacity
                       onPress={() => this.handleDelete({ item })}>
-                      <Text style={{fontWeight: "bold", color:'#05375a', fontSize:12}} >{translateMsg('delete')}</Text>
-                  </TouchableOpacity>
+                      <MaterialIcons
+                            key={"delete"}
+                            name="delete-forever"
+                            size={25}
+                            color={"#f5440d"}
+                            style={{
+                              marginTop: 2,
+                              zIndex: 1,
+                            }}
+                          />
+                    </TouchableOpacity>
                 </View>
               </View>
+              </>
             )}
+            keyExtractor={(item, index) => index.toString()}
           />
         </ScrollView>
         </View>

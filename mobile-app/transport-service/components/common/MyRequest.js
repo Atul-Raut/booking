@@ -151,11 +151,14 @@ export default class MyRequest extends AppBaseComponent {
           >
             <MaterialIcons
               key={'acceptThumb'+Math.random().toString()+item.requestID}
-              name="thumb-up"
+              name={isCancle ? "thumb-down" : "thumb-up"}
               size={15}
               color={"white"}
               style={{ marginTop: 8, marginRight: -23, zIndex: 1 }}
-            />
+            >
+              <Text
+              key={item.requestID+'Accept/Cancle'}></Text>
+              </MaterialIcons>
             <Text
               key={item.requestID+'Accept/Cancle'}
               style={[
@@ -165,10 +168,10 @@ export default class MyRequest extends AppBaseComponent {
                   backgroundColor: isCancle? "red" : "#079057",
                   height: 30,
                   borderRadius: 5,
-                  width: 85,
+                  width: 100,
                   textAlign: "center",
                   padding: 5,
-                  marginLeft:5
+                  marginLeft:2
                 },
 
               ]}
@@ -293,12 +296,21 @@ export default class MyRequest extends AppBaseComponent {
                     <View style={[globalStyles.cardMyRequest, 
                         (item.images && item.images.length > 0) ? { paddingBottom: 10 } : {paddingBottom: 15, }]}>
                         <View style={{ flexDirection: "row" }}>
-                        <MaterialIcons
-                          name="person"
-                          size={20}
-                          style={([globalStyles.icon], { marginTop: 5 })}
-                        />
                         
+                        <Image
+                        key={'img-'+Math.random().toString()+item}
+                        source={require('../../assets/person-icon.png') }
+                        style={{
+                          width: 30,
+                          height: 30,
+                          borderWidth: 1,
+                          borderColor: "#c35547",
+                          resizeMode: "contain",
+                          margin: 6,
+                          borderRadius:90
+                        }}
+                        keyExtractor={(item, index) => index.toString()}
+                      />
                         <Text style={[globalStyles.cartHeader]}>{item.requestUserName}</Text>
                         <Text style={{ paddingLeft: 20, paddingTop:5, paddingRight:3, fontWeight:'bold'}}> 
                         {item.review}</Text>

@@ -399,6 +399,7 @@ render() {
     };
   return (
     <View style={globalStyles.container}>
+      {/*
       <View>
       <MaterialIcons
         name="arrow-back"
@@ -407,6 +408,7 @@ render() {
         style={[globalStyles.icon],{marginTop:5}}
       />
     </View>
+    */}
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
       <Animatable.View animation="fadeInUpBig" style={globalStyles.footer}>
         <ScrollView>

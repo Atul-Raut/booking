@@ -31,6 +31,15 @@ export function TransportServiceProviderDrawerContent({props}) {
                     props.navigation.navigate("MyVehiclesScreen");
                   }}
                 />
+                <DrawerItem
+                  icon={({ color, size }) => (
+                    <Icon name="plus" color={color} size={size} />
+                  )}
+                  label={translateMsg('addVehicle')}
+                  onPress={() => {
+                    props.navigation.navigate("AddVehicleScreen");
+                  }}
+                />
               </Drawer.Section>
             </View>
         </DrawerContentScrollView>
