@@ -25,6 +25,9 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { globalStyles } from "../common/GlobalStyles";
 import * as Animatable from "react-native-animatable";
 import {numberWithCommas} from './AppUtils';
+import ReasonDialog from './dialogbox/ReasonDialog'
+import Dialog, { DialogContent, DialogButton, DialogTitle, DialogFooter 
+} from "react-native-popup-dialog";
 
 export default class MyRequest extends AppBaseComponent {
   constructor(props) {
@@ -32,14 +35,22 @@ export default class MyRequest extends AppBaseComponent {
     this.sendRequest = this.sendRequest.bind(this);
     this._renderView = this._renderView.bind(this); 
     this._renderBody = this._renderBody.bind(this); 
+    this.loadCancleReasons = this.loadCancleReasons.bind(this); 
+    this.updateStatus = this.updateStatus.bind(this); 
+    
     this.flatListRef = React.createRef();
     this.makeRemoteRequest = this.makeRemoteRequest.bind(this);
     this.state = {
       didUpdateFlag: false,
       postId: "",
       requests: [],
+      cancleReasons:[],
+      showCancelReason:false
     };
     this.focusListener = null;
+    this.item = null;
+    this.status = null;
+    this.props1 = null;
   }
 
   componentDidMount() {
@@ -54,23 +65,23 @@ export default class MyRequest extends AppBaseComponent {
   }
 
   handleFocus = () => {
-    console.log("My Request Focus.....")
     if(reloadDataFlag()){
-      console.log("Reloading Request.....")
       this.makeRemoteRequest();
       resetReloadData();
     }
   }
 
   makeRemoteRequest = async () => {
+    if(!reloadDataFlag()){
+      return;
+    }
+    resetReloadData();
+    console.log(this.props.route)
     let tempPostId = '<NA>';
     let {post, index} = getSelectedPost();
     if(this.props.route.params || post){
       let post1 = this.props.route.params ? this.props.route.params : post;
       const { postId } = post1;
-      if (this.state.postId == postId) {
-        return;
-      }
       this.setState({
         postId: postId,
         tempPostId:postId
@@ -111,22 +122,68 @@ export default class MyRequest extends AppBaseComponent {
       didUpdateFlag: true,
     });
   }
-
-
   sendRequest = async (item, status, props) => {
+    if(status == "NEW"){
+      this.item = item;
+      this.status = status;
+      this.props1 = props;
+      await this.loadCancleReasons();
+      if(!this.state.showCancelReason){
+        await this.updateStatus(item, status, props,{});
+      }
+    }else{
+      await this.updateStatus(item, status, props,{});
+    }
+    
+  }
+
+loadCancleReasons = async (item, status, props) => {
+  if(this.state.cancleReasons.length > 0){
+    this.setState({
+      showCancelReason:true
+    });
+    return;
+  }
+  let param = {
+    'serviceId': 'WS-FED-01',
+    'body': {"type":3}
+  }
+
+  let response = await callApi(param);
+  if (response && response.retCode == this.SUCCESS_RET_CODE) {
+    if (response.result.length > 0) {
+      this.setState({
+        cancleReasons: response.result,
+        showCancelReason:true
+      });
+    }
+  }
+}
+
+_reasoncallback = async (action, reasonInfo) => {
+  this.setState({
+    showCancelReason:false
+  });
+  if('1' == action){
+    await this.updateStatus(this.item, this.status, this.props1, reasonInfo);
+  }
+}
+
+  updateStatus = async (item, status, props, reasonInfo) => {
     let param = {
       serviceId: "WS-PS-04",
       body: {
         postId: item.postId,
         'status': status,
-        requestUserId: item.requestUserId
+        requestUserId: item.requestUserId,
+        reasonInfo
       },
     };
 
     let response = await callApi(param);
     if (response && response.retCode == this.SUCCESS_RET_CODE) {
-      props.navigation.reset({index: 0,
-        routes: [{name:'MyRequest',params:item}]});
+      setReloadData();
+      this.makeRemoteRequest();
     }
   }
   _renderView(collapse, item, onp, apis, props) {
@@ -147,7 +204,7 @@ export default class MyRequest extends AppBaseComponent {
       btn.push(
         <View key={item.requestID+"new"}>
           <TouchableOpacity key={"new"} style={{ flexDirection: "row" }}
-            onPress={() => apis.sendRequest(item,newStatus, props)}
+            onPress={() => apis.sendRequest(item, newStatus, props)}
           >
             <MaterialIcons
               key={'acceptThumb'+Math.random().toString()+item.requestID}
@@ -157,8 +214,8 @@ export default class MyRequest extends AppBaseComponent {
               style={{ marginTop: 8, marginRight: -23, zIndex: 1 }}
             >
               <Text
-              key={item.requestID+'Accept/Cancle'}></Text>
-              </MaterialIcons>
+                key={item.requestID+'Accept/Cancle'}></Text>
+            </MaterialIcons>
             <Text
               key={item.requestID+'Accept/Cancle'}
               style={[
@@ -451,6 +508,29 @@ export default class MyRequest extends AppBaseComponent {
             </View>
           </ScrollView>
         </View>
+
+        <Dialog
+          visible={this.state.showCancelReason}
+          onTouchOutside={() => {
+            this.setState({ showCancelReason: false });
+            this.hideDialog;
+          }}
+          dialogTitle={<DialogTitle title="Cancel Reason" />}
+          width={0.9}
+        >
+        <DialogContent
+          style={{paddingRight:0,
+            paddingLeft:0,}}
+        >
+          <ReasonDialog
+            children={this.state.cancleReasons}
+            callbackFunction={this._reasoncallback}
+            style={{paddingRight:0,
+              paddingLeft:0,}}
+          >
+          </ReasonDialog>
+        </DialogContent>
+      </Dialog>
       </View>
     );
   }

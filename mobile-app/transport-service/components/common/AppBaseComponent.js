@@ -182,8 +182,8 @@ export const baseUrl=()=>{
     setDataintoLocalStorage("signIn", false);
   }
 
-  export const setReloadData = () => {
-    setDataintoLocalStorage("reloadData", true);
+  export const setReloadData = async () => {
+    await setDataintoLocalStorage("reloadData", true);
   }
 
   export const resetReloadData = () => {

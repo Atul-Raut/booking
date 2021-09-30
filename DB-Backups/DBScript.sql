@@ -202,3 +202,40 @@ Update "M_VEHICLE_TYPE" SET "DIMENSION" = '7ft X 4ft X 5ft', "CAPACITY" = '750' 
 Update "M_VEHICLE_TYPE" SET "DIMENSION" = '10ft X 9ft X 11ft', "CAPACITY" = '2500' WHERE "ID" = '7';
 Update "M_VEHICLE_TYPE" SET "DIMENSION" = '15ft X 10ft X 10ft', "CAPACITY" = '3500' WHERE "ID" = '8';
 --2021-09-21 end
+
+--2021-09-23 start
+INSERT INTO "M_FEEDBACK_QUESTIONS"("ID", "QUESTION", "DEL_FLG", "INS_DT", "INS_BY", "TYPE","DISP_ORD")
+VALUES ('6', 'Order created by mistake.', 0, CURRENT_TIMESTAMP, 'Atul', 3,1);
+INSERT INTO "M_FEEDBACK_QUESTIONS"("ID", "QUESTION", "DEL_FLG", "INS_DT", "INS_BY", "TYPE","DISP_ORD")
+VALUES ('7', 'Cost too high.', 0, CURRENT_TIMESTAMP, 'Atul', 3,3);
+INSERT INTO "M_FEEDBACK_QUESTIONS"("ID", "QUESTION", "DEL_FLG", "INS_DT", "INS_BY", "TYPE","DISP_ORD")
+VALUES ('8', 'Found cheaper some were else.', 0, CURRENT_TIMESTAMP, 'Atul', 3,3);
+
+CREATE TABLE IF NOT EXISTS "T_REASON_ANS"
+(
+    "ID" character varying(50) COLLATE pg_catalog."default" NOT NULL,
+	"ANS_FOR" character varying(50) COLLATE pg_catalog."default" NOT NULL,
+	"ANS_BY" character varying(50) COLLATE pg_catalog."default" NOT NULL,
+	"QUESTION_TYP" integer,
+	"QUESTION_ID" character varying(50) COLLATE pg_catalog."default" NOT NULL,
+	"ANS" character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    "INS_DT" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    "INS_BY" character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT treasonans_pk PRIMARY KEY ("ID")
+);
+--2021-09-23 end
+--2021-09-30 start
+CREATE TABLE IF NOT EXISTS "T_USER_NOTIFICATION"
+(
+    "ID" character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    "USER_ID" character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    "MESSAGE" character varying(3000) COLLATE pg_catalog."default",
+	"READ_STATUS" integer DEFAULT 0,
+    "DEL_FLG" integer DEFAULT 0,
+    "INS_DT" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    "INS_BY" character varying(250) COLLATE pg_catalog."default" NOT NULL,
+	"UPD_DT" timestamp without time zone,
+    "UPD_BY" character varying(250),
+    CONSTRAINT tusernotification_pk PRIMARY KEY ("ID")
+);
+--2021-09-30 end

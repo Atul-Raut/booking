@@ -15,7 +15,7 @@ export default class ChangePassword extends AppBaseComponent {
       this.translate = this.translate.bind(this);
       this.screenID = "SCR-CMN-06";
       this.OnSubmitServiceID = "WS-UP-07";
-      this.state = {
+      this.defaultState = {
           currentPassword: "",
           newPassword: "",
           confirmPassword: "",
@@ -30,6 +30,9 @@ export default class ChangePassword extends AppBaseComponent {
           confirmPasswordVal: "",
           showSuccess:false,
           successMsg:"",
+      };
+      this.state ={
+        ...this.defaultState,
       };
 }
 async onSubmit(event) {
@@ -133,8 +136,10 @@ hideSuccess = () => {
   this.setState({
     showSuccess: false
   });
-  this.props.navigation.reset({index: 0,
-    routes: [{name:'HomeScreen'}]});
+  this.state ={
+    ...this.defaultState,
+  };
+  this.props.navigation.navigate( "HomeScreen" );
 };
 
 

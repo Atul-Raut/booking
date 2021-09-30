@@ -355,4 +355,29 @@
           AND postReq."STATUS" = 'NEW'
     ]]>
   </sql-query>
+
+  <sql-query name="WS-PS-04.app.post.status.reason.insert">
+    <![CDATA[
+    INSERT INTO "T_REASON_ANS"
+    (
+      "ID",
+    	"ANS_FOR",
+    	"ANS_BY",
+    	"QUESTION_TYP",
+    	"QUESTION_ID",
+    	"ANS",
+      "INS_DT",
+      "INS_BY"
+    ) VALUES (
+    	:id,
+    	:requestUserId,
+    	:userId,
+    	:type,
+    	:queId,
+    	:ans,
+    	CURRENT_TIMESTAMP,
+    	:serviceCode
+    )
+  ]]>
+  </sql-query>
 </hibernate-mapping>

@@ -68,13 +68,13 @@ handleFocus = () => {
   }
 
   addVehicle =()=>{
-    this.props.navigation.reset({index: 0,
-      routes: [{name:'AddVehicleScreen'}]});
+    //this.props.navigation.reset({index: 0,
+    //  routes: [{name:'AddVehicleScreen'}]});
   }
 
   updateVehicle =(item)=>{
-    this.props.navigation.reset({index: 0,
-      routes: [{name:'AddVehicleScreen', item:item.item}]});
+    //this.props.navigation.reset({index: 0,
+    //  routes: [{name:'AddVehicleScreen', item:item.item}]});
   }
 
   handleDelete = (item)=>{

@@ -77,8 +77,10 @@ render() {
                 <MaterialIcons
                   name="mode-edit"
                   size={20}
-                  onPress={(props) => { this.props.navigation.reset({index: 0,
-                    routes: [{name:'ProfileUpdateScreen', profile:profile}]}); }}
+                  onPress={(props) => { 
+                    //this.props.navigation.reset({index: 0,
+                    //routes: [{name:'ProfileUpdateScreen', profile:profile}]}); 
+                  }}
                   style={globalStyles.iconEnd}
                 />
               </View>

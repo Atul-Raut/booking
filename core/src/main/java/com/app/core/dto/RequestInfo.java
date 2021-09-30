@@ -6,11 +6,18 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.app.core.common.CommonConstants;
+import com.app.core.util.CoreUtils;
 import com.app.core.validator.ValidatorInfo;
 
 public class RequestInfo extends HashMap<String, Object> {
 
 	private static final long serialVersionUID = 1L;
+	public String generateID() {
+		String id = CoreUtils.getUUID();
+		this.put(CommonConstants.KEY_ID, id);
+		return id;
+	}
+	
 	public String getServiceCode() {
 		return Objects.toString(get(CommonConstants.KEY_SERVICE_ID), null);
 	}

@@ -7,7 +7,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -188,6 +190,31 @@ public class PostController extends PostBaseControlerImpl {
 			}
 			
 			service.executeUpdate(requestInfo);
+			
+			if(requestInfo.containsKey("reasonInfo") && null != requestInfo.get("reasonInfo")) {
+				requestInfo.setQueryId("WS-PS-04.app.post.status.reason.insert");
+				Set<Entry<String, Object>> reasons = ((Map<String,Object>)requestInfo.get("reasonInfo")).entrySet();
+				for (Entry<String, Object> entry : reasons) {
+					requestInfo.generateID();
+					String ans = Objects.toString(entry.getValue());
+					
+					if(ans == null || ans.isEmpty()) {
+						continue;
+					}
+					
+					String queId = null;
+					try {
+						queId = entry.getKey().replaceAll("ANS_", "");
+					}catch(Exception e) {
+						queId = entry.getKey();
+					}
+					requestInfo.put("queId", queId);
+					requestInfo.put("type", 3);
+					requestInfo.put("ans", ans);
+					service.executeUpdate(requestInfo);
+				}
+			}
+			
 			result = createSuccessResponse(requestInfo,null);
 			
 		}catch(Exception e) {

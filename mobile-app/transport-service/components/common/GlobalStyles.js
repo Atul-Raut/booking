@@ -358,5 +358,19 @@ export const globalStyles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 2,
     marginHorizontal: 2
+  },
+  modelHeaderText: {
+    color: "#05375a",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop:10,
+  },
+  modelHeader:{
+    height:40,
+    borderBottomColor:'gray',
+    borderBottomWidth:1,
+    paddingRight:0,
+    paddingLeft:0,
+    alignItems:'center',
   }
 });
