@@ -14,7 +14,13 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarStyle: { backgroundColor: "#009387", position: "absolute" },
+        tabBarStyle: {
+          backgroundColor: "#009387",
+          position: "absolute",
+          activeBackgroundColor: "blue",
+          inactiveBackgroundColor: "white",
+          tabBarActiveTintColor: "blue",
+        },
       }}
     >
       <Tab.Screen
@@ -23,8 +29,13 @@ const TabNavigator = () => {
         options={{
           tabBarLabel: " ",
           headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="home" color={"white"} size={size} />
+          tabBarIcon: ({ size, focused }) => (
+            <MaterialIcons
+              name="home"
+              //   color={color}
+              size={size}
+              style={{ color: focused ? "blue" : "white" }}
+            />
           ),
           tabBarItemStyle: {
             marginTop: 10,
@@ -37,8 +48,13 @@ const TabNavigator = () => {
         options={{
           headerShown: false,
           tabBarLabel: "",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="notifications" color={"white"} size={size} />
+          tabBarIcon: ({ size, focused }) => (
+            <MaterialIcons
+              name="notifications"
+              //color={"white"}
+              size={size}
+              style={{ color: focused ? "blue" : "white" }}
+            />
           ),
           tabBarBadge: 2,
           tabBarItemStyle: {
@@ -52,8 +68,13 @@ const TabNavigator = () => {
         options={{
           headerShown: false,
           tabBarLabel: "",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="settings" color={"white"} size={size} />
+          tabBarIcon: ({ color, size, tintColor, focused }) => (
+            <MaterialIcons
+              name="settings"
+              // color={"white"}
+              size={size}
+              style={{ color: focused ? "blue" : "white" }}
+            />
           ),
           tabBarItemStyle: {
             marginTop: 10,
