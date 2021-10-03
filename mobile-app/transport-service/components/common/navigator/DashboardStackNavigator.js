@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { translateMsg } from "../Translation";
 import Header from "../Header";
+import HeaderStack from "../HeaderStack";
 import Dashboard from "../Dashboard";
 import PostDetails from "../PostDetails";
 import MyRequest from "../MyRequest";
@@ -47,8 +48,8 @@ const DashboardStackNavigator = () => {
         component={MyRequest}
         options={({ navigation }) => ({
           header: (props) => (
-            <Header navigation={navigation} name={translateMsg("myRequest")} />
-          ),
+            <HeaderStack navigation={navigation} name={translateMsg("myRequest")} />
+         ),
           headerLeft: null,
           headerTitleStyle: { alignSelf: "center" },
         })}
@@ -59,7 +60,7 @@ const DashboardStackNavigator = () => {
         component={Feedback}
         options={({ navigation }) => ({
           header: (props) => (
-            <Header navigation={navigation} name={translateMsg("feedback")} />
+            <HeaderStack navigation={navigation} name={translateMsg("feedback")} />
           ),
           headerLeft: null,
           headerTitleStyle: { alignSelf: "center" },
@@ -70,7 +71,7 @@ const DashboardStackNavigator = () => {
         component={FeedbackCreate}
         options={({ navigation }) => ({
           header: (props) => (
-            <Header
+            <HeaderStack
               navigation={navigation}
               name={translateMsg("submitFeedback")}
             />

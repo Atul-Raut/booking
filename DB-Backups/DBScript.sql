@@ -265,3 +265,25 @@ INSERT INTO "M_CTL_CONFIG" VALUES('WS-NOTIFY-01','CONNON_CONFIG', 0, 'Get notifi
 INSERT INTO "M_CTL_CONFIG" VALUES('WS-NOTIFY-02','CONNON_CONFIG', 0, 'Get notifications by user id', '{}', 0, 0, CURRENT_TIMESTAMP, 'ATUL', null, null);
 
 --2021-09-30 end
+
+--2021-10-03 start
+CREATE TABLE IF NOT EXISTS "T_USER_TIMELINE"
+(
+    "ID" character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    "USER_ID" character varying(250) COLLATE pg_catalog."default" NOT NULL,
+	"AC_TYPE" integer DEFAULT 0,
+    "POST_ID" character varying(50) COLLATE pg_catalog."default",
+    "TITLE" character varying(100) COLLATE pg_catalog."default",
+    "SUMMARY" character varying(150) COLLATE pg_catalog."default",
+    "START_DT" timestamp without time zone,
+	"END_DT" timestamp without time zone,
+    "DEL_FLG" integer DEFAULT 0,
+    "INS_DT" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    "INS_BY" character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    "UPD_DT" timestamp without time zone,
+    "UPD_BY" character varying(250) COLLATE pg_catalog."default",
+    CONSTRAINT tusertimeline_pk PRIMARY KEY ("ID")
+);
+INSERT INTO "M_CTL_CONFIG" VALUES('WS-TL-01','CONNON_CONFIG', 0, 'Get timeline info by user id', '{}', 0, 0, CURRENT_TIMESTAMP, 'ATUL', null, null);
+
+--2021-10-03 end

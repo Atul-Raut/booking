@@ -246,13 +246,13 @@ _reasoncallback = async (action, reasonInfo) => {
             <View style={{ paddingLeft: 10, marginTop:10, width: "70%" }}>
               <TouchableOpacity key={item.id+'temp'} onPress={onp}>
                 <Text  key={item.id+'temp1'} style={{color:'blue', fontWeight:'bold'}}>{'More Details'}</Text>
-                <MaterialIcons
+              {/*  <MaterialIcons
                   key={"expand-more"}
                   name= {collapse? "expand-less" : "expand-more"}
                   size={25}
                   style={{marginTop:-10, marginLeft:25}} 
                   color={"blue"}
-                />
+              />*/}
               </TouchableOpacity>
           </View> 
           <View style={{ position: "absolute", marginTop: 5, right: 10 }}>
@@ -330,8 +330,8 @@ _reasoncallback = async (action, reasonInfo) => {
     }
 
     return (
-      <View style={{backgroundColor:'#C5CBE3', height:'100%'}}>
-        <View style={{backgroundColor:'white', height:25, width:'100%', marginHorizontal: 1,}}>
+      <View style={{backgroundColor:'white', height:'100%'}}>
+        {/* <View style={{backgroundColor:'white', height:10, width:'100%', marginHorizontal: 1,}}>
           <MaterialIcons
             name="chevron-left"
             size={25}
@@ -340,7 +340,7 @@ _reasoncallback = async (action, reasonInfo) => {
             }}
             style={([globalStyles.icon], { marginTop: 1 , marginLeft:5, width:30})}
           />
-        </View>
+        </View>*/}
         <View>
           <ScrollView>
             <FlatList
@@ -360,8 +360,6 @@ _reasoncallback = async (action, reasonInfo) => {
                         style={{
                           width: 30,
                           height: 30,
-                          borderWidth: 1,
-                          borderColor: "#c35547",
                           resizeMode: "contain",
                           margin: 6,
                           borderRadius:90

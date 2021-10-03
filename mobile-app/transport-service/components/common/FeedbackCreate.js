@@ -208,8 +208,8 @@ render() {
 
   return (
     <View style={[globalStyles.container,{backgroundColor:'#C5CBE3'}]}>
-      <View style={{backgroundColor:'white', height:25, width:'100%', marginBottom:1,marginHorizontal: 1,}}>
-          <MaterialIcons
+     {/*  <View style={{backgroundColor:'white', height:25, width:'100%', marginBottom:1,marginHorizontal: 1,}}>
+         <MaterialIcons
             name="chevron-left"
             size={25}
             onPress={(props) => {
@@ -217,7 +217,7 @@ render() {
             }}
             style={([globalStyles.icon], { marginTop: 1 , marginLeft:5, width:30})}
           />
-        </View>
+        </View>*/}
       <Animatable.View >
           {this.type == 1 ? (<View style={[globalStyles.cartFeedback,{height:80}]}>
             <View style={{ flexDirection: "row" }}>
@@ -227,8 +227,6 @@ render() {
                   style={{
                     width: 30,
                     height: 30,
-                    borderWidth: 1,
-                    borderColor: "#c35547",
                     resizeMode: "contain",
                     margin: 6,
                     borderRadius:90

@@ -105,7 +105,7 @@ export default class Timeline extends AppBaseComponent {
               // number of date will render before and after initDate
               // (default is 30 will render 30 day before initDate
               // and 29 day after initDate)
-              initDate={'2021-09-11'}
+              //initDate={'2021-09-11'}
               // Show initial date (default is today)
               scrollToFirst
               // Scroll to first event of the day (default true)

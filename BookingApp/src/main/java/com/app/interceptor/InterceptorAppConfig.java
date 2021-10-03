@@ -12,6 +12,7 @@ import com.app.controller.FileController;
 import com.app.controller.NotificationController;
 import com.app.controller.PostController;
 import com.app.controller.ServiceController;
+import com.app.controller.TimeLineController;
 import com.app.controller.UploadController;
 import com.app.controller.UserController;
 import com.app.controller.VehicleController;
@@ -57,5 +58,7 @@ public class InterceptorAppConfig implements WebMvcConfigurer {
 		//Notification Controller
 		registry.addInterceptor(serviceInterceptor).addPathPatterns(NotificationController.PATH_SERVICE_PATHS);
 
+		//Time line Controller
+		registry.addInterceptor(serviceInterceptor).addPathPatterns(TimeLineController.PATH_SERVICE_PATHS);
 	}
 }

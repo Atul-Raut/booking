@@ -39,6 +39,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
       deleteFailed: false,
       deleteSuccess: false,
       loader: false,
+      refresh: false,
     };
     this.focusListener = null;
   }
@@ -83,7 +84,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
   makeRemoteRequest = async (type) => {
     if(type == 1){
       setReloadData();
-      this.setState({loader:true});
+      this.setState({refresh:true});
     }
     //Check data load flag if true then and then data will be load
     if(!reloadDataFlag()){
@@ -104,18 +105,21 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
       if (response.result.length > 0) {
         this.setState({
           loader: false,
+          refresh:false,
           requests: response.result,
         });
       } else {
         this.setState({
           requests: [],
           loader: false,
+          refresh:false,
         });
       }
     } else {
       this.setState({
         requests: [],
         loader: false,
+        refresh:false,
       });
     }
     this.setState({
@@ -124,6 +128,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
       selectedItem: null,
       deleteFailed: false,
       loader: false,
+      refresh:false,
     });
   };
 
@@ -192,6 +197,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
       deleteSuccess,
       deleteFailed,
       loader,
+      refresh,
     } = this.state;
     return (
       <>
@@ -494,9 +500,9 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                       </View>
                     </View>
                   )}
-                  keyExtractor={(item, index) => index.toString()}
+                 // keyExtractor={(item, index) => index.toString()}
                   onRefresh={() => {this.makeRemoteRequest(1);}}
-                  refreshing={loader}
+                  refreshing={refresh}
                 />
 
                 <View style={{ height: 50 }}>

@@ -33,7 +33,8 @@ export default class Feedback extends AppBaseComponent {
       didUpdateFlag: false,
       providerId: "",
       feedbacks:[],
-      selectedItem:{}
+      selectedItem:{},
+      refreshing:false,
     };
     this.focusListener = null;
   }
@@ -50,9 +51,7 @@ export default class Feedback extends AppBaseComponent {
   }
 
   handleFocus = () => {
-    console.log("Feedback Focus.....")
     if(reloadDataFlag() && this){
-      console.log("Reloading Feedback.....")
       this.makeRemoteRequest();
       resetReloadData();
     }
@@ -67,7 +66,8 @@ export default class Feedback extends AppBaseComponent {
       this.setState({
         providerId: providerId,
         tempProviderId:providerId,
-        selectedItem:this.props.route.params.selectedItem
+        selectedItem:this.props.route.params.selectedItem,
+        refreshing:true,
       });
       tempProviderId = providerId;
     }else{
@@ -91,24 +91,28 @@ export default class Feedback extends AppBaseComponent {
         this.setState({
           feedbacks: response.result,
           selectedItem:selectedItem1,
+          refreshing:false,
         });
       } else {
         this.setState({
           feedbacks: [],
+          refreshing:false,
         });
       }
     } else {
       this.setState({
         feedbacks: [],
+        refreshing:false,
       });
     }
     this.setState({
       didUpdateFlag: true,
+      refreshing:false,
     });
   }
 
   render() {
-    const { feedbacks, selectedItem } = this.state;
+    const { feedbacks, selectedItem, refreshing } = this.state;
 
     const getReview = (review) => {
       let rets = [];
@@ -128,16 +132,16 @@ export default class Feedback extends AppBaseComponent {
 
     return (
       <View style={{backgroundColor:'#C5CBE3', height:'100%'}}>
-        <View style={{backgroundColor:'white', height:25, width:'100%', marginHorizontal: 1,}}>
-          <MaterialIcons
+      {/*   <View style={{backgroundColor:'white', height:25, width:'100%', marginHorizontal: 1,}}>
+         <MaterialIcons
             name="chevron-left"
             size={25}
             onPress={(props) => {
               this.props.navigation.navigate("MyRequest");
             }}
             style={([globalStyles.icon], { marginTop: 1 , marginLeft:5, width:30})}
-          />
-        </View>
+          /> 
+        </View>*/}
         <View>
             <View style={[globalStyles.cardMyRequest]}>
                 <View style={{ flexDirection: "row" }}>
@@ -147,8 +151,6 @@ export default class Feedback extends AppBaseComponent {
                         style={{
                           width: 30,
                           height: 30,
-                          borderWidth: 1,
-                          borderColor: "#c35547",
                           resizeMode: "contain",
                           margin: 6,
                           borderRadius:90
@@ -186,6 +188,7 @@ export default class Feedback extends AppBaseComponent {
                         this.props.navigation.navigate("FeedbackCreate", 
                         {selectedItem:selectedItem, type : 1});
                       }}
+                      style={{height:'100%'}}
                     >
                       <Text style={{fontSize:12, color:'blue', marginTop:5}}>
                         {'Write a feedback'}
@@ -209,8 +212,6 @@ export default class Feedback extends AppBaseComponent {
                           style={{
                             width: 20,
                             height: 20,
-                            borderWidth: 1,
-                            borderColor: "#c35547",
                             resizeMode: "contain",
                             margin: 6,
                             borderRadius:90
@@ -229,6 +230,8 @@ export default class Feedback extends AppBaseComponent {
                     </View>
                     )}
                     keyExtractor={(item, index) => index.toString()}
+                    onRefresh={() => {this.makeRemoteRequest();}}
+                    refreshing={refreshing}
                   />
               </ScrollView>
           </View>
