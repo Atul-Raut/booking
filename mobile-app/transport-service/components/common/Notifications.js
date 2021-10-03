@@ -29,6 +29,7 @@ export default class Notifications extends AppBaseComponent {
     super(props);
     this.state = {
       notifications: [],
+      refreshing : false,
     };
     this.focusListener = null;
 
@@ -40,23 +41,27 @@ export default class Notifications extends AppBaseComponent {
 
   componentDidMount() {
     setReloadData();
-    this.makeRemoteRequest();
+    this.makeRemoteRequest(0);
     this.focusListener = this.props.navigation.addListener('focus', this.handleFocus)
   }
 
   handleFocus = () => {
     if(reloadDataFlag()){
-      this.makeRemoteRequest();
+      this.makeRemoteRequest(0);
     }
   }
 
-  makeRemoteRequest = async () => {
+  makeRemoteRequest = async (type) => {
+    if(type == 1){
+      setReloadData();
+    }
     //Check data load flag if true then and then data will be load
     if(!reloadDataFlag()){
       return;
     }
     //Reset reload flag to false
     resetReloadData();
+    this.setState({refreshing:true})
 
     let param = {
       serviceId: "WS-NOTIFY-02",
@@ -70,21 +75,23 @@ export default class Notifications extends AppBaseComponent {
       if (response.result.length > 0) {
         this.setState({
           notifications: response.result,
+          refreshing:false,
         });
       } else {
         this.setState({
           notifications: [],
+          refreshing:false,
         });
       }
     } else {
       this.setState({
         notifications: [],
+        refreshing:false,
       });
     }
   }
 
   openPostDetail = async (item, index) => {
-    console.log(index);
     if(item.readStatus == 0) {
       item['readStatus'] = 1;
       let {notifications} = this.state;
@@ -140,13 +147,14 @@ getSource(item, index){
 }
 
   render() {
-    const { notifications } = this.state;
+    const { notifications, refreshing } = this.state;
     return (
     <View style={globalStyles.globalContainer}>
         <Animatable.View style={globalStyles.footer}>
           <ScrollView>
             <FlatList
               data={notifications}
+              style={{height:'100%'}}
               renderItem={({ item, index }) => (
                 <>
                   <NotificationsCard
@@ -162,6 +170,8 @@ getSource(item, index){
                   </NotificationsCard>
                 </>
               )}
+              onRefresh={() => {this.makeRemoteRequest(1);}}
+              refreshing={refreshing}
             />
             <View>
               <Text></Text>

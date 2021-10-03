@@ -44,7 +44,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
   }
   componentDidMount() {
     console.log('componentDidMount')
-    this.makeRemoteRequest();
+    this.makeRemoteRequest(0);
     //Add focus listener
     //whenever focus come on scrren event will trigger
     this.focusListener = this.props.navigation.addListener('focus', this.handleFocus)
@@ -64,7 +64,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
       }
     }
     if(reloadDataFlag()){
-      this.makeRemoteRequest();
+      this.makeRemoteRequest(0);
     }else{
       if(isUpdatePost()){
         resetIsUpdatePost();
@@ -80,7 +80,11 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
     }
   }
 
-  makeRemoteRequest = async () => {
+  makeRemoteRequest = async (type) => {
+    if(type == 1){
+      setReloadData();
+      this.setState({loader:true});
+    }
     //Check data load flag if true then and then data will be load
     if(!reloadDataFlag()){
       return;
@@ -105,11 +109,13 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
       } else {
         this.setState({
           requests: [],
+          loader: false,
         });
       }
     } else {
       this.setState({
         requests: [],
+        loader: false,
       });
     }
     this.setState({
@@ -489,7 +495,7 @@ export default class TransportCustomerDashbord extends AppBaseComponent {
                     </View>
                   )}
                   keyExtractor={(item, index) => index.toString()}
-                  onRefresh={() => {this.makeRemoteRequest();}}
+                  onRefresh={() => {this.makeRemoteRequest(1);}}
                   refreshing={loader}
                 />
 
