@@ -21,6 +21,9 @@ public class RequestInfo extends HashMap<String, Object> {
 	public String getServiceCode() {
 		return Objects.toString(get(CommonConstants.KEY_SERVICE_ID), null);
 	}
+	public String getAccountType() {
+		return Objects.toString(get(CommonConstants.KEY_AC_TYP), null);
+	}
 	public void setServiceCode(String serviceCode) {
 		put(CommonConstants.KEY_SERVICE_ID, serviceCode);
 	}

@@ -3,6 +3,7 @@ package com.app.core.common;
 public class CommonConstants {
 	
 	public static final String KEY_SERVICE_ID 			= "serviceCode";
+	public static final String KEY_AC_TYP 			= "acType";
 	public static final String KEY_SERVICE_NM 			= "serviceName";
 	public static final String KEY_REQUEST_TIME 		= "requestTime";
 	public static final String KEY_REQUEST_ID 			= "requestId";

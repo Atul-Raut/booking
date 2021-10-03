@@ -225,11 +225,15 @@ CREATE TABLE IF NOT EXISTS "T_REASON_ANS"
 );
 --2021-09-23 end
 --2021-09-30 start
+DROP TABLE IF EXISTS "T_USER_NOTIFICATION";
 CREATE TABLE IF NOT EXISTS "T_USER_NOTIFICATION"
 (
     "ID" character varying(50) COLLATE pg_catalog."default" NOT NULL,
     "USER_ID" character varying(250) COLLATE pg_catalog."default" NOT NULL,
+	"POST_ID" character varying(50),
     "MESSAGE" character varying(3000) COLLATE pg_catalog."default",
+	"MESSAGE_TYPE" integer DEFAULT 0,
+	"DISPLAY_TYPE" integer DEFAULT 0,
 	"READ_STATUS" integer DEFAULT 0,
     "DEL_FLG" integer DEFAULT 0,
     "INS_DT" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
@@ -238,4 +242,26 @@ CREATE TABLE IF NOT EXISTS "T_USER_NOTIFICATION"
     "UPD_BY" character varying(250),
     CONSTRAINT tusernotification_pk PRIMARY KEY ("ID")
 );
+CREATE TABLE IF NOT EXISTS "M_MESSAGE_TYPE"
+(
+    "ID" integer,
+		"TITLE" character varying(50),
+    "MESSAGE" character varying(250) COLLATE pg_catalog."default",
+    "DEL_FLG" integer DEFAULT 0,
+    "INS_DT" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    "INS_BY" character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    "UPD_DT" timestamp without time zone,
+    "UPD_BY" character varying(250) COLLATE pg_catalog."default",
+    CONSTRAINT "M_MESSAGE_TYPE_pkey" PRIMARY KEY ("ID"),
+    CONSTRAINT M_MESSAGE_TYPE_ID UNIQUE ("ID")
+);
+
+INSERT INTO "M_MESSAGE_TYPE" ("ID","TITLE","MESSAGE","INS_BY") VALUES (1, 'Request recived.', 'Request recived for ''{postName}'' post.', 'ATUL');
+INSERT INTO "M_MESSAGE_TYPE" ("ID","TITLE","MESSAGE","INS_BY") VALUES (2, 'Request accepted.', 'Your request accepted for ''{postName}'' post.', 'ATUL');
+INSERT INTO "M_MESSAGE_TYPE" ("ID","TITLE","MESSAGE","INS_BY") VALUES (3, 'Request canceled.', 'Your request canceled for ''{postName}'' post.', 'ATUL');
+
+INSERT INTO "M_CTL_CONFIG" VALUES('WS-NOTIFY-03','CONNON_CONFIG', 0, 'Update notifications read status', '{}', 0, 0, CURRENT_TIMESTAMP, 'ATUL', null, null);
+INSERT INTO "M_CTL_CONFIG" VALUES('WS-NOTIFY-01','CONNON_CONFIG', 0, 'Get notification count by read status', '{}', 0, 0, CURRENT_TIMESTAMP, 'ATUL', null, null);
+INSERT INTO "M_CTL_CONFIG" VALUES('WS-NOTIFY-02','CONNON_CONFIG', 0, 'Get notifications by user id', '{}', 0, 0, CURRENT_TIMESTAMP, 'ATUL', null, null);
+
 --2021-09-30 end

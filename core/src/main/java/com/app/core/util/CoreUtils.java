@@ -35,7 +35,7 @@ public class CoreUtils {
 	 * @return
 	 * @throws JsonProcessingException
 	 */
-	public static String getJsonStringFromObject(Object object) throws JsonProcessingException {
+	public static String getJsonStringFromObject(Object object) {
 		return gson.toJson(object);
 	}
 

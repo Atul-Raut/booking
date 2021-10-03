@@ -114,6 +114,21 @@
             "name":"Get feedback",
             "type":"POST",
             "path":"feedback/get"
+        },
+        "WS-NOTIFY-01":{
+            "name":"Get notification count by read status",
+            "type":"POST",
+            "path":"notification/count"
+        },
+        "WS-NOTIFY-02":{
+            "name":"Get notifications by user id",
+            "type":"POST",
+            "path":"notification/get"
+        },
+        "WS-NOTIFY-03":{
+            "name":"Update notifications read status",
+            "type":"PUT",
+            "path":"notification/update"
         }
         
       }

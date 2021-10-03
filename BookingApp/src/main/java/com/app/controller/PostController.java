@@ -1,9 +1,7 @@
 package com.app.controller;
 
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -193,27 +191,37 @@ public class PostController extends PostBaseControlerImpl {
 			
 			if(requestInfo.containsKey("reasonInfo") && null != requestInfo.get("reasonInfo")) {
 				requestInfo.setQueryId("WS-PS-04.app.post.status.reason.insert");
+				@SuppressWarnings("unchecked")
 				Set<Entry<String, Object>> reasons = ((Map<String,Object>)requestInfo.get("reasonInfo")).entrySet();
 				for (Entry<String, Object> entry : reasons) {
-					requestInfo.generateID();
-					String ans = Objects.toString(entry.getValue());
-					
-					if(ans == null || ans.isEmpty()) {
-						continue;
-					}
-					
-					String queId = null;
 					try {
-						queId = entry.getKey().replaceAll("ANS_", "");
+						requestInfo.generateID();
+						String ans = Objects.toString(entry.getValue());
+						
+						if(ans == null || ans.isEmpty()) {
+							continue;
+						}
+						
+						String queId = null;
+						try {
+							queId = entry.getKey().replaceAll("ANS_", "");
+						}catch(Exception e) {
+							queId = entry.getKey();
+						}
+						requestInfo.put("queId", queId);
+						requestInfo.put("type", 3);
+						requestInfo.put("ans", ans);
+						service.executeUpdate(requestInfo);
 					}catch(Exception e) {
-						queId = entry.getKey();
+						LogUtils.logError(logger, requestId, CommonConstants.ERROR_DATA_INS_UPD_FAILED, 
+								"Reason insert failed." + CoreUtils.getJsonStringFromObject(requestInfo), e);
 					}
-					requestInfo.put("queId", queId);
-					requestInfo.put("type", 3);
-					requestInfo.put("ans", ans);
-					service.executeUpdate(requestInfo);
 				}
 			}
+			
+			requestInfo.put("displayType",1);
+			requestInfo.put("notificationFor", requestInfo.get("userId")) ;
+			addNotification(requestInfo);
 			
 			result = createSuccessResponse(requestInfo,null);
 			
@@ -277,6 +285,14 @@ public class PostController extends PostBaseControlerImpl {
 			
 			service.executeUpdate(requestInfo);
 			result = createSuccessResponse(requestInfo,null);
+			
+			requestInfo.setQueryId("app.get.post.by.id");
+			Map<String, Object> postDetails = service.getDataObject(requestInfo);
+			
+			
+			requestInfo.put("notificationFor", postDetails.get("userId"));
+			requestInfo.put("displayType",1);
+			addNotification(requestInfo);
 			
 		}catch(Exception e) {
 			result = createErrorResponse(requestInfo, null, e);

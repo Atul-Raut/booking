@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <sql-query name="app.notification.count.get">
+    <![CDATA[
+      SELECT
+        COUNT("ID") AS "count"
+      FROM "T_USER_NOTIFICATION"
+      WHERE
+        "DEL_FLG" = 0
+        AND "AC_TYPE" = :acType
+        AND "USER_ID" = :userId
+        AND "DISPLAY_TYPE" = :displayType
+    ]]>
+  </sql-query>
+  <sql-query name="app.notification.save">
+    <![CDATA[
+      INSERT INTO
+        "T_USER_NOTIFICATION"
+        (
+          "ID",
+          "USER_ID",
+          "POST_ID",
+          "MESSAGE",
+          "MESSAGE_TYPE",
+          "DISPLAY_TYPE",
+          "AC_TYPE",
+          "INS_BY"
+        )
+      VALUES
+      (
+        :id,
+        :notificationFor,
+        :postId,
+        :message,
+        :messageType,
+        :displayType,
+        :userAcType,
+        :userId
+      )
+    ]]>
+  </sql-query>
+  <sql-query name="app.notification.get">
+    <![CDATA[
+      SELECT
+        notification."ID" as "notificationId",
+        notification."POST_ID" as "postId",
+        notification."USER_ID" as "notificationFor",
+        notification."INS_BY" as "notificationBy",
+        notification."MESSAGE" as "notificationMessage",
+        notification."READ_STATUS" as "readStatus",
+        msg."ID" as "messageId",
+        msg."TITLE" as "messageTitle",
+        msg."MESSAGE" as "message",
+        post."POST_TITLE" as "postTitle",
+        notification."INS_DT" "notificatonTime"
+      FROM
+        "T_USER_NOTIFICATION" AS notification
+      JOIN
+        "M_MESSAGE_TYPE" msg
+      ON (
+        msg."ID" = notification."MESSAGE_TYPE"
+        AND msg."DEL_FLG" = 0
+      )
+      JOIN "T_POST" as post
+      ON (
+        post."ID" = notification."POST_ID"
+        AND post."DEL_FLG" = 0
+      )
+      WHERE
+        notification."DEL_FLG" = 0
+        AND notification."AC_TYPE" = :acType
+        AND notification."USER_ID" = :userId
+        AND notification."DISPLAY_TYPE" = :displayType
+      ORDER BY notification."INS_DT" DESC
+    ]]>
+  </sql-query>
+  <sql-query name="app.notification.update">
+    <![CDATA[
+      UPDATE
+        "T_USER_NOTIFICATION"
+      SET
+        "READ_STATUS" = :readStatus,
+        "UPD_DT" = CURRENT_TIMESTAMP,
+        "UPD_BY" = :userId
+      WHERE
+        "ID" = :notificationId
+    ]]>
+  </sql-query>
+</hibernate-mapping>

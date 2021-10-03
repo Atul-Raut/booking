@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.app.core.common.ApplicationContext;
@@ -22,7 +24,7 @@ import com.app.utils.AppUtils;
 
 public class ControllerBase {
 
-	
+	private static Logger logger = LoggerFactory.getLogger(ControllerBase.class);
 	private RequestInfo requestInfo;
 	
 	@Autowired
@@ -191,5 +193,53 @@ public class ControllerBase {
 		}
 		info.put("VAL", validators);
 		return info;
+	}
+	
+	public void addNotification(RequestInfo requestInfo) throws Exception {
+		if(requestInfo.containsKey("status") 
+				&& null != requestInfo.get("status")
+				&& !requestInfo.get("status").toString().isEmpty()) {
+			if("NEW".equals(requestInfo.get("status").toString())) {
+				
+				if(requestInfo.containsKey("reasonInfo") && null != requestInfo.get("reasonInfo")) {
+					requestInfo.put("messageType", 3);
+					requestInfo.put("message", null);
+				}else {
+					requestInfo.put("messageType", 1);
+					requestInfo.put("message", null);
+				}
+			}
+			else if("ACCEPTED".equals(requestInfo.get("status").toString())) {
+				requestInfo.put("messageType", 2);
+				requestInfo.put("message", null);
+			}
+			else if("DELETED".equals(requestInfo.get("status").toString())) {
+				requestInfo.put("messageType", 3);
+				requestInfo.put("message", null);
+			}
+			else if("CLOSE".equals(requestInfo.get("status").toString())) {
+				requestInfo.put("messageType", 0);
+				requestInfo.put("message", null);
+			}
+			
+			if(null != requestInfo.getAccountType()) {
+				if(requestInfo.getAccountType().equals("1")) {
+					requestInfo.put("userAcType", 2);
+				}
+				else if(requestInfo.getAccountType().equals("2")) {
+					requestInfo.put("userAcType", 1);
+				}
+			}
+			
+			requestInfo.setQueryId("app.notification.save");
+			
+			try {
+				requestInfo.generateID();
+				service.executeUpdate(requestInfo);
+			} catch (Exception e) {
+				LogUtils.logError(logger, requestInfo.getQueryId(), CommonConstants.ERROR_DATA_INS_UPD_FAILED, 
+						"Reason insert failed." + CoreUtils.getJsonStringFromObject(requestInfo), e);
+			}
+		}
 	}
 }

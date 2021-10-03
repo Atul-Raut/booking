@@ -128,10 +128,6 @@
           ) AS userPostRequest
           WHERE
             userPostRequest."DEL_FLG" = 0
-
-
-
-
         ) p4
         ON (
           "ID" = p4."postId"
@@ -378,6 +374,19 @@
     	CURRENT_TIMESTAMP,
     	:serviceCode
     )
-  ]]>
+    ]]>
+  </sql-query>
+
+  <sql-query name="app.get.post.by.id">
+    <![CDATA[
+      SELECT
+        "USER_ID" AS "userId",
+        "POST_TITLE" AS "title"
+      FROM
+        "T_POST"
+      WHERE
+        "ID" = :postId
+        AND "DEL_FLG" = 0
+      ]]>
   </sql-query>
 </hibernate-mapping>

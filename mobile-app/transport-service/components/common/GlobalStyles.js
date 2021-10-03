@@ -11,7 +11,8 @@ export const globalStyles = StyleSheet.create({
   globalContainer: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "#C5CBE3",
+    //backgroundColor: "#C5CBE3",
+    backgroundColor: "white",
   },
   titleText: {
     fontSize: 18,
@@ -372,5 +373,17 @@ export const globalStyles = StyleSheet.create({
     paddingRight:0,
     paddingLeft:0,
     alignItems:'center',
-  }
+  },
+  notificationCard:{
+    borderRadius: 2,
+    elevation: 2,
+    backgroundColor: "white",
+    shadowOffset: { width: 1, height: 1 },
+    shadowColor: "#333",
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    marginHorizontal: 2,
+    marginBottom:1,
+    height:70,
+  },
 });
