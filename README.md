@@ -36,3 +36,5 @@ npm start
 
 **Step 3: Access Web Application**
 http://127.0.0.1/3000/
+
+![Screenshot](D96F6A69-0783-4D77-A438-BF458B5DD9A0_1_105_c.jpeg)
